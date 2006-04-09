@@ -34,16 +34,96 @@ import sys
 import struct
 import datetime
 
-def formatentry(translation, wtype, note, author):
-    '''converts entry values from source to one string'''
+def xmlescape(text):
+    """escapes special xml entities"""
+    return text.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;')
+
+def reformat(text):
+    """cleanup usual junk found in words from database"""
+    return text.replace('\\"', '"').replace('\\\'', '\'').replace('\n', ' ').replace('\r', ' ').strip()
+
+def formatsingleentry(number, item):
+    '''converts entry values from dictionary to one string'''
+    result = '<span size="small" foreground="darkblue">%d.</span> ' % number
     result = ''
-    if wtype != '':
-        result += '(<i>%s</i>) ' % wtype
-    result += translation
-    if note != '':
-        result += ' (%s)' % note
-    if author != '':
-        result += ' <small>[%s]</small>' % author
+    if item[1] != '':
+        result += '<i>%s</i> ' % xmlescape(item[1])
+    result += '<b>%s</b>' % xmlescape(item[0])
+    if item[2] != '':
+        result += ' (%s)' % xmlescape(item[2])
+    if item[3] != '':
+        result += ' <small>[%s]</small>' % xmlescape(item[3])
+    result += '\n'
+    return result
+
+def formatentry(data):
+    '''converts entry values from source to one string'''
+    # sort alphabetically
+    data.sort()
+    result = ''
+    index = 1
+    # array for different word types
+    typed = {
+        'n:':[],
+        'v:':[],
+        'adj:':[],
+        'adv:':[],
+        'prep:':[],
+        'conj:':[],
+        'interj:':[],
+        'num:':[],
+    }
+    nottyped = []
+    types = []
+    for item in data:
+        tokens = item[1].split()
+        saved = False
+        for key in typed.keys():
+            for i in range(len(tokens)):
+                if tokens[i] == '%s' % key:
+                    if not key in types:
+                        types.append(key)
+                    saved = True
+                    del tokens[i]
+                    newval = (item[0], ' '.join(tokens), item[2], item[3])
+                    # handle irregullar word specially
+                    if '[neprav.]' in tokens:
+                        backup = typed[key]
+                        typed[key] = [newval]
+                        typed[key] += backup
+                    else:
+                        typed[key].append(newval)
+                    break
+            if saved:
+                break
+        if not saved:
+            nottyped.append(item)
+            if not '' in types:
+                types.append('')
+
+    for type in typed:
+        if len(typed[type]) > 0:
+            prepend = ''
+            if len(types) + len(nottyped) > 1:
+                result += '<span size="larger" color="darkred" weight="bold">%s</span>\n' % type
+                prepend = '   '
+            index = 1
+            for item in typed[type]:
+                result += prepend
+                result += formatsingleentry(index, item)
+                index += 1
+
+    if len(nottyped) > 0:
+        prepend = ''
+        if len(types) > 1:
+            result += '\n'
+            prepend = '   '
+        index = 1
+        for item in nottyped:
+            result += prepend
+            result += formatsingleentry(index, item)
+            index += 1
+
     return result
 
 def savelist(wlist, rev, filename = None):
@@ -75,11 +155,8 @@ def savelist(wlist, rev, filename = None):
 
     print 'Saving %s...' % filename
     for key in keys:
-        # sort translations
-        wlist[key].sort()
-        # merge all translations
-        deftext = '\n'.join([formatentry(item[0], item[1], item[2], item[3])
-            for item in wlist[key]])
+        # format single entry
+        deftext = formatentry(wlist[key])
 
         # write dictionary text
         dictf.write(deftext)
@@ -169,11 +246,11 @@ def loadslovnik(filename = 'slovnik_data_utf8.txt'):
                 print 'Invalid input: %s' % repr(line)
                 sys.exit(1)
         # remove leading and trailing spaces, replace ugly chars
-        word = word.replace('\n', ' ').replace('\r', ' ').strip()
-        translation = translation.replace('\n', ' ').replace('\r', ' ').strip()
-        wtype = wtype.replace('\n', ' ').replace('\r', ' ').strip()
-        note = note.replace('\n', ' ').replace('\r', ' ').strip()
-        author = author.replace('\n', ' ').replace('\r', ' ').strip()
+        word = reformat(word)
+        translation = reformat(translation)
+        wtype = reformat(wtype)
+        note = reformat(note)
+        author = reformat(author)
         # ignore non translated words
         if word == '' or translation == '':
             continue
