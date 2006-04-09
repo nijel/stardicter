@@ -126,7 +126,10 @@ def formatentry(data):
         if len(typed[typ]) > 0:
             # header to display (here is useless formatting for non typed
             # words, but who cares?)
-            result += fmt_type % typ
+            if typ == '':
+                result += '\n'
+            else:
+                result += fmt_type % typ
             index = 1
             for item in typed[typ]:
                 result += '    '
