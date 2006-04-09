@@ -34,6 +34,18 @@ import sys
 import struct
 import datetime
 
+# formatting:
+# type of word (used as title)
+fmt_type = '<span size="larger" color="darkred" weight="bold">%s</span>\n'
+# detailed type
+fmt_details = '<i>%s</i> '
+# translation text
+fmt_translate = '<b>%s</b>'
+# translation note
+fmt_note = ' (%s)'
+# translation author
+fmt_author = ' <small>[%s]</small>'
+
 def xmlescape(text):
     """escapes special xml entities"""
     return text\
@@ -55,12 +67,12 @@ def formatsingleentry(number, item):
     result = '<span size="small" foreground="darkblue">%d.</span> ' % number
     result = ''
     if item[1] != '':
-        result += '<i>%s</i> ' % xmlescape(item[1])
-    result += '<b>%s</b>' % xmlescape(item[0])
+        result += fmt_details % xmlescape(item[1])
+    result += fmt_translate % xmlescape(item[0])
     if item[2] != '':
-        result += ' (%s)' % xmlescape(item[2])
+        result += fmt_note % xmlescape(item[2])
     if item[3] != '':
-        result += ' <small>[%s]</small>' % xmlescape(item[3])
+        result += fmt_author % xmlescape(item[3])
     result += '\n'
     return result
 
@@ -113,7 +125,7 @@ def formatentry(data):
         if len(typed[typ]) > 0:
             prepend = ''
             if len(types) + len(nottyped) > 1:
-                result += '<span size="larger" color="darkred" weight="bold">%s</span>\n' % typ
+                result += fmt_type % typ
                 prepend = '   '
             index = 1
             for item in typed[typ]:
