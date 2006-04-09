@@ -83,24 +83,27 @@ def formatentry(data):
     result = ''
     index = 1
     # array for different word types
-    typed = {
-        'n:':[],
-        'v:':[],
-        'adj:':[],
-        'adv:':[],
-        'prep:':[],
-        'conj:':[],
-        'interj:':[],
-        'num:':[],
-    }
-    nottyped = []
+    alltypes = [
+        'n:',
+        'v:',
+        'adj:',
+        'adv:',
+        'prep:',
+        'conj:',
+        'interj:',
+        'num:',
+        '',
+    ]
+    typed = {}
+    for typ in alltypes:
+        typed[typ] = []
     types = []
     for item in data:
         tokens = item[1].split()
         saved = False
         for key in typed.keys():
             for i in range(len(tokens)):
-                if tokens[i] == '%s' % key:
+                if tokens[i] == key:
                     if not key in types:
                         types.append(key)
                     saved = True
@@ -117,14 +120,14 @@ def formatentry(data):
             if saved:
                 break
         if not saved:
-            nottyped.append(item)
+            typed[''].append(item)
             if not '' in types:
                 types.append('')
 
-    for typ in typed:
+    for typ in alltypes:
         if len(typed[typ]) > 0:
             prepend = ''
-            if len(types) + len(nottyped) > 1:
+            if len(types) > 1:
                 result += fmt_type % typ
                 prepend = '   '
             index = 1
@@ -132,17 +135,6 @@ def formatentry(data):
                 result += prepend
                 result += formatsingleentry(index, item)
                 index += 1
-
-    if len(nottyped) > 0:
-        prepend = ''
-        if len(types) > 1:
-            result += '\n'
-            prepend = '   '
-        index = 1
-        for item in nottyped:
-            result += prepend
-            result += formatsingleentry(index, item)
-            index += 1
 
     return result
 
