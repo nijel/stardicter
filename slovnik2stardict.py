@@ -36,11 +36,19 @@ import datetime
 
 def xmlescape(text):
     """escapes special xml entities"""
-    return text.replace('<', '&lt;').replace('>', '&gt;').replace('&', '&amp;')
+    return text\
+        .replace('<', '&lt;')\
+        .replace('>', '&gt;')\
+        .replace('&', '&amp;')
 
 def reformat(text):
     """cleanup usual junk found in words from database"""
-    return text.replace('\\"', '"').replace('\\\'', '\'').replace('\n', ' ').replace('\r', ' ').strip()
+    return text\
+        .replace('\\"', '"')\
+        .replace('\\\'', '\'')\
+        .replace('\n', ' ')\
+        .replace('\r', ' ')\
+        .strip()
 
 def formatsingleentry(number, item):
     '''converts entry values from dictionary to one string'''
@@ -101,14 +109,14 @@ def formatentry(data):
             if not '' in types:
                 types.append('')
 
-    for type in typed:
-        if len(typed[type]) > 0:
+    for typ in typed:
+        if len(typed[typ]) > 0:
             prepend = ''
             if len(types) + len(nottyped) > 1:
-                result += '<span size="larger" color="darkred" weight="bold">%s</span>\n' % type
+                result += '<span size="larger" color="darkred" weight="bold">%s</span>\n' % typ
                 prepend = '   '
             index = 1
-            for item in typed[type]:
+            for item in typed[typ]:
                 result += prepend
                 result += formatsingleentry(index, item)
                 index += 1
