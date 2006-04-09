@@ -95,44 +95,33 @@ def formatentry(data):
         '',
     ]
     typed = {}
-    for typ in alltypes:
-        typed[typ] = []
-    types = []
+    for key in alltypes:
+        typed[key] = []
     for item in data:
         tokens = item[1].split()
         saved = False
-        for key in typed.keys():
-            for i in range(len(tokens)):
-                if tokens[i] == key:
-                    if not key in types:
-                        types.append(key)
-                    saved = True
-                    del tokens[i]
-                    newval = (item[0], ' '.join(tokens), item[2], item[3])
-                    # handle irregullar word specially
-                    if '[neprav.]' in tokens:
-                        backup = typed[key]
-                        typed[key] = [newval]
-                        typed[key] += backup
-                    else:
-                        typed[key].append(newval)
-                    break
-            if saved:
+        for key in alltypes:
+            if key in tokens:
+                saved = True
+                del tokens[tokens.index(key)]
+                newval = (item[0], ' '.join(tokens), item[2], item[3])
+                # handle irregullar word specially
+                if '[neprav.]' in tokens:
+                    backup = typed[key]
+                    typed[key] = [newval]
+                    typed[key] += backup
+                else:
+                    typed[key].append(newval)
                 break
         if not saved:
             typed[''].append(item)
-            if not '' in types:
-                types.append('')
 
     for typ in alltypes:
         if len(typed[typ]) > 0:
-            prepend = ''
-            if len(types) > 1:
-                result += fmt_type % typ
-                prepend = '   '
+            result += fmt_type % typ
             index = 1
             for item in typed[typ]:
-                result += prepend
+                result += '    '
                 result += formatsingleentry(index, item)
                 index += 1
 
