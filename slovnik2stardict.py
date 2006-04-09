@@ -80,8 +80,6 @@ def formatentry(data):
     '''converts entry values from source to one string'''
     # sort alphabetically
     data.sort()
-    result = ''
-    index = 1
     # array for different word types
     alltypes = [
         'n:',
@@ -94,18 +92,25 @@ def formatentry(data):
         'num:',
         '',
     ]
+    # variables used for data
+    result = ''
+    index = 1
     typed = {}
+    # array holding typed words
     for key in alltypes:
         typed[key] = []
+    # process all translations
     for item in data:
         tokens = item[1].split()
         saved = False
         for key in alltypes:
+            # check if translation is current type
             if key in tokens:
                 saved = True
+                # remove type from translation, it will be in title
                 del tokens[tokens.index(key)]
                 newval = (item[0], ' '.join(tokens), item[2], item[3])
-                # handle irregullar word specially
+                # handle irregullar word specially (display them first)
                 if '[neprav.]' in tokens:
                     backup = typed[key]
                     typed[key] = [newval]
@@ -116,8 +121,11 @@ def formatentry(data):
         if not saved:
             typed[''].append(item)
 
+    # and finally convert entries to text
     for typ in alltypes:
         if len(typed[typ]) > 0:
+            # header to display (here is useless formatting for non typed
+            # words, but who cares?)
             result += fmt_type % typ
             index = 1
             for item in typed[typ]:
