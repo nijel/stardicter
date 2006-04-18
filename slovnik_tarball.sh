@@ -25,7 +25,14 @@ rm -rf $dir
 mkdir $dir
 cd $dir
 wget -q $url
-gunzip slovnik_data_utf8.txt.gz
+if [ ! -f slovnik_data_utf8.txt.gz ] ; then
+    echo "No file!"
+    exit 1
+fi
+if ! gunzip slovnik_data_utf8.txt.gz ; then
+    echo 'Fail unzip!'
+    exit 2
+fi
 python ../slovnik2stardict.py
 dictzip *.dict
 rm slovnik_data_utf8.txt
