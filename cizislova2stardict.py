@@ -38,7 +38,7 @@ import datetime
 # pronunciation
 fmt_pronunciation = '[<i>%s</i>]\n\n'
 # explanation text
-fmt_explanation = '    <b>%s</b>\n'
+fmt_explanation = '    %s\n'
 
 def xmlescape(text):
     """escapes special xml entities"""
