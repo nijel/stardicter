@@ -36,9 +36,9 @@ import datetime
 
 # formatting:
 # pronunciation
-fmt_pronunciation = '<i>%s</i> '
+fmt_pronunciation = '[<i>%s</i>]\n\n'
 # explanation text
-fmt_explanation = '<b>%s</b>'
+fmt_explanation = '    <b>%s</b>\n'
 
 def xmlescape(text):
     """escapes special xml entities"""
@@ -56,27 +56,21 @@ def reformat(text):
         .replace('\r', ' ')\
         .strip()
 
-def formatsingleentry(number, item):
-    '''converts entry values from dictionary to one string'''
-    result = ''
-    if item[0] != '':
-        result += fmt_pronunciation % xmlescape(item[0])
-    result += fmt_explanation % xmlescape(item[1])
-    result += '\n'
-    return result
-
 def formatentry(data):
     '''converts entry values from source to one string'''
     # sort alphabetically
     data.sort()
     # variables used for data
-    result = ''
+    result = '\n'
     index = 1
     # process all translations
     for item in data:
-        result += '    '
-        result += formatsingleentry(index, item)
-        index += 1
+        if item[0] != '':
+            result += fmt_pronunciation % xmlescape(item[0])
+        for text in item[1].split(';'):
+            it = (item[0], text)
+            result += fmt_explanation % xmlescape(reformat(text))
+            index += 1
 
     return result
 
