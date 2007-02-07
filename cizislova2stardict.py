@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 '''
-Convertor for GNU/FDL Anglicko-Český slovník [1] to Stardict [2] format.
+Convertor for Slovník cizích slov [1] to Stardict [2] format.
 
-1. http://slovnik.zcu.cz/
+1. http://slovnik-cizich-slov.abz.cz/
 2. http://stardict.sourceforge.net/
 '''
 __author__ = 'Michal Čihař'
 __email__ = 'michal@cihar.com'
-__url__ = 'http://slovnik.zcu.cz/'
+__url__ = 'http://slovnik-cizich-slov.abz.cz/'
 __license__ = '''
-Copyright (c) 2006 Michal Čihař
+Copyright (c) 2006 - 2007 Michal Čihař
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License version 2 as published by
@@ -26,7 +26,7 @@ this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 __revision__ = '1.0'
-__header__ = 'GNU/FDL Anglicko-Český slovník to stardict convertor'
+__header__ = 'Slovník cizích slov to stardict convertor'
 # silent pychecker
 __pychecker__ = 'unusednames=__license__'
 
@@ -35,16 +35,10 @@ import struct
 import datetime
 
 # formatting:
-# type of word (used as title)
-fmt_type = '<span size="larger" color="darkred" weight="bold">%s</span>\n'
-# detailed type
-fmt_details = '<i>%s</i> '
-# translation text
-fmt_translate = '<b>%s</b>'
-# translation note
-fmt_note = ' (%s)'
-# translation author
-fmt_author = ' <small>[%s]</small>'
+# pronunciation
+fmt_pronunciation = '<i>%s</i> '
+# explanation text
+fmt_explanation = '<b>%s</b>'
 
 def xmlescape(text):
     """escapes special xml entities"""
@@ -64,15 +58,10 @@ def reformat(text):
 
 def formatsingleentry(number, item):
     '''converts entry values from dictionary to one string'''
-    result = '<span size="small" foreground="darkblue">%d.</span> ' % number
     result = ''
-    if item[1] != '':
-        result += fmt_details % xmlescape(item[1])
-    result += fmt_translate % xmlescape(item[0])
-    if item[2] != '':
-        result += fmt_note % xmlescape(item[2])
-    if item[3] != '':
-        result += fmt_author % xmlescape(item[3])
+    if item[0] != '':
+        result += fmt_pronunciation % xmlescape(item[0])
+    result += fmt_explanation % xmlescape(item[1])
     result += '\n'
     return result
 
@@ -80,60 +69,14 @@ def formatentry(data):
     '''converts entry values from source to one string'''
     # sort alphabetically
     data.sort()
-    # array for different word types
-    alltypes = [
-        'n:',
-        'v:',
-        'adj:',
-        'adv:',
-        'prep:',
-        'conj:',
-        'interj:',
-        'num:',
-        '',
-    ]
     # variables used for data
     result = ''
     index = 1
-    typed = {}
-    # array holding typed words
-    for key in alltypes:
-        typed[key] = []
     # process all translations
     for item in data:
-        tokens = item[1].split()
-        saved = False
-        for key in alltypes:
-            # check if translation is current type
-            if key in tokens:
-                saved = True
-                # remove type from translation, it will be in title
-                del tokens[tokens.index(key)]
-                newval = (item[0], ' '.join(tokens), item[2], item[3])
-                # handle irregullar word specially (display them first)
-                if '[neprav.]' in tokens:
-                    backup = typed[key]
-                    typed[key] = [newval]
-                    typed[key] += backup
-                else:
-                    typed[key].append(newval)
-                break
-        if not saved:
-            typed[''].append(item)
-
-    # and finally convert entries to text
-    for typ in alltypes:
-        if len(typed[typ]) > 0:
-            # header to display
-            if typ == '':
-                result += '\n'
-            else:
-                result += fmt_type % typ
-            index = 1
-            for item in typed[typ]:
-                result += '    '
-                result += formatsingleentry(index, item)
-                index += 1
+        result += '    '
+        result += formatsingleentry(index, item)
+        index += 1
 
     return result
 
@@ -147,10 +90,7 @@ def savelist(wlist, rev, filename = None):
 
     # which filename to use?
     if filename is None:
-        if rev:
-            filename = 'czen'
-        else:
-            filename = 'encz'
+        filename = 'cz'
 
     # open all files
     dictf = open('%s.dict' % filename, 'w')
@@ -191,10 +131,7 @@ def savelist(wlist, rev, filename = None):
     # create ifo file
     ifof.write('StarDict\'s dict ifo file\n')
     ifof.write('version=2.4.2\n')
-    if rev:
-        ifof.write('bookname=GNU/FDL Anglicko-Český slovník\n')
-    else:
-        ifof.write('bookname=GNU/FDL Česko-Anglický slovník\n')
+    ifof.write('bookname=Slovník cizích slov\n')
     ifof.write('wordcount=%d\n' % count)
     ifof.write('idxfilesize=%d\n' % idxsize)
     # There is no way to put all authors here, so I decided to put author of
@@ -213,7 +150,7 @@ def savelist(wlist, rev, filename = None):
 
 
 
-def loadslovnik(filename = 'slovnik_data_utf8.txt'):
+def loadslovnik(filename = 'slovnik.txt'):
     '''loads slovnik data into internal dictionary'''
     print 'Parsing dictionary...'
 
@@ -239,42 +176,24 @@ def loadslovnik(filename = 'slovnik_data_utf8.txt'):
         # ignore empty lines
         if line.strip() == '':
             continue
-        parts = line.split('\t')
+        parts = line.split('|')
         try:
-            word, translation, wtype, note, author = parts
+            word, pronunciation, explanation = parts
         except ValueError:
-            if len(parts) == 6:
-                print 'Fixup(6): %s' % repr(line)
-                word, ignore, translation, wtype, note, author = parts
-                word += ignore
-            elif len(parts) < 5:
-                while len(parts) < 5:
-                    line += slovnik.readline()
-                    parts = line.split('\t')
-                print 'Fixup(<5): %s' % repr(line)
-                word, translation, wtype, note, author = parts
-            else:
-                print 'Invalid input: %s' % repr(line)
-                sys.exit(1)
+            print 'Invalid input: %s' % repr(line)
+            sys.exit(1)
         # remove leading and trailing spaces, replace ugly chars
         word = reformat(word)
-        translation = reformat(translation)
-        wtype = reformat(wtype)
-        note = reformat(note)
-        author = reformat(author)
+        pronunciation = reformat(pronunciation)
+        explanation = reformat(explanation)
         # ignore non translated words
-        if word == '' or translation == '':
+        if word == '' or explanation == '':
             continue
-        # generate inversed dictionary on the fly
-        try:
-            revwordmap[translation].append((word, wtype, note, author))
-        except KeyError:
-            revwordmap[translation] = [(word, wtype, note, author)]
         # forward dictionary
         try:
-            wordmap[word].append((translation, wtype, note, author))
+            wordmap[word].append((pronunciation, explanation))
         except KeyError:
-            wordmap[word] = [(translation, wtype, note, author)]
+            wordmap[word] = [(pronunciation, explanation)]
         # count words
         count += 1
 
@@ -288,12 +207,12 @@ if __name__ == '__main__':
     words, revwords, description = loadslovnik()
     # save description
     descf = open('README', 'w')
-    descf.write('''English-Czech Stardict dictionary
----------------------------------
+    descf.write('''Slovník cizích slov
+-------------------
 
 This dictionary was autogenerated from data available on
-<http://slovnik.zcu.cz/>. It is free community driven dictionary
-licensed under GNU/FDL license.
+<http://slovnik-cizich-slov.abz.cz/>. It is free community driven dictionary
+licensed under unknown license.
 
 Dictionary was generated using:
 %s version %s
@@ -306,5 +225,4 @@ Original description of dictionary:
     descf.close()
     # save data
     savelist(words, False)
-    savelist(revwords, True)
 
