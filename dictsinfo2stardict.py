@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+# vim: expandtab sw=4 ts=4 sts=4:
 '''
 Convertor for Dicts.info [1] to Stardict [2] format.
 
