@@ -178,17 +178,23 @@ def loadslovnik(filename = 'slovnik.txt'):
             print 'Invalid input: %s' % repr(line)
             sys.exit(1)
         # remove leading and trailing spaces, replace ugly chars
-        word = reformat(word)
-        pronunciation = reformat(pronunciation)
         explanation = reformat(explanation)
-        # ignore non translated words
-        if word == '' or explanation == '':
-            continue
-        # forward dictionary
-        try:
-            wordmap[word].append((pronunciation, explanation))
-        except KeyError:
-            wordmap[word] = [(pronunciation, explanation)]
+        word_list = word.split(',')
+        explanation_list = explanation.split(',')
+        for word in word_list:
+            if word == '':
+                continue
+            # remove leading and trailing spaces, replace ugly chars
+            word = reformat(word)
+            for explanation in explanation_list:
+                if explanation == '':
+                    continue
+                explanation = reformat(explanation)
+                # forward dictionary
+                try:
+                    wordmap[word].append((pronunciation, explanation))
+                except KeyError:
+                    wordmap[word] = [(pronunciation, explanation)]
         # count words
         count += 1
 
