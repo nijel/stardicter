@@ -347,7 +347,7 @@ def loadslovnik(filename = 'slovnik_data_utf8.txt'):
                 wordmap[word] = [(translation, wtype, note, author)]
         # forward dictionary
         if len(translation) >= 256:
-            print 'Ignoring reverse word "%s", too long' % translation
+            print 'Ignoring reverse word "%s", too long' % repr(translation)
         else:
             try:
                 revwordmap[translation].append((word, wtype, note, author))
