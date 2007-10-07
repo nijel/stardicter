@@ -45,15 +45,15 @@ from optparse import OptionParser
 
 # formatting:
 # type of word (used as title)
-fmt_type = '<span size="larger" color="darkred" weight="bold">%s</span>\n'
+fmt_type = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
 # detailed type
-fmt_details = '<i>%s</i> '
+fmt_details = u'<i>%s</i> '
 # translation text
-fmt_translate = '<b>%s</b>'
+fmt_translate = u'<b>%s</b>'
 # translation note
-fmt_note = ' (%s)'
+fmt_note = u' (%s)'
 # translation author
-fmt_author = ' <small>[%s]</small>'
+fmt_author = u' <small>[%s]</small>'
 
 striptags = re.compile(r"<.*?>", re.DOTALL)
 
@@ -109,7 +109,7 @@ def cvt(text):
     if opt_notags:
         text = striptags.sub('', text)
 
-    return text.encode('utf-8')
+    return text
 
 def xmlescape(text):
     """escapes special xml entities"""
@@ -130,7 +130,6 @@ def reformat(text):
 
 def formatsingleentry(number, item):
     '''converts entry values from dictionary to one string'''
-    result = '<span size="small" foreground="darkblue">%d.</span> ' % number
     result = ''
     if item[1] != '':
         result += fmt_details % xmlescape(item[1])
@@ -175,7 +174,7 @@ def formatentry(data):
                 saved = True
                 # remove type from translation, it will be in title
                 del tokens[tokens.index(key)]
-                newval = (item[0], ' '.join(tokens), item[2], item[3])
+                newval = (item[0], u' '.join(tokens), item[2], item[3])
                 # handle irregullar word specially (display them first)
                 if '[neprav.]' in tokens:
                     backup = typed[key]
@@ -233,7 +232,7 @@ def savelist(wlist, rev, filename = None):
     print 'Sorting %s...' % filename
     # case insensitive sort
     keys = list(wlist.keys())
-    tuples = [(item.lower(), item) for item in keys]
+    tuples = [(item.encode('utf-8').lower(), item) for item in keys]
     tuples.sort()
     keys = [item[1] for item in tuples]
 
@@ -243,12 +242,12 @@ def savelist(wlist, rev, filename = None):
         deftext = cvt(formatentry(wlist[key]))
 
         # write dictionary text
-        dictf.write(deftext)
+        dictf.write(deftext.encode('utf-8'))
 
         # write index entry
-        idxf.write(cvt(key)+'\0')
+        idxf.write(cvt(key).encode('utf-8')+'\0')
         idxf.write(struct.pack('!I', offset))
-        idxf.write(struct.pack('!I', len(deftext)))
+        idxf.write(struct.pack('!I', len(deftext.encode('utf-8'))))
 
         # calculate offset for next index entry
         offset += len(deftext)
@@ -265,16 +264,16 @@ def savelist(wlist, rev, filename = None):
     ifof.write('StarDict\'s dict ifo file\n')
     ifof.write('version=2.4.2\n')
     if rev:
-        ifof.write(cvt(u'bookname=GNU/FDL Anglicko-Český slovník\n'))
+        ifof.write(cvt(u'bookname=GNU/FDL Anglicko-Český slovník\n').encode('utf-8'))
     else:
-        ifof.write(cvt(u'bookname=GNU/FDL Česko-Anglický slovník\n'))
+        ifof.write(cvt(u'bookname=GNU/FDL Česko-Anglický slovník\n').encode('utf-8'))
     ifof.write('wordcount=%d\n' % count)
     ifof.write('idxfilesize=%d\n' % idxsize)
     # There is no way to put all authors here, so I decided to put author of
     # convertor here :-)
-    ifof.write(cvt('author=%s\n' % __author__))
-    ifof.write(cvt('email=%s\n' % __email__))
-    ifof.write(cvt('website=%s\n' % __url__))
+    ifof.write(cvt('author=%s\n' % __author__).encode('utf-8'))
+    ifof.write(cvt('email=%s\n' % __email__).encode('utf-8'))
+    ifof.write(cvt('website=%s\n' % __url__).encode('utf-8'))
     # we're using pango markup for all entries
     ifof.write('sametypesequence=g\n')
     today = datetime.date.today()
