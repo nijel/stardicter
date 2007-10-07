@@ -242,15 +242,17 @@ def savelist(wlist, rev, filename = None):
         deftext = cvt(formatentry(wlist[key]))
 
         # write dictionary text
-        dictf.write(deftext.encode('utf-8'))
+        entry = deftext.encode('utf-8')
+        entrylen = len(entry)
+        dictf.write(entry)
 
         # write index entry
         idxf.write(cvt(key).encode('utf-8')+'\0')
         idxf.write(struct.pack('!I', offset))
-        idxf.write(struct.pack('!I', len(deftext.encode('utf-8'))))
+        idxf.write(struct.pack('!I', entrylen)
 
         # calculate offset for next index entry
-        offset += len(deftext)
+        offset += entrylen
         count += 1
 
     # index size is needed in ifo
