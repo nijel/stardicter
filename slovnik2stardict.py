@@ -40,6 +40,7 @@ import datetime
 import stardictcommon
 import unicodedata
 import codecs
+import re
 from optparse import OptionParser
 
 # formatting:
@@ -53,6 +54,8 @@ fmt_translate = '<b>%s</b>'
 fmt_note = ' (%s)'
 # translation author
 fmt_author = ' <small>[%s]</small>'
+
+striptags = re.compile(r"<.*?>", re.DOTALL)
 
 opt_ascii = False
 opt_notags = False
@@ -102,6 +105,9 @@ def cvt(text):
     '''
     if opt_ascii:
         text = text.encode('ascii', 'deaccent')
+
+    if opt_notags:
+        text = striptags.sub('', text)
 
     return text.encode('utf-8')
 
