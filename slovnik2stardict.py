@@ -55,59 +55,91 @@ fmt_note = u' (%s)'
 # translation author
 fmt_author = u' <small>[%s]</small>'
 
-striptags = re.compile(r"<.*?>", re.DOTALL)
+BOOK_EN_CZ = u'GNU/FDL Anglicko-Český slovník'
+BOOK_CZ_EN = u'GNU/FDL Česko-Anglický slovník'
 
-opt_ascii = False
-opt_notags = False
+STRIPTAGS = re.compile(r"<.*?>", re.DOTALL)
+
+class Params:
+    '''
+    Parameters storage class.
+    '''
+
+    _ascii = False
+    _notags = False
+
+    def __init__(self, ascii = None, notags = None):
+        '''
+        Creates new parameters object.
+        '''
+        if ascii is not None:
+            self._ascii = ascii
+        if notags is not None:
+            self._notags = notags
+
+    def get_ascii(self):
+        '''
+        Returns value of ascii configuration option.
+        '''
+        return self._ascii
+
+    def get_notags(self):
+        '''
+        Returns value of notags configuration option.
+        '''
+        return self._notags
 
 def deaccent(exc):
+    '''
+    Removes accents on string conversion errors.
+    '''
     if not isinstance(exc, UnicodeEncodeError):
         raise TypeError("don't know how to handle %r" % exc)
-    l = []
-    for c in exc.object[exc.start:exc.end]:
-#        print '"%s" %d' % (c, ord(c))
-        if c == u'\x93':
-            l.append('"')
+    result = []
+    for current in exc.object[exc.start:exc.end]:
+#        print '"%s" %d' % (current, ord(current))
+        if current == u'\x93':
+            result.append('"')
             continue
-        elif c == u'\x94':
-            l.append('"')
+        elif current == u'\x94':
+            result.append('"')
             continue
-        elif c == u'\x92':
-            l.append('\'')
+        elif current == u'\x92':
+            result.append('\'')
             continue
-        elif c == u'\x84':
-            l.append('"')
+        elif current == u'\x84':
+            result.append('"')
             continue
-        cat = unicodedata.category(c)
-        name = unicodedata.name(c)
+        cat = unicodedata.category(current)
+        name = unicodedata.name(current)
         if name[:18] == 'LATIN SMALL LETTER':
-            l.append(unicode(name[19].lower()))
+            result.append(unicode(name[19].lower()))
         elif name[:20] == 'LATIN CAPITAL LETTER':
-            l.append(unicode(name[21]))
+            result.append(unicode(name[21]))
         elif name == 'ACUTE ACCENT':
-            l.append('\'')
+            result.append('\'')
         elif name == 'MULTIPLICATION SIGN':
-            l.append('x')
+            result.append('x')
         elif name == 'DEGREE SIGN':
-            l.append(' ')
+            result.append(' ')
         else:
-            print c
+            print current
             print cat
             print name
             raise exc
-    return (u''.join(l), exc.end)
+    return (u''.join(result), exc.end)
 
 codecs.register_error('deaccent', deaccent)
 
-def cvt(text):
+def cvt(params, text):
     '''
     Converts text to match wanted format.
     '''
-    if opt_ascii:
+    if params.get_ascii():
         text = text.encode('ascii', 'deaccent')
 
-    if opt_notags:
-        text = striptags.sub('', text)
+    if params.get_notags():
+        text = STRIPTAGS.sub('', text)
 
     return text
 
@@ -118,7 +150,7 @@ def xmlescape(text):
         .replace('>', '&gt;')\
         .replace('&', '&amp;')
 
-def reformat(text):
+def reformat(params, text):
     """cleanup usual junk found in words from database"""
     ret = text\
         .replace('\\"', '"')\
@@ -126,7 +158,7 @@ def reformat(text):
         .replace('\n', ' ')\
         .replace('\r', ' ')\
         .strip()
-    return cvt(ret.decode('utf-8'))
+    return cvt(params, ret.decode('utf-8'))
 
 def formatsingleentry(number, item):
     '''converts entry values from dictionary to one string'''
@@ -202,9 +234,11 @@ def formatentry(data):
 
     return result
 
-def savelist(wlist, rev, filename = None):
-    '''saves list of words to file, rev indicates whether it is forward or
-    reversed direction'''
+def savelist(params, wlist, rev, filename = None):
+    '''
+    Saves list of words to file, rev indicates whether it is forward or
+    reversed direction.
+    '''
 
     # initialize variables
     offset = 0
@@ -217,12 +251,13 @@ def savelist(wlist, rev, filename = None):
         else:
             filename = 'encz'
 
-    # Are we generating ascii variant?
-    if opt_ascii:
-        filename = '%s-ascii' % filename
-    # Are we generating notags variant?
-    if opt_notags:
-        filename = '%s-notags' % filename
+        # Are we generating ascii variant?
+        if params.get_ascii():
+            filename = '%s-ascii' % filename
+
+        # Are we generating notags variant?
+        if params.get_notags():
+            filename = '%s-notags' % filename
 
     # open all files
     dictf = open('%s.dict' % filename, 'w')
@@ -239,7 +274,7 @@ def savelist(wlist, rev, filename = None):
     print 'Saving %s...' % filename
     for key in keys:
         # format single entry
-        deftext = cvt(formatentry(wlist[key]))
+        deftext = cvt(params, formatentry(wlist[key]))
 
         # write dictionary text
         entry = deftext.encode('utf-8')
@@ -247,7 +282,7 @@ def savelist(wlist, rev, filename = None):
         dictf.write(entry)
 
         # write index entry
-        idxf.write(cvt(key).encode('utf-8')+'\0')
+        idxf.write(cvt(params, key).encode('utf-8')+'\0')
         idxf.write(struct.pack('!I', offset))
         idxf.write(struct.pack('!I', entrylen))
 
@@ -266,16 +301,18 @@ def savelist(wlist, rev, filename = None):
     ifof.write('StarDict\'s dict ifo file\n')
     ifof.write('version=2.4.2\n')
     if rev:
-        ifof.write(cvt(u'bookname=GNU/FDL Anglicko-Český slovník\n').encode('utf-8'))
+        name = BOOK_EN_CZ
     else:
-        ifof.write(cvt(u'bookname=GNU/FDL Česko-Anglický slovník\n').encode('utf-8'))
+        name = BOOK_CZ_EN
+    bookname = u'bookname=%s\n' % name
+    ifof.write(cvt(params, bookname).encode('utf-8'))
     ifof.write('wordcount=%d\n' % count)
     ifof.write('idxfilesize=%d\n' % idxsize)
     # There is no way to put all authors here, so I decided to put author of
     # convertor here :-)
-    ifof.write(cvt('author=%s\n' % __author__).encode('utf-8'))
-    ifof.write(cvt('email=%s\n' % __email__).encode('utf-8'))
-    ifof.write(cvt('website=%s\n' % __url__).encode('utf-8'))
+    ifof.write(cvt(params, 'author=%s\n' % __author__).encode('utf-8'))
+    ifof.write(cvt(params, 'email=%s\n' % __email__).encode('utf-8'))
+    ifof.write(cvt(params, 'website=%s\n' % __url__).encode('utf-8'))
     # we're using pango markup for all entries
     ifof.write('sametypesequence=g\n')
     today = datetime.date.today()
@@ -287,7 +324,7 @@ def savelist(wlist, rev, filename = None):
 
 
 
-def loadslovnik(filename = 'slovnik_data_utf8.txt'):
+def loadslovnik(params, filename = 'slovnik_data_utf8.txt'):
     '''loads slovnik data into internal dictionary'''
     print 'Parsing dictionary...'
 
@@ -331,11 +368,11 @@ def loadslovnik(filename = 'slovnik_data_utf8.txt'):
                 print 'Invalid input: %s' % repr(line)
                 sys.exit(1)
         # remove leading and trailing spaces, replace ugly chars
-        word = reformat(word)
-        translation = reformat(translation)
-        wtype = reformat(wtype)
-        note = reformat(note)
-        author = reformat(author)
+        word = reformat(params, word)
+        translation = reformat(params, translation)
+        wtype = reformat(params, wtype)
+        note = reformat(params, note)
+        author = reformat(params, author)
         # ignore non translated words
         if word == '' or translation == '':
             continue
@@ -362,7 +399,10 @@ def loadslovnik(filename = 'slovnik_data_utf8.txt'):
     print 'Parsed %d entries' % count
     return (wordmap, revwordmap, description)
 
-if __name__ == '__main__':
+def main():
+    '''
+    Main script code.
+    '''
     print '%s, version %s' % ( __header__, __revision__)
 
     usage = "usage: %prog [options]"
@@ -377,11 +417,10 @@ if __name__ == '__main__':
                       help="Generate dictionary without pango markup.")
     (options, args) = parser.parse_args()
 
-    opt_ascii = options.ascii
-    opt_notags = options.notags
+    params = Params(options.ascii, options.notags)
 
     # read data
-    words, revwords, description = loadslovnik()
+    words, revwords, description = loadslovnik(params)
     # save description
     descf = open('README', 'w')
     descf.write('%s\n%s' % (
@@ -400,6 +439,8 @@ if __name__ == '__main__':
     descf.write('\nOriginal description of dictionary:\n%s' % description)
     descf.close()
     # save data
-    savelist(words, False)
-    savelist(revwords, True)
+    savelist(params, words, False)
+    savelist(params, revwords, True)
 
+if __name__ == '__main__':
+    main()
