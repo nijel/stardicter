@@ -349,7 +349,7 @@ def parse_line(params, slovnik, line):
     note = reformat(params, note)
     author = reformat(params, author)
 
-    return (word, ignore, translation, wtype, note, author)
+    return (word, translation, wtype, note, author)
 
 def loadslovnik(params, filename = 'slovnik_data_utf8.txt'):
     '''
