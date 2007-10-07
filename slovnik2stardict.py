@@ -191,7 +191,6 @@ def formatentry(data):
     ]
     # variables used for data
     result = ''
-    index = 1
     typed = {}
     # array holding typed words
     for key in alltypes:
