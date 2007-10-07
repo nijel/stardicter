@@ -10,7 +10,7 @@ Convertor for GNU/FDL Anglicko-Český slovník [1] to Stardict [2] format.
 @todo handle priority in type field,  http://slovnik.zcu.cz/format.php
 @todo include pronunciation,  http://slovnik.zcu.cz/format.php
 '''
-__author__ = 'Michal Čihař'
+__author__ = u'Michal Čihař'
 __email__ = 'michal@cihar.com'
 __url__ = 'http://slovnik.zcu.cz/'
 __license__ = '''
@@ -29,7 +29,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 '''
-__revision__ = '1.1'
+__revision__ = '1.2'
 __header__ = 'GNU/FDL Anglicko-Český slovník to stardict convertor'
 # silent pychecker
 __pychecker__ = 'unusednames=__license__'
@@ -38,6 +38,9 @@ import sys
 import struct
 import datetime
 import stardictcommon
+import unicodedata
+import codecs
+from optparse import OptionParser
 
 # formatting:
 # type of word (used as title)
@@ -51,6 +54,57 @@ fmt_note = ' (%s)'
 # translation author
 fmt_author = ' <small>[%s]</small>'
 
+opt_ascii = False
+opt_notags = False
+
+def deaccent(exc):
+    if not isinstance(exc, UnicodeEncodeError):
+        raise TypeError("don't know how to handle %r" % exc)
+    l = []
+    for c in exc.object[exc.start:exc.end]:
+#        print '"%s" %d' % (c, ord(c))
+        if c == u'\x93':
+            l.append('"')
+            continue
+        elif c == u'\x94':
+            l.append('"')
+            continue
+        elif c == u'\x92':
+            l.append('\'')
+            continue
+        elif c == u'\x84':
+            l.append('"')
+            continue
+        cat = unicodedata.category(c)
+        name = unicodedata.name(c)
+        if name[:18] == 'LATIN SMALL LETTER':
+            l.append(unicode(name[19].lower()))
+        elif name[:20] == 'LATIN CAPITAL LETTER':
+            l.append(unicode(name[21]))
+        elif name == 'ACUTE ACCENT':
+            l.append('\'')
+        elif name == 'MULTIPLICATION SIGN':
+            l.append('x')
+        elif name == 'DEGREE SIGN':
+            l.append(' ')
+        else:
+            print c
+            print cat
+            print name
+            raise exc
+    return (u''.join(l), exc.end)
+
+codecs.register_error('deaccent', deaccent)
+
+def cvt(text):
+    '''
+    Converts text to match wanted format.
+    '''
+    if opt_ascii:
+        text = text.encode('ascii', 'deaccent')
+
+    return text.encode('utf-8')
+
 def xmlescape(text):
     """escapes special xml entities"""
     return text\
@@ -60,12 +114,13 @@ def xmlescape(text):
 
 def reformat(text):
     """cleanup usual junk found in words from database"""
-    return text\
+    ret = text\
         .replace('\\"', '"')\
         .replace('\\\'', '\'')\
         .replace('\n', ' ')\
         .replace('\r', ' ')\
         .strip()
+    return cvt(ret.decode('utf-8'))
 
 def formatsingleentry(number, item):
     '''converts entry values from dictionary to one string'''
@@ -157,6 +212,13 @@ def savelist(wlist, rev, filename = None):
         else:
             filename = 'encz'
 
+    # Are we generating ascii variant?
+    if opt_ascii:
+        filename = '%s-ascii' % filename
+    # Are we generating notags variant?
+    if opt_notags:
+        filename = '%s-notags' % filename
+
     # open all files
     dictf = open('%s.dict' % filename, 'w')
     idxf = open('%s.idx' % filename, 'w')
@@ -172,13 +234,13 @@ def savelist(wlist, rev, filename = None):
     print 'Saving %s...' % filename
     for key in keys:
         # format single entry
-        deftext = formatentry(wlist[key])
+        deftext = cvt(formatentry(wlist[key]))
 
         # write dictionary text
         dictf.write(deftext)
 
         # write index entry
-        idxf.write(key+'\0')
+        idxf.write(cvt(key)+'\0')
         idxf.write(struct.pack('!I', offset))
         idxf.write(struct.pack('!I', len(deftext)))
 
@@ -197,16 +259,16 @@ def savelist(wlist, rev, filename = None):
     ifof.write('StarDict\'s dict ifo file\n')
     ifof.write('version=2.4.2\n')
     if rev:
-        ifof.write('bookname=GNU/FDL Anglicko-Český slovník\n')
+        ifof.write(cvt(u'bookname=GNU/FDL Anglicko-Český slovník\n'))
     else:
-        ifof.write('bookname=GNU/FDL Česko-Anglický slovník\n')
+        ifof.write(cvt(u'bookname=GNU/FDL Česko-Anglický slovník\n'))
     ifof.write('wordcount=%d\n' % count)
     ifof.write('idxfilesize=%d\n' % idxsize)
     # There is no way to put all authors here, so I decided to put author of
     # convertor here :-)
-    ifof.write('author=%s\n' % __author__)
-    ifof.write('email=%s\n' % __email__)
-    ifof.write('website=%s\n' % __url__)
+    ifof.write(cvt('author=%s\n' % __author__))
+    ifof.write(cvt('email=%s\n' % __email__))
+    ifof.write(cvt('website=%s\n' % __url__))
     # we're using pango markup for all entries
     ifof.write('sametypesequence=g\n')
     today = datetime.date.today()
@@ -295,6 +357,22 @@ def loadslovnik(filename = 'slovnik_data_utf8.txt'):
 
 if __name__ == '__main__':
     print '%s, version %s' % ( __header__, __revision__)
+
+    usage = "usage: %prog [options]"
+    parser = OptionParser(usage=usage)
+    parser.add_option("", "--ascii",
+                      action="store_true",
+                      dest="ascii", default=False,
+                      help="Generate plain ascii dictionary.")
+    parser.add_option("", "--notags",
+                      action="store_true",
+                      dest="notags", default=False,
+                      help="Generate dictionary without pango markup.")
+    (options, args) = parser.parse_args()
+
+    opt_ascii = options.ascii
+    opt_notags = options.notags
+
     # read data
     words, revwords, description = loadslovnik()
     # save description
