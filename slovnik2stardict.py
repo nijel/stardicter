@@ -249,7 +249,7 @@ def savelist(wlist, rev, filename = None):
         # write index entry
         idxf.write(cvt(key).encode('utf-8')+'\0')
         idxf.write(struct.pack('!I', offset))
-        idxf.write(struct.pack('!I', entrylen)
+        idxf.write(struct.pack('!I', entrylen))
 
         # calculate offset for next index entry
         offset += entrylen
