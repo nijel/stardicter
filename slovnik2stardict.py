@@ -45,15 +45,15 @@ from optparse import OptionParser
 
 # formatting:
 # type of word (used as title)
-fmt_type = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
+FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
 # detailed type
-fmt_details = u'<i>%s</i> '
+FMT_DETAILS = u'<i>%s</i> '
 # translation text
-fmt_translate = u'<b>%s</b>'
+FMT_TRANSLATE = u'<b>%s</b>'
 # translation note
-fmt_note = u' (%s)'
+FMT_NOTE = u' (%s)'
 # translation author
-fmt_author = u' <small>[%s]</small>'
+FMT_AUTHOR = u' <small>[%s]</small>'
 
 BOOK_EN_CZ = u'GNU/FDL Anglicko-Český slovník'
 BOOK_CZ_EN = u'GNU/FDL Česko-Anglický slovník'
@@ -160,16 +160,16 @@ def reformat(params, text):
         .strip()
     return cvt(params, ret.decode('utf-8'))
 
-def formatsingleentry(number, item):
+def formatsingleentry(item):
     '''converts entry values from dictionary to one string'''
     result = ''
     if item[1] != '':
-        result += fmt_details % xmlescape(item[1])
-    result += fmt_translate % xmlescape(item[0])
+        result += FMT_DETAILS % xmlescape(item[1])
+    result += FMT_TRANSLATE % xmlescape(item[0])
     if item[2] != '':
-        result += fmt_note % xmlescape(item[2])
+        result += FMT_NOTE % xmlescape(item[2])
     if item[3] != '':
-        result += fmt_author % xmlescape(item[3])
+        result += FMT_AUTHOR % xmlescape(item[3])
     result += '\n'
     return result
 
@@ -225,12 +225,10 @@ def formatentry(data):
             if typ == '':
                 result += '\n'
             else:
-                result += fmt_type % typ
-            index = 1
+                result += FMT_TYPE % typ
             for item in typed[typ]:
                 result += '    '
-                result += formatsingleentry(index, item)
-                index += 1
+                result += formatsingleentry(item)
 
     return result
 
