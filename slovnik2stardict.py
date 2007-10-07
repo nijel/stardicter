@@ -231,6 +231,15 @@ def formatentry(data):
 
     return result
 
+def getsortedkeys(inputlist):
+    '''
+    Returns keys of hash sorted case insensitive.
+    '''
+    keys = list(inputlist.keys())
+    tuples = [(item.encode('utf-8').lower(), item) for item in keys]
+    tuples.sort()
+    return [item[1] for item in tuples]
+
 def savelist(params, wlist, rev, filename = None):
     '''
     Saves list of words to file, rev indicates whether it is forward or
@@ -261,30 +270,22 @@ def savelist(params, wlist, rev, filename = None):
     idxf = open('%s.idx' % filename, 'w')
     ifof = open('%s.ifo' % filename, 'w')
 
-    print 'Sorting %s...' % filename
-    # case insensitive sort
-    keys = list(wlist.keys())
-    tuples = [(item.encode('utf-8').lower(), item) for item in keys]
-    tuples.sort()
-    keys = [item[1] for item in tuples]
-
     print 'Saving %s...' % filename
-    for key in keys:
+    for key in getsortedkeys(wlist):
         # format single entry
         deftext = cvt(params, formatentry(wlist[key]))
 
         # write dictionary text
         entry = deftext.encode('utf-8')
-        entrylen = len(entry)
         dictf.write(entry)
 
         # write index entry
         idxf.write(cvt(params, key).encode('utf-8')+'\0')
         idxf.write(struct.pack('!I', offset))
-        idxf.write(struct.pack('!I', entrylen))
+        idxf.write(struct.pack('!I', len(entry)))
 
         # calculate offset for next index entry
-        offset += entrylen
+        offset += len(entry)
         count += 1
 
     # index size is needed in ifo
@@ -301,8 +302,7 @@ def savelist(params, wlist, rev, filename = None):
         name = BOOK_EN_CZ
     else:
         name = BOOK_CZ_EN
-    bookname = u'bookname=%s\n' % name
-    ifof.write(cvt(params, bookname).encode('utf-8'))
+    ifof.write(cvt(params, u'bookname=%s\n' % name).encode('utf-8'))
     ifof.write('wordcount=%d\n' % count)
     ifof.write('idxfilesize=%d\n' % idxsize)
     # There is no way to put all authors here, so I decided to put author of
@@ -319,10 +319,42 @@ def savelist(params, wlist, rev, filename = None):
     print 'Saved %d words' % count
 
 
+def parse_line(params, slovnik, line):
+    '''
+    Fixes up broken input line.
+    '''
+    # split it up
+    parts = line.split('\t')
+    try:
+        word, translation, wtype, note, author = parts
+    except ValueError:
+        if len(parts) == 6:
+            print 'Fixup(6): %s' % repr(line)
+            word, ignore, translation, wtype, note, author = parts
+            word += ignore
+        elif len(parts) < 5:
+            while len(parts) < 5:
+                line += slovnik.readline()
+                parts = line.split('\t')
+            print 'Fixup(<5): %s' % repr(line)
+            word, translation, wtype, note, author = parts
+        else:
+            print 'Invalid input: %s' % repr(line)
+            sys.exit(1)
 
+    # remove leading and trailing spaces, replace ugly chars
+    word = reformat(params, word)
+    translation = reformat(params, translation)
+    wtype = reformat(params, wtype)
+    note = reformat(params, note)
+    author = reformat(params, author)
+
+    return (word, ignore, translation, wtype, note, author)
 
 def loadslovnik(params, filename = 'slovnik_data_utf8.txt'):
-    '''loads slovnik data into internal dictionary'''
+    '''
+    Loads slovnik data into internal dictionary.
+    '''
     print 'Parsing dictionary...'
 
 # open source file
@@ -347,29 +379,10 @@ def loadslovnik(params, filename = 'slovnik_data_utf8.txt'):
         # ignore empty lines
         if line.strip() == '':
             continue
-        parts = line.split('\t')
-        try:
-            word, translation, wtype, note, author = parts
-        except ValueError:
-            if len(parts) == 6:
-                print 'Fixup(6): %s' % repr(line)
-                word, ignore, translation, wtype, note, author = parts
-                word += ignore
-            elif len(parts) < 5:
-                while len(parts) < 5:
-                    line += slovnik.readline()
-                    parts = line.split('\t')
-                print 'Fixup(<5): %s' % repr(line)
-                word, translation, wtype, note, author = parts
-            else:
-                print 'Invalid input: %s' % repr(line)
-                sys.exit(1)
-        # remove leading and trailing spaces, replace ugly chars
-        word = reformat(params, word)
-        translation = reformat(params, translation)
-        wtype = reformat(params, wtype)
-        note = reformat(params, note)
-        author = reformat(params, author)
+
+        word, translation, wtype, note, author = \
+            parse_line(params, slovnik, line)
+
         # ignore non translated words
         if word == '' or translation == '':
             continue
