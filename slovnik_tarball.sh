@@ -48,26 +48,26 @@ python ../slovnik2stardict.py
 dictzip *.dict
 rm slovnik_data_utf8.txt
 cd ..
-tar cfj $dir.tar.bz2 $dir
+tar cfz $dir.tar.gz $dir
 rm -rf $dir
 cd $dira
 python ../slovnik2stardict.py --ascii
 dictzip *.dict
 rm slovnik_data_utf8.txt
 cd ..
-tar cfj $dira.tar.bz2 $dira
+tar cfz $dira.tar.gz $dira
 rm -rf $dira
 cd $diran
 python ../slovnik2stardict.py --ascii --notags
 dictzip *.dict
 rm slovnik_data_utf8.txt
 cd ..
-tar cfj $diran.tar.bz2 $diran
+tar cfz $diran.tar.gz $diran
 rm -rf $diran
 cd $dirn
 python ../slovnik2stardict.py --notags
 dictzip *.dict
 rm slovnik_data_utf8.txt
 cd ..
-tar cfj $dirn.tar.bz2 $dirn
+tar cfz $dirn.tar.gz $dirn
 rm -rf $dirn

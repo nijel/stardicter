@@ -35,5 +35,5 @@ python ../cizislova2stardict.py
 dictzip *.dict
 rm slovnik.txt
 cd ..
-tar cfj $dir.tar.bz2 $dir
+tar cfz $dir.tar.gz $dir
 rm -rf $dir
