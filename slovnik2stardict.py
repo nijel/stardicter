@@ -126,7 +126,10 @@ def deaccent(exc):
             # §
             result.append('<paragraph>')
         else:
-            print current
+            try:
+                print current
+            except UnicodeEncodeError:
+                print repr(current)
             print cat
             print name
             raise exc
