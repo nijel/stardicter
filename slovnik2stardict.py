@@ -121,7 +121,10 @@ def deaccent(exc):
         elif name == 'MULTIPLICATION SIGN':
             result.append('x')
         elif name == 'DEGREE SIGN':
-            result.append(' ')
+            result.append('<degree>)')
+        elif name == 'SECTION SIGN':
+            # §
+            result.append('<paragraph>')
         else:
             print current
             print cat
