@@ -18,7 +18,9 @@
 # 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 # URL where to download source files
-url='http://www.dicts.info/uddl.php?l1=czech&l2=german&format=text'
+# This one used to work in past, now IP is required
+#url='http://www.dicts.info/uddl.php?l1=czech&l2=german&format=text'
+url='http://213.251.169.143/uddl.php?l1=czech&l2=german&format=text'
 dir="stardict-czech-german-`date +%Y%m%d`"
 
 rm -rf $dir
