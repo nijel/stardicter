@@ -118,6 +118,8 @@ def deaccent(exc):
             result.append(unicode(name[21]))
         elif name == 'ACUTE ACCENT':
             result.append('\'')
+        elif name == 'NO-BREAK SPACE':
+            result.append(' ')
         elif name == 'MULTIPLICATION SIGN':
             result.append('x')
         elif name == 'DEGREE SIGN':
