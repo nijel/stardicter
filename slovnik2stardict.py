@@ -396,7 +396,7 @@ def loadslovnik(params, filename = 'slovnik_data_utf8.txt'):
             continue
         # generate inversed dictionary on the fly
         if len(word) >= 256:
-            print 'Ignoring word "%s", too long' % word
+            print 'Ignoring word "%s", too long' % repr(word)
         else:
             try:
                 wordmap[word].append((translation, wtype, note, author))
