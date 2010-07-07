@@ -340,12 +340,28 @@ def parse_line(params, slovnik, line):
             print 'Fixup(6): %s' % repr(line)
             word, ignore, translation, wtype, note, author = parts
             word += ignore
-        elif len(parts) < 5:
-            while len(parts) < 5:
-                line += slovnik.readline()
-                parts = line.split('\t')
-            print 'Fixup(<5): %s' % repr(line)
-            word, translation, wtype, note, author = parts
+        elif len(parts) == 1:
+            print 'Missing author, translation, type and note: %s' % repr(line)
+            word = parts[0]
+            translation = ''
+            wtype = ''
+            author = ''
+            note = ''
+        elif len(parts) == 2:
+            print 'Missing author, type and note: %s' % repr(line)
+            word, translation = parts
+            wtype = ''
+            author = ''
+            note = ''
+        elif len(parts) == 3:
+            print 'Missing author and note: %s' % repr(line)
+            word, translation, wtype = parts
+            author = ''
+            note = ''
+        elif len(parts) == 4:
+            print 'Missing author: %s' % repr(line)
+            word, translation, wtype, note = parts
+            author = ''
         else:
             print 'Invalid input: %s' % repr(line)
             sys.exit(1)
