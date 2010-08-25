@@ -185,9 +185,14 @@ def loadslovnik(filename):
     wordmap = {}
     revwordmap = {}
     count = 0
+    start = False
 
     while 1:
         line = slovnik.readline()
+        if not start:
+            if line.find('translations created from the Universal dictionary') != -1:
+                start = True
+            continue
         if line == '':
             break
         # grab description
