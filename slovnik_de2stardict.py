@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 # vim: expandtab sw=4 ts=4 sts=4:
 '''
-Convertor for GNU/GPL Německo-Český slovník [1] to Stardict [2] format.
+Convertor for GNU/FDL Německo-Český slovník [1] to Stardict [2] format.
 
 1. http://slovnik.hrach.eu/
 2. http://stardict.sourceforge.net/
@@ -30,7 +30,7 @@ this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 '''
 __revision__ = '1.0'
-__header__ = 'GNU/GPL Německo-Český slovník to stardict convertor'
+__header__ = 'GNU/FDL Německo-Český slovník to stardict convertor'
 # silent pychecker
 __pychecker__ = 'unusednames=__license__'
 
@@ -55,8 +55,8 @@ FMT_NOTE = u' (%s)'
 # translation author
 FMT_AUTHOR = u' <small>[%s]</small>'
 
-BOOK_DE_CZ = u'GNU/GPL Německo-Český slovník'
-BOOK_CZ_DE = u'GNU/GPL Česko-Německý slovník'
+BOOK_DE_CZ = u'GNU/FDL Německo-Český slovník'
+BOOK_CZ_DE = u'GNU/FDL Česko-Německý slovník'
 
 STRIPTAGS = re.compile(r"<.*?>", re.DOTALL)
 
@@ -461,13 +461,13 @@ def main():
         stardictcommon.readme_en(
             'Deutsch-Czech dictionary',
             'http://slovnik.hrach.eu/',
-            'GNU/GPL license',
+            'GNU/FDL license',
             __header__,
             __revision__),
         stardictcommon.readme_cs(
             'Německo-Český slovník',
             'http://slovnik.hrach.eu/',
-            'licencí GNU/GPL',
+            'licencí GNU/FDL',
             __header__,
             __revision__)))
     descf.write('\nOriginal description of dictionary:\n%s' % description)
