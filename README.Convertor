@@ -7,9 +7,9 @@ Conversion tools from various formats to StarDict[1].
 
 Project lives at: http://cihar.com/software/slovnik/
 
-Subversion is available at:
-svn://svn.cihar.com/slovnik2stardict
-http://viewsvn.cihar.com/slovnik2stardict
+Git is available at:
+git://gitorious.org/slovnik2stardict/slovnik2stardict.git
+http://gitorious.org/slovnik2stardict/slovnik2stardict
 
 License
 =======
