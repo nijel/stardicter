@@ -1,0 +1,8 @@
+*.swp
+*.pyc
+*.tar.bz2
+*.dict
+*.idx
+*.ifo
+slovnik_data_utf8.txt
+
