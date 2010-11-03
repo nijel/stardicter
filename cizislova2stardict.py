@@ -11,7 +11,7 @@ __author__ = 'Michal Čihař'
 __email__ = 'michal@cihar.com'
 __url__ = 'http://slovnik-cizich-slov.abz.cz/'
 __license__ = '''
-Copyright (c) 2006 - 2007 Michal Čihař
+Copyright (c) 2006 - 2010 Michal Čihař
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License version 2 as published by

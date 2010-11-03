@@ -2,7 +2,7 @@
 #
 # Script to create tarballs of Slovník cizích slov
 #
-# Copyright (c) 2006 - 2007 Michal Čihař
+# Copyright (c) 2006 - 2010 Michal Čihař
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
