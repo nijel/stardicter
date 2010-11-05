@@ -26,7 +26,7 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 '''
-__revision__ = '1.1'
+__revision__ = '1.2'
 __header__ = 'Slovník cizích slov to stardict convertor'
 # silent pychecker
 __pychecker__ = 'unusednames=__license__'
@@ -213,13 +213,13 @@ if __name__ == '__main__':
         stardictcommon.readme_en(
             'Czech foreign words dictionary',
             'http://slovnik-cizich-slov.abz.cz/',
-            'unknown license',
+            'GNU GPL license',
             __header__,
             __revision__),
         stardictcommon.readme_cs(
             'Slovník cizích slov',
             'http://slovnik-cizich-slov.abz.cz/',
-            'neznámou licencí',
+            'licencí GNU GPL',
             __header__,
             __revision__)))
     descf.close()
