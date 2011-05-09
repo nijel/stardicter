@@ -2,7 +2,7 @@
 #
 # Script to create tarballs of GNU/FDL Anglicko-Český slovník
 #
-# Copyright (c) 2006 Michal Čihař
+# Copyright (c) 2006 - 2011 Michal Čihař
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -21,12 +21,13 @@ set -e
 
 # URL where to download source files
 url='http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
-dir="stardict-english-czech-`date +%Y%m%d`"
+NAME=stardict-english-czech
+dir="$NAME-`date +%Y%m%d`"
 dira="$dir-ascii"
 diran="$dir-ascii-notags"
 dirn="$dir-notags"
 
-rm -rf $dir
+rm -rf $dir $dira $dirn $diran
 mkdir $dir
 mkdir $dira
 mkdir $dirn
@@ -41,6 +42,13 @@ if ! gunzip slovnik_data_utf8.txt.gz ; then
     echo 'Fail unzip!'
     exit 2
 fi
+sed -i '/^#      Date:/ D' slovnik_data_utf8.txt
+NEWMD5=`md5sum slovnik_data_utf8.txt`
+OLDMD5=`cat ~/.$NAME.md5 || true`
+if [ "$NEWMD5" = "$OLDMD5" ] ; then
+    exit 1
+fi
+echo "$NEWMD5" > ~/.$NAME.md5
 cp slovnik_data_utf8.txt ../$dira
 cp slovnik_data_utf8.txt ../$diran
 cp slovnik_data_utf8.txt ../$dirn

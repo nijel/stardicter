@@ -2,7 +2,7 @@
 #
 # Script to create tarballs of Slovník cizích slov
 #
-# Copyright (c) 2006 - 2010 Michal Čihař
+# Copyright (c) 2006 - 2011 Michal Čihař
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -19,7 +19,9 @@
 
 # URL where to download source files
 url='http://slovnik-cizich-slov.abz.cz/export.php'
-dir="stardict-czech-`date +%Y%m%d`"
+NAME=stardict-czech
+dir="$NAME-`date +%Y%m%d`"
+
 
 rm -rf $dir
 mkdir $dir
@@ -30,6 +32,12 @@ if [ ! -f export.php ] ; then
     exit 1
 fi
 mv export.php slovnik.txt
+NEWMD5=`md5sum slovnik.txt`
+OLDMD5=`cat ~/.$NAME.md5 || true`
+if [ "$NEWMD5" = "$OLDMD5" ] ; then
+    exit 1
+fi
+echo "$NEWMD5" > ~/.$NAME.md5
 recode iso-8859-2..utf-8 slovnik.txt
 python ../cizislova2stardict.py
 dictzip *.dict
