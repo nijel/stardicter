@@ -122,19 +122,8 @@ def deaccent(exc):
             result.append(' ')
         elif name == 'MULTIPLICATION SIGN':
             result.append('x')
-        elif name == 'DEGREE SIGN':
-            result.append('<degree>)')
-        elif name == 'SECTION SIGN':
-            # §
-            result.append('<paragraph>')
         else:
-            try:
-                print current
-            except UnicodeEncodeError:
-                print repr(current)
-            print cat
-            print name
-            raise exc
+            result.append('<%s>' % name)
     return (u''.join(result), exc.end)
 
 codecs.register_error('deaccent', deaccent)
