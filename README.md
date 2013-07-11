@@ -12,6 +12,12 @@ Git repository is available at GitHub:
 
 https://github.com/nijel/stardicter
 
+Requirements
+============
+
+Scripts require dictzip to compress dictionaries. You can get it from 
+http://sourceforge.net/projects/dict/
+
 License
 =======
 
