@@ -5,7 +5,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install dictzip
 install: 
-  - pip install --use-mirrors pep8
+  - pip install --use-mirrors pep8 pyflakes
 script:
   - ./cizislova_tarball.sh
   - ./czech-german_tarball.sh
@@ -13,3 +13,4 @@ script:
   - ./slovnik_tarball.sh
   - python -m unittest discover
   - pep8 stardicter
+  - pyflakes stardicter
