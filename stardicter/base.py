@@ -379,6 +379,12 @@ class StardictWriter(object):
             'version': '0.1',
         }
 
+    def get_config_key(self):
+        '''
+        Key used to store MD5 in config.
+        '''
+        return self.get_filename()
+
     def load_config(self):
         '''
         Loads checksum cache.
@@ -402,7 +408,7 @@ class StardictWriter(object):
         '''
         Detects whether dictionary has same content as on last run.
         '''
-        key = self.get_filename()
+        key = self.get_config_key()
         config = self.load_config()
         if key not in config:
             return True
@@ -412,5 +418,5 @@ class StardictWriter(object):
         '''
         Saves checksum to configuration.
         '''
-        key = self.get_filename()
+        key = self.get_config_key()
         self.save_config({key: self.checksum})
