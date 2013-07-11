@@ -12,5 +12,5 @@ script:
   - ./slovnik_de_tarball.sh
   - ./slovnik_tarball.sh
   - python -m unittest discover
-  - pep8 stardicter
-  - pyflakes stardicter
+  - pep8 stardicter sdgen.py
+  - pyflakes stardicter sdgen.py
