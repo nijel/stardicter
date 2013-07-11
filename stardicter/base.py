@@ -173,7 +173,7 @@ class StardictWriter(object):
         '''
         Parses single line with word.
         '''
-        return Word.from_slovnik(line)
+        return [Word.from_slovnik(line)]
 
     def parse(self):
         '''
@@ -189,24 +189,26 @@ class StardictWriter(object):
                 self.add_description(line)
 
             # Parse line
-            word = self.parse_line(line)
+            words = self.parse_line(line)
 
-            # Skip not translated words
-            if not word.word or not word.translation:
-                continue
+            for word in words:
 
-            # Store word
-            if len(word.word) < 256:
-                if not word.word in self.words:
-                    self.words[word.word] = []
+                # Skip not translated words
+                if not word.word or not word.translation:
+                    continue
 
-                self.words[word.word].append(word)
+                # Store word
+                if len(word.word) < 256:
+                    if not word.word in self.words:
+                        self.words[word.word] = []
 
-            # Other direction
-            if self.bidirectional and len(word.translation) < 256:
-                if not word.translation in self.reverse:
-                    self.reverse[word.translation] = []
-                self.reverse[word.translation].append(word.reverse())
+                    self.words[word.word].append(word)
+
+                # Other direction
+                if self.bidirectional and len(word.translation) < 256:
+                    if not word.translation in self.reverse:
+                        self.reverse[word.translation] = []
+                    self.reverse[word.translation].append(word.reverse())
 
         # Sort by translation alphabetically
 
