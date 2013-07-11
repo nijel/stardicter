@@ -24,7 +24,7 @@ dir="$NAME-`date +%Y%m%d`"
 rm -rf $dir
 mkdir $dir
 
-./sdgen.py --change --directory $dir czech
+./sdgen.py --change --directory $dir "$@" czech
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir

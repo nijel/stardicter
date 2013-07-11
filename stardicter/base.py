@@ -72,7 +72,7 @@ class StardictWriter(object):
     license = ''
     bidirectional = True
 
-    def __init__(self, ascii=False, notags=False):
+    def __init__(self, ascii=False, notags=False, keyprefix=''):
         self.words = {}
         self.reverse = {}
         self.description = ''
@@ -80,6 +80,7 @@ class StardictWriter(object):
         self.notags = notags
         self._data = None
         self._checksum = None
+        self.keyprefix = keyprefix
 
     @property
     def data(self):
@@ -383,7 +384,7 @@ class StardictWriter(object):
         '''
         Key used to store MD5 in config.
         '''
-        return self.get_filename()
+        return 'md5-%s%s' % (self.keyprefix, self.get_filename())
 
     def load_config(self):
         '''

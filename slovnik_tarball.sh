@@ -27,7 +27,7 @@ dirn="$dir-notags"
 rm -rf $dir
 mkdir $dir
 
-./sdgen.py --all --change --directory $dir czechenglish
+./sdgen.py --all --change --directory $dir "$@" czechenglish
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir
