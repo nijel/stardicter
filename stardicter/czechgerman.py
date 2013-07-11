@@ -46,3 +46,9 @@ class CzechGermanWriter(StardictWriter):
         '''
         handle = urllib.urlopen(URL)
         return handle.read().decode('utf-8')
+
+    def get_name(self, forward=True):
+        if forward:
+            return u'GNU/FDL Česko-Německý slovník'
+        else:
+            return u'GNU/FDL Německo-Český slovník'

@@ -50,3 +50,9 @@ class CzechEnglishWriter(StardictWriter):
         stringio = cStringIO.StringIO(handle.read())
         gzhandle = gzip.GzipFile(fileobj=stringio)
         return gzhandle.read().decode('utf-8')
+
+    def get_name(self, forward=True):
+        if forward:
+            return u'GNU/FDL Česko-Anglický slovník'
+        else:
+            return u'GNU/FDL Anglicko-Český slovník'
