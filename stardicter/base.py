@@ -155,7 +155,7 @@ class StardictWriter(object):
         md5 = hashlib.md5()
         for line in self.lines:
             if self.is_data_line(line):
-                md5.update(line)
+                md5.update(line.encode('utf-8'))
         return md5.hexdigest()
 
     def download(self):
