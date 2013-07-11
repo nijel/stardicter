@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from stardicter.utils import reformat
+from stardicter.utils import reformat, xmlescape
 
 FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
 FMT_DETAILS = u'<i>%s</i> '
@@ -88,9 +88,24 @@ class Word(object):
             raise ValueError('Invalid input: %s' % repr(line))
 
         return Word(
-            word=reformat(params, word),
-            translation=reformat(params, translation),
-            wtype=reformat(params, wtype),
-            note=reformat(params, note),
-            author=reformat(params, author)
+            word=reformat(word),
+            translation=reformat(translation),
+            wtype=reformat(wtype),
+            note=reformat(note),
+            author=reformat(author)
         )
+
+    def format(self):
+        '''
+        Returns formatted dictionary entry.
+        '''
+        result = ''
+        if self.wtype != '':
+            result += FMT_DETAILS % xmlescape(self.wtype)
+        result += FMT_TRANSLATE % xmlescape(self.translation)
+        if self.note != '':
+            result += FMT_NOTE % xmlescape(self.note)
+        if self.author != '':
+            result += FMT_AUTHOR % xmlescape(self.author)
+        result += '\n'
+        return result

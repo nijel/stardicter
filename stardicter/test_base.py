@@ -34,6 +34,7 @@ class BaseTest(unittest.TestCase):
         '''
         writer = self.writer_class()
         directory = tempfile.mkdtemp()
+        writer.parse()
         writer.write_dict(directory)
         self.assertTrue(os.path.exists(os.path.join(directory, 'README')))
         shutil.rmtree(directory)

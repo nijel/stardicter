@@ -23,7 +23,9 @@ import os
 import datetime
 import re
 import json
+import struct
 from stardicter.word import Word
+from operator import attrgetter
 
 
 README_TEXT = '''%(title)s
@@ -51,6 +53,9 @@ STRIPTAGS = re.compile(r"<.*?>", re.DOTALL)
 
 CONFIGFILE = os.path.expanduser('~/.stardicter')
 
+# type of word (used as title)
+FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
+
 AUTHOR = u'Stardicter'
 URL = 'https://cihar.com/software/slovnik/'
 
@@ -65,7 +70,7 @@ class StardictWriter(object):
     source = 'aa'
     target = 'bb'
     license = ''
-    reverse = True
+    bidirectional = True
 
     def __init__(self, ascii=False, notags=False):
         self.words = {}
@@ -151,9 +156,21 @@ class StardictWriter(object):
         '''
         for line in self.lines:
             word = self.parse_line(line)
-            self.words[word.word] = word
-            if self.reverse:
-                self.reverse[word.translation] = word.reverse()
+            if not word.word in self.words:
+                self.words[word.word] = []
+            self.words[word.word].append(word)
+            if self.bidirectional:
+                if not word.translation in self.reverse:
+                    self.reverse[word.translation] = []
+                self.reverse[word.translation].append(word.reverse())
+
+        # Sort by translation alphabetically
+
+        for word in self.words:
+            self.words[word].sort(key=attrgetter('translation'))
+
+        for word in self.reverse:
+            self.reverse[word].sort(key=attrgetter('translation'))
 
     def convert(self, text):
         '''
@@ -166,6 +183,63 @@ class StardictWriter(object):
             text = STRIPTAGS.sub('', text)
 
         return text
+
+    def formatentry(self, words):
+        '''
+        Formats dictionary entry.
+        '''
+        # sort alphabetically
+        # array for different word types
+        alltypes = [
+            'n:',
+            'v:',
+            'adj:',
+            'adv:',
+            'prep:',
+            'conj:',
+            'interj:',
+            'num:',
+            '',
+        ]
+        # variables used for data
+        result = ''
+        typed = {}
+        # array holding typed words
+        for key in alltypes:
+            typed[key] = []
+        # process all translations
+        for word in words:
+            tokens = word.wtype.split()
+            saved = False
+            for key in alltypes:
+                # check if translation is current type
+                if key in tokens:
+                    saved = True
+                    # remove type from translation, it will be in title
+                    del tokens[tokens.index(key)]
+                    word.wtype = u' '.join(tokens)
+                    # handle irregullar word specially (display them first)
+                    if '[neprav.]' in tokens:
+                        typed[key].insert(0, word)
+                    else:
+                        typed[key].append(word)
+                    break
+            if not saved:
+                typed[''].append(word)
+
+        # and finally convert entries to text
+        for typ in alltypes:
+            if len(typed[typ]) > 0:
+                # header to display
+                if typ == '':
+                    result += '\n'
+                else:
+                    result += FMT_TYPE % typ
+                for word in typed[typ]:
+                    result += '    '
+                    result += word.format()
+
+        return result
 
     def getsortedwords(self, words):
         '''
@@ -192,10 +266,9 @@ class StardictWriter(object):
 
         # Write dictionary and index
         with open(dictn, 'w') as dictf, open(idxn, 'w') as idxf:
-
             for key in self.getsortedwords(words):
                 # format single entry
-                deftext = self.convert(wlist[key].formatentry())
+                deftext = self.convert(self.formatentry(words[key]))
 
                 # write dictionary text
                 entry = deftext.encode('utf-8')
@@ -241,7 +314,7 @@ class StardictWriter(object):
             self.words
         )
         # Write reverse dictionary
-        if self.reverse:
+        if self.bidirectional:
             self.write_words(
                 directory,
                 self.get_filename(False),
