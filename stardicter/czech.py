@@ -19,9 +19,8 @@
 #
 
 from stardicter.base import StardictWriter
+from stardicter.word import Word
 import urllib
-import gzip
-import cStringIO
 
 URL = 'http://slovnik-cizich-slov.abz.cz/export.php'
 
@@ -33,6 +32,10 @@ class CzechWriter(StardictWriter):
     target = 'cizi'
     license = 'GNU GPL license'
     bidirectional = False
+
+    def parse_line(self, line):
+        word, pronunciation, explanation = line.split('|')
+        return Word(word, explanation, pronuncation=pronuncation)
 
     def download(self):
         '''
