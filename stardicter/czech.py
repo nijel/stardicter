@@ -34,24 +34,9 @@ class CzechWriter(StardictWriter):
     license = 'GNU GPL license'
     bidirectional = False
 
-    def is_data_line(self, line):
-        '''
-        Checks whether this is line with timestamp.
-        '''
-        return not line.startswith('#      Date:')
-
-    def is_header_line(self, line):
-        return line[0] == '#'
-
     def download(self):
         '''
         Downloads dictionary data.
         '''
         handle = urllib.urlopen(URL)
         return handle.read().decode('iso-8859-2')
-
-    def get_name(self, forward=True):
-        if forward:
-            return u'GNU/FDL Česko-Anglický slovník'
-        else:
-            return u'GNU/FDL Anglicko-Český slovník'
