@@ -1,6 +1,7 @@
 *.swp
 *.pyc
 *.tar.bz2
+*.tar.gz
 *.dict
 *.idx
 *.ifo
