@@ -241,7 +241,7 @@ class StardictWriter(object):
         '''
         # Write readme
         with open(os.path.join(directory, 'README'), 'w') as readme:
-            readme.write(self.get_readme())
+            readme.write(self.get_readme().encode('utf-8'))
         # Write forward dictioanry
         self.write_words(
             directory,
