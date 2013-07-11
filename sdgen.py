@@ -35,44 +35,44 @@ def main():
         help='dictionary to download'
     )
     parser.add_argument(
-        "-c",
-        "--change",
-        action="store_true",
-        dest="change",
+        '-c',
+        '--change',
+        action='store_true',
+        dest='change',
         default=False,
-        help="Generate only on source data change."
+        help='Generate only on source data change.'
     )
     parser.add_argument(
-        "-A",
-        "--all",
-        action="store_true",
-        dest="all",
+        '-A',
+        '--all',
+        action='store_true',
+        dest='all',
         default=False,
-        help="Generate fomat combinations."
+        help='Generate fomat combinations.'
     )
     parser.add_argument(
-        "-a",
-        "--ascii",
-        action="store_true",
-        dest="ascii",
+        '-a',
+        '--ascii',
+        action='store_true',
+        dest='ascii',
         default=False,
-        help="Generate plain ascii dictionary."
+        help='Generate plain ascii dictionary.'
     )
     parser.add_argument(
-        "-t",
-        "--notags",
-        action="store_true",
-        dest="notags",
+        '-t',
+        '--notags',
+        action='store_true',
+        dest='notags',
         default=False,
-        help="Generate dictionary without pango markup."
+        help='Generate dictionary without pango markup.'
     )
     parser.add_argument(
-        "-l",
-        "--list",
-        action="store_true",
-        dest="list",
+        '-l',
+        '--list',
+        action='store_true',
+        dest='list',
         default=False,
-        help="Lists available dictionaries."
+        help='Lists available dictionaries.'
     )
     parser.add_argument(
         '-d',
