@@ -33,10 +33,23 @@ class BaseTest(unittest.TestCase):
         Test dictionary writing.
         '''
         writer = self.writer_class()
+
         directory = tempfile.mkdtemp(prefix='stardicter-tmp')
+
+        # Parse data
         writer.parse()
+        # Write standard
         writer.write_dict(directory)
+        # Write ascii
+        writer.ascii = True
+        writer.write_dict(directory)
+        # Write notags
+        writer.notags = True
+        writer.write_dict(directory)
+
+        # Check readme
         self.assertTrue(os.path.exists(os.path.join(directory, 'README')))
+
         shutil.rmtree(directory)
 
 
