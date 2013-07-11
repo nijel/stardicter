@@ -24,11 +24,13 @@ import unicodedata
 from stardicter.czech import CzechWriter
 from stardicter.czechgerman import CzechGermanWriter
 from stardicter.czechenglish import CzechEnglishWriter
+from stardicter.dictsinfo import DictsInfoWriter
 
 DICTIONARIES = {
     'czech': CzechWriter,
     'czechgerman': CzechGermanWriter,
     'czechenglish': CzechEnglishWriter,
+    'dictsinfo': DictsInfoWriter,
 }
 
 
