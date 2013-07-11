@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see http://www.gnu.org/licenses/.
 
+set -e
+
 if [ -z "$1" -o -z "$2" -o "x$1" = "x-h" -o "x$1" = "x--help" ] ; then
     echo "Usage: `basename $0` source-language target-language"
     exit 1
@@ -23,29 +25,25 @@ fi
 
 source="$1"
 target="$2"
-source_u=`echo "$source" | sed -e 's/^./\U&/g'`
-target_u=`echo "$target" | sed -e 's/^./\U&/g'`
+shift
+shift
 
-# URL where to download source files
-# This one used to work in past, now IP is required
-url="http://www.dicts.info/uddl.php?l1=$source&l2=$target&format=text"
-name="$source-$target"
-reverse="$target-$source"
-label="$source_u-$target_u dictionary"
-reverselabel="$target_u-$source_u dictionary"
-dir="stardict-$name-`date +%Y%m%d`"
+NAME=stardict-$source-$target
+dir="$NAME-`date +%Y%m%d`"
 
 rm -rf $dir
 mkdir $dir
-cd $dir
-curl -d 'ok=selected' "$url" > $name.txt
-if [ ! -f $name.txt ] ; then
-    echo "No file!"
-    exit 1
+
+./sdgen.py --change --directory $dir "$@" --source $source --target $target dictsinfo
+
+if [ ! -f $dir/README ] ; then
+    rm -rf $dir
+    exit 0
 fi
-python ../dictsinfo2stardict.py ./$name.txt "$label" "$reverselabel" $name $reverse
-dictzip *.dict
-rm $name.txt
-cd ..
-tar cfj $dir.tar.bz2 $dir
+
+# Compress
+dictzip $dir/*.dict
+
+# Create tarball
+tar cfz $dir.tar.gz $dir
 rm -rf $dir
