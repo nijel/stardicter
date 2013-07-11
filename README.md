@@ -18,6 +18,16 @@ Requirements
 Scripts require dictzip to compress dictionaries. You can get it from 
 http://sourceforge.net/projects/dict/
 
+Usage
+=====
+
+The main script is ``sdgen.py``, it downloads and generates StarDict
+dictionaries. Check it's help for more information.
+
+Additionally there are some helper script which directly generate tarballs with
+dictionary.
+
+
 Build status
 ============
 
