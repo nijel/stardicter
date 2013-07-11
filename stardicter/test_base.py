@@ -26,6 +26,20 @@ import stardicter.base
 
 
 class BaseTest(unittest.TestCase):
+    writer_class = stardicter.base.StardictWriter
+
+    def test_write(self):
+        '''
+        Test dictionary writing.
+        '''
+        writer = self.writer_class()
+        directory = tempfile.mkdtemp()
+        writer.write_dict(directory)
+        self.assertTrue(os.path.exists(os.path.join(directory, 'README')))
+        shutil.rmtree(directory)
+
+
+class CoreTest(unittest.TestCase):
     '''
     Testing of base object.
     '''
@@ -35,19 +49,6 @@ class BaseTest(unittest.TestCase):
         '''
         writer = stardicter.base.StardictWriter()
         self.assertEqual(writer.checksum, '4e99e8c12de7e01535248d2bac85e732')
-
-    def test_write(self):
-        '''
-        Test dictionary writing.
-        '''
-        directory = tempfile.mkdtemp()
-        writer = stardicter.base.StardictWriter()
-        writer.write_dict(directory)
-        self.assertTrue(os.path.exists(os.path.join(directory, 'README')))
-        self.assertTrue(os.path.exists(os.path.join(directory, 'aa-bb.dict')))
-        self.assertTrue(os.path.exists(os.path.join(directory, 'bb-aa.ifo')))
-        self.assertTrue(os.path.exists(os.path.join(directory, 'bb-aa.idx')))
-        shutil.rmtree(directory)
 
     def changes_testing(self, name):
         '''
