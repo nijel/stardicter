@@ -2,7 +2,7 @@
 #
 # Script to create tarballs of GNU/FDL Anglicko-Český slovník
 #
-# Copyright (c) 2006 - 2011 Michal Čihař
+# Copyright (c) 2006 - 2013 Michal Čihař
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,63 +18,42 @@
 
 set -e
 
-# URL where to download source files
-url='http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
 NAME=stardict-english-czech
 dir="$NAME-`date +%Y%m%d`"
 dira="$dir-ascii"
 diran="$dir-ascii-notags"
 dirn="$dir-notags"
 
-rm -rf $dir $dira $dirn $diran
+rm -rf $dir
 mkdir $dir
+
+./sdgen.py --all --change --directory $dir czechenglish
+
+if [ ! -f $dir/README ] ; then
+    rm -rf $dir
+    exit 0
+fi
+
+# Compress
+dictzip $dir/*.dict
+
+# Split to separate dirs
+rm -rf $dira $dirn $diran
 mkdir $dira
 mkdir $dirn
 mkdir $diran
-cd $dir
-wget -q $url
-if [ ! -f slovnik_data_utf8.txt.gz ] ; then
-    echo "No file!"
-    exit 1
-fi
-if ! gunzip slovnik_data_utf8.txt.gz ; then
-    echo 'Fail unzip!'
-    exit 2
-fi
-sed -i '/^#      Date:/ D' slovnik_data_utf8.txt
-NEWMD5=`md5sum slovnik_data_utf8.txt`
-OLDMD5=`cat ~/.$NAME.md5 || true`
-if [ "$NEWMD5" = "$OLDMD5" ] ; then
-    exit 1
-fi
-echo "$NEWMD5" > ~/.$NAME.md5
-cp slovnik_data_utf8.txt ../$dira
-cp slovnik_data_utf8.txt ../$diran
-cp slovnik_data_utf8.txt ../$dirn
-python ../slovnik2stardict.py
-dictzip *.dict
-rm slovnik_data_utf8.txt
-cd ..
+
+cp $dir/README $dira/
+cp $dir/README $dirn/
+cp $dir/README $diran/
+
+mv $dir/*-ascii-notags* $diran/
+mv $dir/*-ascii* $dira/
+mv $dir/*-notags* $dirn/
+
+# Create tarballs
 tar cfz $dir.tar.gz $dir
-rm -rf $dir
-cd $dira
-python ../slovnik2stardict.py --ascii
-dictzip *.dict
-rm slovnik_data_utf8.txt
-cd ..
 tar cfz $dira.tar.gz $dira
-rm -rf $dira
-cd $diran
-python ../slovnik2stardict.py --ascii --notags
-dictzip *.dict
-rm slovnik_data_utf8.txt
-cd ..
-tar cfz $diran.tar.gz $diran
-rm -rf $diran
-cd $dirn
-python ../slovnik2stardict.py --notags
-dictzip *.dict
-rm slovnik_data_utf8.txt
-cd ..
 tar cfz $dirn.tar.gz $dirn
-rm -rf $dirn
+tar cfz $diran.tar.gz $diran
+rm -rf $dir $dira $dirn $diran
