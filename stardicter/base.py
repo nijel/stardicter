@@ -168,22 +168,29 @@ class StardictWriter(object):
         '''
         for line in self.lines:
             # Skip blank lines
-            if not line:
+            if line.strip() == '':
                 continue
 
             # Description from header
             if self.is_header_line(line):
                 self.add_description(line)
 
+            # Parse line
             word = self.parse_line(line)
 
-            if not word.word in self.words:
-                self.words[word.word] = []
+            # Skip not translated words
+            if not word.word or not word.translation:
+                continue
 
-            self.words[word.word].append(word)
+            # Store word
+            if len(word.word) < 256:
+                if not word.word in self.words:
+                    self.words[word.word] = []
+
+                self.words[word.word].append(word)
 
             # Other direction
-            if self.bidirectional:
+            if self.bidirectional and len(word.translation) < 256:
                 if not word.translation in self.reverse:
                     self.reverse[word.translation] = []
                 self.reverse[word.translation].append(word.reverse())
