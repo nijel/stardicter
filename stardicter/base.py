@@ -111,9 +111,17 @@ class StardictWriter(object):
         Returns filename for dictionary.
         '''
         if forward:
-            return '%s%s-%s' % (self.prefix, self.source, self.target)
+            name = '%s-%s' % (self.source, self.target)
         else:
-            return '%s%s-%s' % (self.prefix, self.target, self.source)
+            name = '%s-%s' % (self.target, self.source)
+
+        suffix = ''
+        if self.ascii:
+            suffix += '-ascii'
+        if self.notags:
+            suffix += '-notags'
+
+        return '%s%s%s' % (self.prefix, name, suffix)
 
     def get_name(self, forward=True):
         '''
