@@ -21,6 +21,16 @@
 import codecs
 import unicodedata
 
+from stardicter.czech import CzechWriter
+from stardicter.czechgerman import CzechGermanWriter
+from stardicter.czechenglish import CzechEnglishWriter
+
+DICTIONARIES = {
+    'czech': CzechWriter,
+    'czechgerman': CzechGermanWriter,
+    'czechenglish': CzechEnglishWriter,
+}
+
 
 def deaccent(exc):
     '''
