@@ -18,6 +18,11 @@ Requirements
 Scripts require dictzip to compress dictionaries. You can get it from 
 http://sourceforge.net/projects/dict/
 
+Build status
+============
+
+[![Build Status](https://travis-ci.org/nijel/stardicter.png?branch=master)](https://travis-ci.org/nijel/stardicter)
+
 License
 =======
 
