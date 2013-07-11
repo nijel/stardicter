@@ -70,14 +70,13 @@ def deaccent(exc):
         elif name == 'SECTION SIGN':
             # §
             result.append('<paragraph>')
+        elif name == 'DIVISION SIGN':
+            # ÷
+            result.append('/')
         else:
-            try:
-                print current
-            except UnicodeEncodeError:
-                print repr(current)
-            print cat
-            print name
-            raise exc
+            raise ValueError(
+                'Can not convert to ASCII: %s (%s)' % (current, name)
+            )
     return (u''.join(result), exc.end)
 
 codecs.register_error('deaccent', deaccent)
