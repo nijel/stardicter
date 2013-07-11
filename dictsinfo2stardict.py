@@ -150,10 +150,7 @@ def savelist(wlist, rev, name, filename = None):
     # create ifo file
     ifof.write('StarDict\'s dict ifo file\n')
     ifof.write('version=2.4.2\n')
-    if rev:
-        ifof.write('bookname=%s\n' % name)
-    else:
-        ifof.write('bookname=%s\n' % name)
+    ifof.write('bookname=%s\n' % name)
     ifof.write('wordcount=%d\n' % count)
     ifof.write('idxfilesize=%d\n' % idxsize)
     # There is no way to put all authors here, so I decided to put author of
