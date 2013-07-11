@@ -59,7 +59,7 @@ def main():
         help='Generate plain ascii dictionary.'
     )
     parser.add_argument(
-        '-t',
+        '-n',
         '--notags',
         action='store_true',
         dest='notags',
@@ -80,6 +80,20 @@ def main():
         dest='directory',
         default='.',
         help='Directory where to store generated dictionaries'
+    )
+    parser.add_argument(
+        '-s',
+        '--source',
+        dest='source',
+        default='.',
+        help='Source language for multilanguage dictionaries'
+    )
+    parser.add_argument(
+        '-t',
+        '--target',
+        dest='target',
+        default='.',
+        help='Target language for multilanguage dictionaries'
     )
     parser.add_argument(
         '-m',
@@ -115,7 +129,9 @@ def main():
         keyprefix = 'monthly-'
 
     writer = stardicter.DICTIONARIES[options.dictionary](
-        keyprefix=keyprefix
+        keyprefix=keyprefix,
+        source=options.source,
+        target=options.target
     )
 
     # Change detection
