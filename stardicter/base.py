@@ -81,8 +81,10 @@ class StardictWriter(object):
         self._data = None
         self._checksum = None
         self.keyprefix = keyprefix
-        self.source = source
-        self.target = target
+        if source:
+            self.source = source
+        if target:
+            self.target = target
 
     @property
     def data(self):
