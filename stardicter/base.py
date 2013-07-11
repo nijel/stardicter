@@ -187,6 +187,7 @@ class StardictWriter(object):
             # Description from header
             if self.is_header_line(line):
                 self.add_description(line)
+                continue
 
             # Parse line
             words = self.parse_line(line)
