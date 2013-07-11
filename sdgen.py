@@ -92,12 +92,12 @@ def main():
         return
 
     if options.dictionary is None:
-        print 'You have to specify dictionary to process (use -l to list available ones)'
+        print('You have to specify dictionary to process!')
         parser.print_usage()
         sys.exit(1)
 
     if options.dictionary not in stardicter.DICTIONARIES:
-        print 'Unknown dictionary, use -l to list available ones'
+        print('Unknown dictionary, use -l to list available ones.')
         parser.print_usage()
         sys.exit(1)
 
