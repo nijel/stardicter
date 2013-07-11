@@ -72,7 +72,8 @@ class StardictWriter(object):
     license = ''
     bidirectional = True
 
-    def __init__(self, ascii=False, notags=False, keyprefix='', source='', target=''):
+    def __init__(self, ascii=False, notags=False, keyprefix='',
+                 source='', target=''):
         self.words = {}
         self.reverse = {}
         self.description = ''
