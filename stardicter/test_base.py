@@ -22,7 +22,7 @@ import unittest
 import tempfile
 import os.path
 import shutil
-from base import StardictWriter
+import stardicter.base
 
 
 class BaseTest(unittest.TestCase):
@@ -33,7 +33,7 @@ class BaseTest(unittest.TestCase):
         '''
         Test checksum generating.
         '''
-        writer = StardictWriter()
+        writer = stardicter.base.StardictWriter()
         self.assertEqual(writer.checksum, '4e99e8c12de7e01535248d2bac85e732')
 
     def test_write(self):
@@ -41,10 +41,28 @@ class BaseTest(unittest.TestCase):
         Test dictionary writing.
         '''
         directory = tempfile.mkdtemp()
-        writer = StardictWriter()
+        writer = stardicter.base.StardictWriter()
         writer.write_dict(directory)
         self.assertTrue(os.path.exists(os.path.join(directory, 'README')))
         self.assertTrue(os.path.exists(os.path.join(directory, 'aa-bb.dict')))
         self.assertTrue(os.path.exists(os.path.join(directory, 'bb-aa.ifo')))
         self.assertTrue(os.path.exists(os.path.join(directory, 'bb-aa.idx')))
         shutil.rmtree(directory)
+
+    def test_was_changed(self):
+        with tempfile.NamedTemporaryFile(delete=True) as temp:
+            backup = stardicter.base.CONFIGFILE
+            stardicter.base.CONFIGFILE = temp.name
+            writer = stardicter.base.StardictWriter()
+            self.assertTrue(writer.was_changed())
+            stardicter.base.CONFIGFILE = backup
+
+    def test_changes(self):
+        with tempfile.NamedTemporaryFile(delete=True) as temp:
+            backup = stardicter.base.CONFIGFILE
+            stardicter.base.CONFIGFILE = temp.name
+            writer = stardicter.base.StardictWriter()
+            self.assertTrue(writer.was_changed())
+            writer.save_checksum()
+            self.assertFalse(writer.was_changed())
+            stardicter.base.CONFIGFILE = backup

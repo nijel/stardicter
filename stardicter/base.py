@@ -22,6 +22,7 @@ import hashlib
 import os
 import datetime
 import re
+import json
 
 
 README_TEXT = '''%(title)s
@@ -46,6 +47,8 @@ C:\Program files\stardict\dic\.
 '''
 
 STRIPTAGS = re.compile(r"<.*?>", re.DOTALL)
+
+CONFIGFILE = os.path.expanduser('~/.stardicter')
 
 AUTHOR = u'Stardicter'
 URL = 'https://cihar.com/software/slovnik/'
@@ -266,3 +269,39 @@ class StardictWriter(object):
             'license': self.license,
             'version': '0.1',
         }
+
+    def load_config(self):
+        '''
+        Loads checksum cache.
+        '''
+        with open(CONFIGFILE) as handle:
+            try:
+                return json.load(handle)
+            except ValueError:
+                return {}
+
+    def save_config(self, changes):
+        '''
+        Loads checksum cache.
+        '''
+        config = self.load_config()
+        config.update(changes)
+        with open(CONFIGFILE, 'w') as handle:
+            json.dump(config, handle, indent=2)
+
+    def was_changed(self):
+        '''
+        Detects whether dictionary has same content as on last run.
+        '''
+        key = self.get_filename()
+        config = self.load_config()
+        if key not in config:
+            return True
+        return self.checksum != config[key]
+
+    def save_checksum(self):
+        '''
+        Saves checksum to configuration.
+        '''
+        key = self.get_filename()
+        self.save_config({key: self.checksum})
