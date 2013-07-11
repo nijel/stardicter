@@ -34,7 +34,7 @@ class BaseTest(unittest.TestCase):
         Test checksum generating.
         '''
         writer = StardictWriter()
-        self.assertEqual(writer.checksum, 'd41d8cd98f00b204e9800998ecf8427e')
+        self.assertEqual(writer.checksum, '4e99e8c12de7e01535248d2bac85e732')
 
     def test_write(self):
         '''

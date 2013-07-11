@@ -117,7 +117,7 @@ class StardictWriter(object):
         '''
         return self.name
 
-    def is_data_line(self):
+    def is_data_line(self, line):
         '''
         Checks whether line is used for checksum. Can be used to exclude
         timestamps from data.
@@ -138,12 +138,16 @@ class StardictWriter(object):
         '''
         Downloads dictionary.
         '''
-        return ''
+        return 'foo:bar'
 
     def parse(self):
         '''
         Parses dictionary.
         '''
+        for line in self.lines:
+            word, translation = line.split(':')
+            self.words[word] = translation
+            self.reverse[translation] = word
 
     def xmlescape(self, text):
         '''
@@ -232,14 +236,17 @@ class StardictWriter(object):
         '''
         Writes dictionary into directory.
         '''
+        # Write readme
         with open(os.path.join(directory, 'README'), 'w') as readme:
             readme.write(self.get_readme())
+        # Write forward dictioanry
         self.write_words(
             directory,
             self.get_filename(True),
             self.get_name(True),
             self.words
         )
+        # Write reverse dictionary
         self.write_words(
             directory,
             self.get_filename(False),
