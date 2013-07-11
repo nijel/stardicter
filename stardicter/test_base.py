@@ -49,20 +49,29 @@ class BaseTest(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(directory, 'bb-aa.idx')))
         shutil.rmtree(directory)
 
-    def test_was_changed(self):
-        with tempfile.NamedTemporaryFile(delete=True) as temp:
-            backup = stardicter.base.CONFIGFILE
-            stardicter.base.CONFIGFILE = temp.name
-            writer = stardicter.base.StardictWriter()
-            self.assertTrue(writer.was_changed())
-            stardicter.base.CONFIGFILE = backup
+    def changes_testing(self, name):
+        '''
+        Core for changes testing.
+        '''
+        backup = stardicter.base.CONFIGFILE
+        stardicter.base.CONFIGFILE = name
+        writer = stardicter.base.StardictWriter()
+        self.assertTrue(writer.was_changed())
+        writer.save_checksum()
+        self.assertFalse(writer.was_changed())
+        stardicter.base.CONFIGFILE = backup
 
     def test_changes(self):
+        '''
+        Test changes detection with empty config file.
+        '''
         with tempfile.NamedTemporaryFile(delete=True) as temp:
-            backup = stardicter.base.CONFIGFILE
-            stardicter.base.CONFIGFILE = temp.name
-            writer = stardicter.base.StardictWriter()
-            self.assertTrue(writer.was_changed())
-            writer.save_checksum()
-            self.assertFalse(writer.was_changed())
-            stardicter.base.CONFIGFILE = backup
+            self.changes_testing(temp.name)
+
+    def test_changes_nofile(self):
+        '''
+        Test changes detection without config file.
+        '''
+        temp = tempfile.NamedTemporaryFile(delete=True)
+        temp.close()
+        self.changes_testing(temp.name)

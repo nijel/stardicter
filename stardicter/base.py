@@ -274,11 +274,11 @@ class StardictWriter(object):
         '''
         Loads checksum cache.
         '''
-        with open(CONFIGFILE) as handle:
-            try:
+        try:
+            with open(CONFIGFILE) as handle:
                 return json.load(handle)
-            except ValueError:
-                return {}
+        except (ValueError, IOError):
+            return {}
 
     def save_config(self, changes):
         '''
