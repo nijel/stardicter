@@ -128,6 +128,18 @@ class StardictWriter(object):
         '''
         return True
 
+    def is_header_line(self, line):
+        '''
+        Checks whether line is header.
+        '''
+        return False
+
+    def add_description(self, line):
+        '''
+        Adds description from line.
+        '''
+        self.description += line[6:]
+
     def get_checksum(self):
         '''
         Calculated dictionary checksum.
@@ -155,10 +167,22 @@ class StardictWriter(object):
         Parses dictionary.
         '''
         for line in self.lines:
+            # Skip blank lines
+            if not line:
+                continue
+
+            # Description from header
+            if self.is_header_line(line):
+                self.add_description(line)
+
             word = self.parse_line(line)
+
             if not word.word in self.words:
                 self.words[word.word] = []
+
             self.words[word.word].append(word)
+
+            # Other direction
             if self.bidirectional:
                 if not word.translation in self.reverse:
                     self.reverse[word.translation] = []
@@ -306,6 +330,11 @@ class StardictWriter(object):
         # Write readme
         with open(os.path.join(directory, 'README'), 'w') as readme:
             readme.write(self.get_readme().encode('utf-8'))
+            if self.description:
+                readme.write(
+                    '\nOriginal description of dictionary:\n%s' %
+                    self.description.encode('utf-8')
+                )
         # Write forward dictioanry
         self.write_words(
             directory,
