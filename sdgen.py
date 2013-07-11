@@ -81,6 +81,15 @@ def main():
         default='.',
         help='Directory where to store generated dictionaries'
     )
+    parser.add_argument(
+        '-m',
+        '--monthly',
+        action='store_true',
+        dest='monthly',
+        default=False,
+        help='Flag indicating montly runs (for checksum checking)'
+    )
+
     options = parser.parse_args()
 
     if options.list:
@@ -101,7 +110,13 @@ def main():
         parser.print_usage()
         sys.exit(1)
 
-    writer = stardicter.DICTIONARIES[options.dictionary]()
+    keyprefix = ''
+    if options.monthly:
+        keyprefix = 'monthly-'
+
+    writer = stardicter.DICTIONARIES[options.dictionary](
+        keyprefix=keyprefix
+    )
 
     # Change detection
     if options.change and not writer.was_changed():
