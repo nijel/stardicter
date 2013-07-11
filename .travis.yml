@@ -8,5 +8,5 @@ before_install:
 script:
   - ./cizislova_tarball.sh
   - ./czech-german_tarball.sh
-  - ./slovnik_de2stardict.py
+  - ./slovnik_de_tarball.sh
   - ./slovnik_tarball.sh
