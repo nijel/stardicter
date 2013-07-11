@@ -53,7 +53,6 @@ def deaccent(exc):
         elif current == u'\x84':
             result.append('"')
             continue
-        cat = unicodedata.category(current)
         name = unicodedata.name(current)
         if name[:18] == 'LATIN SMALL LETTER':
             result.append(unicode(name[19].lower()))
