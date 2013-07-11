@@ -35,7 +35,7 @@ class CzechWriter(StardictWriter):
 
     def parse_line(self, line):
         word, pronunciation, explanation = line.split('|')
-        return Word(word, explanation, pronuncation=pronuncation)
+        return Word(word, explanation, pronunciation=pronunciation)
 
     def download(self):
         '''

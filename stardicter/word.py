@@ -25,14 +25,15 @@ FMT_DETAILS = u'<i>%s</i> '
 FMT_TRANSLATE = u'<b>%s</b>'
 FMT_NOTE = u' (%s)'
 FMT_AUTHOR = u' <small>[%s]</small>'
+FMT_PRONUNCIATION = '[<i>%s</i>]\n\n'
 
 
 class Word(object):
     '''
     Class holding single word.
     '''
-    def __init__(self, word, translation, wtype=None, note=None, author=None,
-                 pronunciation=None):
+    def __init__(self, word, translation, wtype='', note='', author='',
+                 pronunciation=''):
         self.word = word
         self.translation = translation
         self.wtype = wtype
@@ -100,6 +101,8 @@ class Word(object):
         Returns formatted dictionary entry.
         '''
         result = ''
+        if self.pronunciation != '':
+            result += FMT_PRONUNCIATION % xmlescape(self.pronunciation)
         if self.wtype != '':
             result += FMT_DETAILS % xmlescape(self.wtype)
         result += FMT_TRANSLATE % xmlescape(self.translation)
