@@ -39,7 +39,7 @@ class BaseTest(unittest.TestCase):
         shutil.rmtree(directory)
 
 
-class CoreTest(unittest.TestCase):
+class BaseObjectTest(unittest.TestCase):
     '''
     Testing of base object.
     '''
@@ -48,7 +48,7 @@ class CoreTest(unittest.TestCase):
         Test checksum generating.
         '''
         writer = stardicter.base.StardictWriter()
-        self.assertEqual(writer.checksum, '4e99e8c12de7e01535248d2bac85e732')
+        self.assertEqual(writer.checksum, '6d43d48e5163b5a24c5d4dc92deca1f3')
 
     def changes_testing(self, name):
         '''

@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2006 - 2013 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <http://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+from stardicter.utils import reformat
+
+FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
+FMT_DETAILS = u'<i>%s</i> '
+FMT_TRANSLATE = u'<b>%s</b>'
+FMT_NOTE = u' (%s)'
+FMT_AUTHOR = u' <small>[%s]</small>'
+
+
+class Word(object):
+    '''
+    Class holding single word.
+    '''
+    def __init__(self, word, translation, wtype=None, note=None, author=None,
+                 pronunciation=None):
+        self.word = word
+        self.translation = translation
+        self.wtype = wtype
+        self.note = note
+        self.author = author
+        self.pronunciation = pronunciation
+
+    def reverse(self):
+        '''
+        Returns copy of a object for reverse direction.
+        '''
+        return Word(
+            self.translation, self.word, self.wtype, self.note, self.author,
+            self.pronunciation
+        )
+
+    @staticmethod
+    def from_slovnik(line):
+        '''
+        Parses word from format used by http://slovnik.zcu.cz/
+        '''
+        # split it up
+        parts = line.split('\t')
+        if len(parts) == 5:
+            word, translation, wtype, note, author = parts
+        elif len(parts) == 6:
+            # Extra word
+            word, ignore, translation, wtype, note, author = parts
+            word += ignore
+        elif len(parts) == 1:
+            # Missing author, translation, type and note
+            word = parts[0]
+            translation = ''
+            wtype = ''
+            author = ''
+            note = ''
+        elif len(parts) == 2:
+            # Missing author, type and note
+            word, translation = parts
+            wtype = ''
+            author = ''
+            note = ''
+        elif len(parts) == 3:
+            # Missing author and note
+            word, translation, wtype = parts
+            author = ''
+            note = ''
+        elif len(parts) == 4:
+            # Missing author
+            word, translation, wtype, note = parts
+            author = ''
+        else:
+            raise ValueError('Invalid input: %s' % repr(line))
+
+        return Word(
+            word=reformat(params, word),
+            translation=reformat(params, translation),
+            wtype=reformat(params, wtype),
+            note=reformat(params, note),
+            author=reformat(params, author)
+        )

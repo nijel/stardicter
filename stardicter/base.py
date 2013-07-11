@@ -23,6 +23,7 @@ import os
 import datetime
 import re
 import json
+from stardicter.word import Word
 
 
 README_TEXT = '''%(title)s
@@ -64,12 +65,7 @@ class StardictWriter(object):
     source = 'aa'
     target = 'bb'
     license = ''
-
-    fmt_type = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
-    fmt_details = u'<i>%s</i> '
-    fmt_translate = u'<b>%s</b>'
-    fmt_note = u' (%s)'
-    fmt_author = u' <small>[%s]</small>'
+    reverse = True
 
     def __init__(self, ascii=False, notags=False):
         self.words = {}
@@ -141,28 +137,23 @@ class StardictWriter(object):
         '''
         Downloads dictionary.
         '''
-        return 'foo:bar'
+        return 'word\ttranslation\ttype\tnote\tauthor'
+
+    def parse_line(self, line):
+        '''
+        Parses single line with word.
+        '''
+        return Word.from_slovnik(line)
 
     def parse(self):
         '''
         Parses dictionary.
         '''
         for line in self.lines:
-            word, translation = line.split(':')
-            self.words[word] = translation
-            self.reverse[translation] = word
-
-    def xmlescape(self, text):
-        '''
-        Escapes special xml entities.
-        '''
-        return text.replace(
-            '&', '&amp;'
-        ).replace(
-            '<', '&lt;'
-        ).replace(
-            '>', '&gt;'
-        )
+            word = self.parse_line(line)
+            self.words[word.word] = word
+            if self.reverse:
+                self.reverse[word.translation] = word.reverse()
 
     def convert(self, text):
         '''
@@ -204,7 +195,7 @@ class StardictWriter(object):
 
             for key in self.getsortedwords(words):
                 # format single entry
-                deftext = self.convert(self.formatentry(wlist[key]))
+                deftext = self.convert(wlist[key].formatentry())
 
                 # write dictionary text
                 entry = deftext.encode('utf-8')
@@ -250,12 +241,13 @@ class StardictWriter(object):
             self.words
         )
         # Write reverse dictionary
-        self.write_words(
-            directory,
-            self.get_filename(False),
-            self.get_name(False),
-            self.reverse
-        )
+        if self.reverse:
+            self.write_words(
+                directory,
+                self.get_filename(False),
+                self.get_name(False),
+                self.reverse
+            )
 
     def get_readme(self):
         '''
