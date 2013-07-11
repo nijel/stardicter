@@ -85,14 +85,14 @@ def main():
         '-s',
         '--source',
         dest='source',
-        default='.',
+        default='',
         help='Source language for multilanguage dictionaries'
     )
     parser.add_argument(
         '-t',
         '--target',
         dest='target',
-        default='.',
+        default='',
         help='Target language for multilanguage dictionaries'
     )
     parser.add_argument(
