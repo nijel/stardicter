@@ -8,7 +8,7 @@ install:
   - pip install --use-mirrors pep8 pyflakes
 script:
   - ./cizislova_tarball.sh
-  - ./czech-german_tarball.sh
+  - ./dicts_info_tarball.sh czech german
   - ./slovnik_de_tarball.sh
   - ./slovnik_tarball.sh
   - python -m unittest discover
