@@ -19,6 +19,7 @@
 #
 
 import codecs
+import unicodedata
 
 
 def deaccent(exc):
