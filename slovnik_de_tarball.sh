@@ -18,6 +18,11 @@
 
 set -e
 
+if [ "x$1" = 'x--wrap' ] ; then
+    WRAP="$2"
+    shift 2
+fi
+
 NAME=stardict-german-czech
 dir="$NAME-`date +%Y%m%d`"
 dira="$dir-ascii"
@@ -27,7 +32,7 @@ dirn="$dir-notags"
 rm -rf $dir
 mkdir $dir
 
-./sdgen.py --all --change --directory $dir "$@" czechgerman
+$WRAP ./sdgen.py --all --change --directory $dir "$@" czechgerman
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir

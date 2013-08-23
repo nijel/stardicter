@@ -23,6 +23,11 @@ if [ -z "$1" -o -z "$2" -o "x$1" = "x-h" -o "x$1" = "x--help" ] ; then
     exit 1
 fi
 
+if [ "x$1" = 'x--wrap' ] ; then
+    WRAP="$2"
+    shift 2
+fi
+
 source="$1"
 target="$2"
 shift
@@ -34,7 +39,7 @@ dir="$NAME-`date +%Y%m%d`"
 rm -rf $dir
 mkdir $dir
 
-./sdgen.py --change --directory $dir "$@" --source $source --target $target dictsinfo
+$WRAP ./sdgen.py --change --directory $dir "$@" --source $source --target $target dictsinfo
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir

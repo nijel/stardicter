@@ -21,10 +21,15 @@ set -e
 NAME=stardict-czech
 dir="$NAME-`date +%Y%m%d`"
 
+if [ "x$1" = 'x--wrap' ] ; then
+    WRAP="$2"
+    shift 2
+fi
+
 rm -rf $dir
 mkdir $dir
 
-./sdgen.py --change --directory $dir "$@" czech
+$WRAP ./sdgen.py --change --directory $dir "$@" czech
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir
