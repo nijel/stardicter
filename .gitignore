@@ -7,3 +7,4 @@
 *.ifo
 slovnik_data_utf8.txt
 stardict-*/
+.coverage
