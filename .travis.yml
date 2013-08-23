@@ -5,7 +5,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install dictzip
 install: 
-  - pip install --use-mirrors pep8 pyflakes
+  - pip install --use-mirrors -r requirements-test.txt
 script:
   - ./cizislova_tarball.sh
   - ./dicts_info_tarball.sh czech german
