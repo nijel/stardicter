@@ -11,6 +11,8 @@ script:
   - ./dicts_info_tarball.sh czech german
   - ./slovnik_de_tarball.sh
   - ./slovnik_tarball.sh
-  - python -m unittest discover
+  - coverage run python -m unittest discover
   - pep8 stardicter sdgen.py
   - pyflakes stardicter sdgen.py
+after_success:
+  - coveralls
