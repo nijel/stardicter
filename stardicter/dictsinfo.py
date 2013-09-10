@@ -72,7 +72,7 @@ class DictsInfoWriter(StardictWriter):
 
         if 'SQL select error' in data:
             raise ValueError(
-                'Failed to fetch data, probably due to invalid language name'
+                'Failed to fetch data, probably due to invalid language name.'
             )
 
         return data
