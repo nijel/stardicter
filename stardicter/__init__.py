@@ -43,17 +43,11 @@ def deaccent(exc):
     result = []
     for current in exc.object[exc.start:exc.end]:
 #        print '"%s" %d' % (current, ord(current))
-        if current == u'\x93':
-            result.append('"')
-            continue
-        elif current == u'\x94':
+        if current in (u'\x93', u'\x94', u'\x84'):
             result.append('"')
             continue
         elif current == u'\x92':
             result.append('\'')
-            continue
-        elif current == u'\x84':
-            result.append('"')
             continue
         name = unicodedata.name(current)
         if name[:18] == 'LATIN SMALL LETTER':
