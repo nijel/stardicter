@@ -19,12 +19,12 @@
 #
 
 import codecs
-import unicodedata
 
 from stardicter.czech import CzechWriter
 from stardicter.czechgerman import CzechGermanWriter
 from stardicter.czechenglish import CzechEnglishWriter
 from stardicter.dictsinfo import DictsInfoWriter
+from stardicter.deaccent import deaccent
 
 DICTIONARIES = {
     'czech': CzechWriter,
@@ -32,46 +32,5 @@ DICTIONARIES = {
     'czechenglish': CzechEnglishWriter,
     'dictsinfo': DictsInfoWriter,
 }
-
-
-def deaccent(exc):
-    '''
-    Removes accents on string conversion errors.
-    '''
-    if not isinstance(exc, UnicodeEncodeError):
-        raise TypeError("don't know how to handle %r" % exc)
-    result = []
-    for current in exc.object[exc.start:exc.end]:
-#        print '"%s" %d' % (current, ord(current))
-        if current in (u'\x93', u'\x94', u'\x84'):
-            result.append('"')
-            continue
-        elif current == u'\x92':
-            result.append('\'')
-            continue
-        name = unicodedata.name(current)
-        if name[:18] == 'LATIN SMALL LETTER':
-            result.append(unicode(name[19].lower()))
-        elif name[:20] == 'LATIN CAPITAL LETTER':
-            result.append(unicode(name[21]))
-        elif name == 'ACUTE ACCENT':
-            result.append('\'')
-        elif name == 'NO-BREAK SPACE':
-            result.append(' ')
-        elif name == 'MULTIPLICATION SIGN':
-            result.append('x')
-        elif name == 'DEGREE SIGN':
-            result.append('<degree>)')
-        elif name == 'SECTION SIGN':
-            # §
-            result.append('<paragraph>')
-        elif name == 'DIVISION SIGN':
-            # ÷
-            result.append('/')
-        else:
-            raise ValueError(
-                'Can not convert to ASCII: %s (%s)' % (current, name)
-            )
-    return (u''.join(result), exc.end)
 
 codecs.register_error('deaccent', deaccent)
