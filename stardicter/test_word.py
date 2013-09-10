@@ -71,3 +71,15 @@ class WordTest(unittest.TestCase):
             'a',
             'a', ''
         )
+
+    def test_no_fixup(self):
+        '''
+        Test for not detected fixup.
+        '''
+        self.assertRaisesRegexp(
+            ValueError,
+            r'Invalid input: \'\\t\\t\\t\\t\\t\\t\\t\\t\'',
+            self.assertParses,
+            '\t\t\t\t\t\t\t\t',
+            '', ''
+        )
