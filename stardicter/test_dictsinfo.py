@@ -33,3 +33,31 @@ class DictsInfoTest(BaseTest):
             source='english',
             target='czech',
         )
+
+    def test_invalid(self):
+        '''
+        Test for invalid code.
+        '''
+        writer = self.writer_class(
+            source='english',
+            target='invalid',
+        )
+        self.assertRaisesRegexp(
+            ValueError,
+            'Failed to fetch data, probably due to invalid language name.',
+            writer.download
+        )
+
+    def test_same(self):
+        '''
+        Test for same languages.
+        '''
+        writer = self.writer_class(
+            source='english',
+            target='english',
+        )
+        self.assertRaisesRegexp(
+            ValueError,
+            'You cannot select two same languages.',
+            writer.download
+        )
