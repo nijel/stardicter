@@ -28,11 +28,17 @@ import stardicter.base
 class BaseTest(unittest.TestCase):
     writer_class = stardicter.base.StardictWriter
 
+    def get_writer(self):
+        '''
+        Gets prepared writer class.
+        '''
+        return self.writer_class()
+
     def test_write(self):
         '''
         Test dictionary writing.
         '''
-        writer = self.writer_class()
+        writer = self.get_writer()
 
         directory = tempfile.mkdtemp(prefix='stardicter-tmp')
 
