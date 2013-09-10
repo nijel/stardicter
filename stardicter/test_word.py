@@ -26,12 +26,13 @@ class WordTest(unittest.TestCase):
     '''
     Word class testsing.
     '''
-    def assertParses(self, line, expected):
+    def assertParses(self, line, expected, translation):
         '''
         Test for word parsing.
         '''
         word = Word.from_slovnik(line)
         self.assertEqual(word.word, expected)
+        self.assertEquals(word.translation, translation)
         return word
 
     def test_parse(self):
@@ -40,9 +41,33 @@ class WordTest(unittest.TestCase):
         '''
         word = self.assertParses(
             'a\tb\ttype\tnote\tauthor',
-            'a'
+            'a', 'b'
         )
-        self.assertEquals(word.translation, 'b')
         self.assertEquals(word.wtype, 'type')
         self.assertEquals(word.note, 'note')
         self.assertEquals(word.author, 'author')
+
+    def test_fixups(self):
+        '''
+        Test for parsing fixups.
+        '''
+        self.assertParses(
+            'a\tc\tb\ttype\tnote\tauthor',
+            'ac', 'b'
+        )
+        self.assertParses(
+            'a\tb\ttype\tnote',
+            'a', 'b'
+        )
+        self.assertParses(
+            'a\tb\ttype',
+            'a', 'b'
+        )
+        self.assertParses(
+            'a\tb',
+            'a', 'b'
+        )
+        self.assertParses(
+            'a',
+            'a', ''
+        )
