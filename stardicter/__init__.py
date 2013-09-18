@@ -26,6 +26,7 @@ from stardicter.czechenglish import CzechEnglishWriter
 from stardicter.dictsinfo import DictsInfoWriter
 from stardicter.deaccent import deaccent
 
+# List of known dictionaries writers
 DICTIONARIES = {
     'czech': CzechWriter,
     'czechgerman': CzechGermanWriter,
@@ -33,4 +34,5 @@ DICTIONARIES = {
     'dictsinfo': DictsInfoWriter,
 }
 
+# Register deaccenting codec
 codecs.register_error('deaccent', deaccent)
