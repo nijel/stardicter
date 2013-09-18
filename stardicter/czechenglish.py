@@ -28,9 +28,9 @@ URL = 'http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
 
 class CzechEnglishWriter(StardictWriter):
     url = 'http://slovnik.zcu.cz/'
-    name = u'GNU/FDL Česko-Anglický slovník'
-    source = 'czech'
-    target = 'english'
+    name = u'GNU/FDL Anglicko-Český slovník'
+    source = 'english'
+    target = 'czech'
     license = 'GNU/FDL license'
 
     def is_data_line(self, line):

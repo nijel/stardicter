@@ -26,9 +26,9 @@ URL = 'http://slovnik.hrach.eu/index.php?id=6&sablona=export&format=zcu'
 
 class CzechGermanWriter(StardictWriter):
     url = 'http://slovnik.hrach.eu/'
-    name = u'GNU/FDL Česko-Německý slovník'
-    source = 'czech'
-    target = 'german'
+    name = u'GNU/FDL Německo-Český slovník'
+    source = 'german'
+    target = 'czech'
     license = 'GNU/FDL license'
 
     def is_data_line(self, line):
