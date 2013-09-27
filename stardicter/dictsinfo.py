@@ -76,3 +76,13 @@ class DictsInfoWriter(StardictWriter):
             )
 
         return data
+
+    def get_name(self, forward=True):
+        '''
+        Returns dictionary name.
+        '''
+        if forward:
+            direction = (self.source, self.target)
+        else:
+            direction = (self.target, self.source)
+        return 'dicts.info: %s-%s' % direction
