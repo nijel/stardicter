@@ -339,7 +339,8 @@ class StardictWriter(object):
         '''
         Writes info file.
         '''
-        with codecs.open('{0}.ifo'.format(basefilename), 'w', 'utf-8') as handle:
+        filename = '{0}.ifo'.format(basefilename)
+        with codecs.open(filename, 'w', 'utf-8') as handle:
             handle.write('StarDict\'s dict ifo file\n')
             handle.write('version=2.4.2\n')
             handle.write(self.convert(u'bookname={0}\n'.format(name)))
