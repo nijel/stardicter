@@ -345,8 +345,8 @@ class StardictWriter(object):
             handle.write(self.convert(u'bookname={0}\n'.format(name)))
             handle.write('wordcount={0}\n'.format(count))
             handle.write('idxfilesize={0}\n'.format(idxsize))
-            handle.write(self.convert('author={0}\n'.format(AUTHOR)))
-            handle.write(self.convert('website={0}\n'.format(URL)))
+            handle.write(self.convert(u'author={0}\n'.format(AUTHOR)))
+            handle.write(self.convert(u'website={0}\n'.format(URL)))
             # we're using pango markup for all entries
             handle.write('sametypesequence=g\n')
             handle.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
@@ -381,7 +381,7 @@ class StardictWriter(object):
         '''
         Generates README text for dictionary.
         '''
-        title = '{0} for StarDict'.format(self.name)
+        title = u'{0} for StarDict'.format(self.name)
         return README_TEXT % {
             'title': title,
             'line': '-' * len(title),
