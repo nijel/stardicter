@@ -373,7 +373,7 @@ class StardictWriter(object):
         # Write reverse dictionary
         if self.bidirectional:
             self.write_words(
-            os.path.join(directory, self.get_filename(False)),
+                os.path.join(directory, self.get_filename(False)),
                 self.get_name(False),
                 self.reverse
             )
