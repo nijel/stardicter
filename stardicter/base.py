@@ -297,7 +297,7 @@ class StardictWriter(object):
         tuples.sort()
         return [item[1] for item in tuples]
 
-    def write_words(self, directory, filename, name, words):
+    def write_words(self, basefilename, name, words):
         '''
         Writes word list to dictionary files.
         '''
@@ -307,7 +307,6 @@ class StardictWriter(object):
         idxsize = 0
 
         # File names
-        basefilename = os.path.join(directory, filename)
         dictn = '{0}.dict'.format(basefilename)
         idxn = '{0}.idx'.format(basefilename)
 
@@ -365,16 +364,14 @@ class StardictWriter(object):
                 )
         # Write forward dictioanry
         self.write_words(
-            directory,
-            self.get_filename(True),
+            os.path.join(directory, self.get_filename(True)),
             self.get_name(True),
             self.words
         )
         # Write reverse dictionary
         if self.bidirectional:
             self.write_words(
-                directory,
-                self.get_filename(False),
+            os.path.join(directory, self.get_filename(False)),
                 self.get_name(False),
                 self.reverse
             )
