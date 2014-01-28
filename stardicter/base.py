@@ -24,6 +24,7 @@ import datetime
 import re
 import json
 import struct
+import codecs
 from stardicter.word import Word
 from operator import attrgetter
 
@@ -338,14 +339,14 @@ class StardictWriter(object):
         '''
         Writes info file.
         '''
-        with open('{0}.ifo'.format(basefilename), 'w') as handle:
+        with codecs.open('{0}.ifo'.format(basefilename), 'w', 'utf-8') as handle:
             handle.write('StarDict\'s dict ifo file\n')
             handle.write('version=2.4.2\n')
-            handle.write(self.convert(u'bookname={0}\n'.format(name)).encode('utf-8'))
+            handle.write(self.convert(u'bookname={0}\n'.format(name)))
             handle.write('wordcount={0}\n'.format(count))
             handle.write('idxfilesize={0}\n'.format(idxsize))
-            handle.write(self.convert('author={0}\n'.format(AUTHOR)).encode('utf-8'))
-            handle.write(self.convert('website={0}\n'.format(URL)).encode('utf-8'))
+            handle.write(self.convert('author={0}\n'.format(AUTHOR)))
+            handle.write(self.convert('website={0}\n'.format(URL)))
             # we're using pango markup for all entries
             handle.write('sametypesequence=g\n')
             handle.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
