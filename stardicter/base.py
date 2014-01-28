@@ -310,7 +310,6 @@ class StardictWriter(object):
         basefilename = os.path.join(directory, filename)
         dictn = '%s.dict' % basefilename
         idxn = '%s.idx' % basefilename
-        ifon = '%s.ifo' % basefilename
 
         # Write dictionary and index
         with open(dictn, 'w') as dictf, open(idxn, 'w') as idxf:
@@ -334,18 +333,23 @@ class StardictWriter(object):
             # index size is needed in ifo
             idxsize = idxf.tell()
 
-        # Write info file
-        with open(ifon, 'w') as ifof:
-            ifof.write('StarDict\'s dict ifo file\n')
-            ifof.write('version=2.4.2\n')
-            ifof.write(self.convert(u'bookname=%s\n' % name).encode('utf-8'))
-            ifof.write('wordcount=%d\n' % count)
-            ifof.write('idxfilesize=%d\n' % idxsize)
-            ifof.write(self.convert('author=%s\n' % AUTHOR).encode('utf-8'))
-            ifof.write(self.convert('website=%s\n' % URL).encode('utf-8'))
+        self._write_ifo(name, basefilename, count, idxsize)
+
+    def _write_ifo(self, name, basefilename, count, idxsize):
+        '''
+        Writes info file.
+        '''
+        with open('{0}.ifo'.format(basefilename), 'w') as handle:
+            handle.write('StarDict\'s dict ifo file\n')
+            handle.write('version=2.4.2\n')
+            handle.write(self.convert(u'bookname=%s\n' % name).encode('utf-8'))
+            handle.write('wordcount=%d\n' % count)
+            handle.write('idxfilesize=%d\n' % idxsize)
+            handle.write(self.convert('author=%s\n' % AUTHOR).encode('utf-8'))
+            handle.write(self.convert('website=%s\n' % URL).encode('utf-8'))
             # we're using pango markup for all entries
-            ifof.write('sametypesequence=g\n')
-            ifof.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
+            handle.write('sametypesequence=g\n')
+            handle.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
 
     def write_dict(self, directory):
         '''
