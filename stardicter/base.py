@@ -54,7 +54,7 @@ STRIPTAGS = re.compile(r"<.*?>", re.DOTALL)
 CONFIGFILE = os.path.expanduser('~/.stardicter')
 
 # type of word (used as title)
-FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
+FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">{0}</span>\n'
 
 AUTHOR = u'Stardicter'
 URL = 'https://cihar.com/software/slovnik/'
@@ -117,9 +117,9 @@ class StardictWriter(object):
         Returns filename for dictionary.
         '''
         if forward:
-            name = '%s-%s' % (self.source, self.target)
+            name = '{0}-{1}'.format(self.source, self.target)
         else:
-            name = '%s-%s' % (self.target, self.source)
+            name = '{0}-{1}'.format(self.target, self.source)
 
         suffix = ''
         if self.ascii:
@@ -127,7 +127,7 @@ class StardictWriter(object):
         if self.notags:
             suffix += '-notags'
 
-        return '%s%s%s' % (self.prefix, name, suffix)
+        return '{0}{1}{2}'.format(self.prefix, name, suffix)
 
     def get_name(self, forward=True):
         '''
@@ -282,7 +282,7 @@ class StardictWriter(object):
                 if typ == '':
                     result += '\n'
                 else:
-                    result += FMT_TYPE % typ
+                    result += FMT_TYPE.format(typ)
                 for word in typed[typ]:
                     result += '    '
                     result += word.format()
@@ -308,8 +308,8 @@ class StardictWriter(object):
 
         # File names
         basefilename = os.path.join(directory, filename)
-        dictn = '%s.dict' % basefilename
-        idxn = '%s.idx' % basefilename
+        dictn = '{0}.dict'.format(basefilename)
+        idxn = '{0}.idx'.format(basefilename)
 
         # Write dictionary and index
         with open(dictn, 'w') as dictf, open(idxn, 'w') as idxf:
@@ -342,11 +342,11 @@ class StardictWriter(object):
         with open('{0}.ifo'.format(basefilename), 'w') as handle:
             handle.write('StarDict\'s dict ifo file\n')
             handle.write('version=2.4.2\n')
-            handle.write(self.convert(u'bookname=%s\n' % name).encode('utf-8'))
-            handle.write('wordcount=%d\n' % count)
-            handle.write('idxfilesize=%d\n' % idxsize)
-            handle.write(self.convert('author=%s\n' % AUTHOR).encode('utf-8'))
-            handle.write(self.convert('website=%s\n' % URL).encode('utf-8'))
+            handle.write(self.convert(u'bookname={0}\n'.format(name)).encode('utf-8'))
+            handle.write('wordcount={0}\n'.format(count))
+            handle.write('idxfilesize={0}\n'.format(idxsize))
+            handle.write(self.convert('author={0}\n'.format(AUTHOR)).encode('utf-8'))
+            handle.write(self.convert('website={0}\n'.format(URL)).encode('utf-8'))
             # we're using pango markup for all entries
             handle.write('sametypesequence=g\n')
             handle.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
@@ -383,7 +383,7 @@ class StardictWriter(object):
         '''
         Generates README text for dictionary.
         '''
-        title = '%s for StarDict' % self.name
+        title = '{0} for StarDict'.format(self.name)
         return README_TEXT % {
             'title': title,
             'line': '-' * len(title),
@@ -396,7 +396,7 @@ class StardictWriter(object):
         '''
         Key used to store MD5 in config.
         '''
-        return 'md5-%s%s' % (self.keyprefix, self.get_filename())
+        return 'md5-{0}{1}'.format(self.keyprefix, self.get_filename())
 
     def load_config(self):
         '''
