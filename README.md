@@ -33,6 +33,7 @@ Build status
 
 [![Build Status](https://travis-ci.org/nijel/stardicter.png?branch=master)](https://travis-ci.org/nijel/stardicter)
 [![Coverage Status](https://coveralls.io/repos/nijel/stardicter/badge.png?branch=master)](https://coveralls.io/r/nijel/stardicter?branch=master)
+[![Code Health](https://landscape.io/github/nijel/stardicter/master/landscape.png)](https://landscape.io/github/nijel/stardicter/master)
 
 License
 =======
