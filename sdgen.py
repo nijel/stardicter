@@ -18,6 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""
+Main executer for stardict convertor
+"""
 
 from __future__ import unicode_literals
 from __future__ import print_function
