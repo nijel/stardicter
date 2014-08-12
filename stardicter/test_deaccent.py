@@ -26,11 +26,11 @@ class DeaccentTest(unittest.TestCase):
     def test_deaccent(self):
         self.assertEqual(
             'zkouška'.encode('ascii', 'deaccent'),
-            'zkouska'
+            b'zkouska'
         )
 
     def test_quotes(self):
         self.assertEqual(
             '\x93\x94\x84\x92'.encode('ascii', 'deaccent'),
-            '"""\''
+            b'"""\''
         )
