@@ -28,6 +28,9 @@ import struct
 import codecs
 from stardicter.word import Word
 from operator import attrgetter
+from six.moves.urllib.request import urlopen
+import gzip
+from six import BytesIO
 
 
 README_TEXT = r'''{title}
@@ -73,6 +76,9 @@ class StardictWriter(object):
     target = 'bb'
     license = ''
     bidirectional = True
+    download_url = None
+    download_charset = 'utf-8'
+    download_gzip = False
 
     def __init__(self, ascii=False, notags=False, keyprefix='',
                  source='', target=''):
@@ -170,7 +176,14 @@ class StardictWriter(object):
         '''
         Downloads dictionary.
         '''
-        return 'word\ttranslation\ttype\tnote\tauthor'
+        if self.download_url is None:
+            return 'word\ttranslation\ttype\tnote\tauthor'
+        handle = urlopen(self.download_url)
+        if self.download_gzip:
+            stringio = BytesIO(handle.read())
+            handle.close()
+            handle = gzip.GzipFile(fileobj=stringio)
+        return handle.read().decode(self.download_charset)
 
     def parse_line(self, line):
         '''

@@ -33,14 +33,9 @@ class CzechWriter(StardictWriter):
     target = 'cizi'
     license = 'CC-BY-3.0'
     bidirectional = False
+    download_url = URL
+    download_charset = 'iso-8859-2'
 
     def parse_line(self, line):
         word, pronunciation, explanation = line.split('|')
         return [Word(word, explanation, pronunciation=pronunciation)]
-
-    def download(self):
-        '''
-        Downloads dictionary data.
-        '''
-        handle = urlopen(URL)
-        return handle.read().decode('iso-8859-2')

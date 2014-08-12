@@ -31,6 +31,7 @@ class CzechGermanWriter(StardictWriter):
     source = 'german'
     target = 'czech'
     license = 'GFDL-1.1'
+    download_url = URL
 
     def is_data_line(self, line):
         '''
@@ -40,13 +41,6 @@ class CzechGermanWriter(StardictWriter):
 
     def is_header_line(self, line):
         return line[0] == '#'
-
-    def download(self):
-        '''
-        Downloads dictionary data.
-        '''
-        handle = urlopen(URL)
-        return handle.read().decode('utf-8')
 
     def get_name(self, forward=True):
         if forward:

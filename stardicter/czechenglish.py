@@ -33,6 +33,8 @@ class CzechEnglishWriter(StardictWriter):
     source = 'english'
     target = 'czech'
     license = 'GFDL-1.1'
+    download_url = URL
+    download_gzip = True
 
     def is_data_line(self, line):
         '''
@@ -42,15 +44,6 @@ class CzechEnglishWriter(StardictWriter):
 
     def is_header_line(self, line):
         return line[0] == '#'
-
-    def download(self):
-        '''
-        Downloads dictionary data.
-        '''
-        handle = urlopen(URL)
-        stringio = BytesIO(handle.read())
-        gzhandle = gzip.GzipFile(fileobj=stringio)
-        return gzhandle.read().decode('utf-8')
 
     def get_name(self, forward=True):
         if forward:
