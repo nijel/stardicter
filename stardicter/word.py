@@ -20,12 +20,12 @@
 
 from stardicter.utils import reformat, xmlescape
 
-FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">%s</span>\n'
-FMT_DETAILS = u'<i>%s</i> '
-FMT_TRANSLATE = u'<b>%s</b>'
-FMT_NOTE = u' (%s)'
-FMT_AUTHOR = u' <small>[%s]</small>'
-FMT_PRONUNCIATION = '[<i>%s</i>]\n\n'
+FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">{0}</span>\n'
+FMT_DETAILS = u'<i>{0}</i> '
+FMT_TRANSLATE = u'<b>{0}</b>'
+FMT_NOTE = u' ({0})'
+FMT_AUTHOR = u' <small>[{0}]</small>'
+FMT_PRONUNCIATION = '[<i>{0}</i>]\n\n'
 
 
 class Word(object):
@@ -86,7 +86,7 @@ class Word(object):
             word, translation, wtype, note = parts
             author = ''
         else:
-            raise ValueError('Invalid input: %s' % repr(line))
+            raise ValueError('Invalid input: {0!r}'.format(line))
 
         return Word(
             word=reformat(word),
@@ -102,13 +102,13 @@ class Word(object):
         '''
         result = ''
         if self.pronunciation != '':
-            result += FMT_PRONUNCIATION % xmlescape(self.pronunciation)
+            result += FMT_PRONUNCIATION.format(xmlescape(self.pronunciation))
         if self.wtype != '':
-            result += FMT_DETAILS % xmlescape(self.wtype)
-        result += FMT_TRANSLATE % xmlescape(self.translation)
+            result += FMT_DETAILS.format(xmlescape(self.wtype))
+        result += FMT_TRANSLATE.format(xmlescape(self.translation))
         if self.note != '':
-            result += FMT_NOTE % xmlescape(self.note)
+            result += FMT_NOTE.format(xmlescape(self.note))
         if self.author != '':
-            result += FMT_AUTHOR % xmlescape(self.author)
+            result += FMT_AUTHOR.format(xmlescape(self.author))
         result += '\n'
         return result

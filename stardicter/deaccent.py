@@ -26,10 +26,10 @@ def deaccent(exc):
     Removes accents on string conversion errors.
     '''
     if not isinstance(exc, UnicodeEncodeError):
-        raise TypeError("don't know how to handle %r" % exc)
+        raise TypeError("don't know how to handle {0}".format(exc))
     result = []
     for current in exc.object[exc.start:exc.end]:
-        #  print '"%s" %d' % (current, ord(current))
+        #  print '"{0}" {1}'.format(current, ord(current))
         if current in (u'\x93', u'\x94', u'\x84'):
             result.append('"')
             continue
@@ -57,6 +57,6 @@ def deaccent(exc):
             result.append('/')
         else:
             raise ValueError(
-                'Can not convert to ASCII: %s (%s)' % (current, name)
+                'Can not convert to ASCII: {0} ({1})'.format(current, name)
             )
     return (u''.join(result), exc.end)

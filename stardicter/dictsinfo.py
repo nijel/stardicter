@@ -22,7 +22,7 @@ from stardicter.base import StardictWriter
 from stardicter.word import Word
 import urllib2
 
-BASEURL = 'http://www.dicts.info/uddl.php?l1=%s&l2=%s&format=text'
+BASEURL = 'http://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
 
 
 class DictsInfoWriter(StardictWriter):
@@ -62,7 +62,7 @@ class DictsInfoWriter(StardictWriter):
         Downloads dictionary data.
         '''
         handle = urllib2.urlopen(
-            BASEURL % (self.source, self.target),
+            BASEURL.format(self.source, self.target),
             'ok=selected'
         )
         data = handle.read().decode('utf-8')
@@ -85,4 +85,4 @@ class DictsInfoWriter(StardictWriter):
             direction = (self.source, self.target)
         else:
             direction = (self.target, self.source)
-        return 'dicts.info: %s-%s' % direction
+        return 'dicts.info: {0}-{1}'.format(*direction)
