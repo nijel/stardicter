@@ -102,7 +102,9 @@ class Word(object):
         '''
         result = []
         if self.pronunciation != '':
-            result.append(FMT_PRONUNCIATION.format(xmlescape(self.pronunciation)))
+            result.append(
+                FMT_PRONUNCIATION.format(xmlescape(self.pronunciation))
+            )
         if self.wtype != '':
             result.append(FMT_DETAILS.format(xmlescape(self.wtype)))
         result.append(FMT_TRANSLATE.format(xmlescape(self.translation)))
