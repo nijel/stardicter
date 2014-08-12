@@ -67,7 +67,7 @@ class DictsInfoWriter(StardictWriter):
         '''
         handle = urlopen(
             BASEURL.format(self.source, self.target),
-            'ok=selected'
+            'ok=selected'.encode('utf-8')
         )
         data = handle.read().decode('utf-8')
 
