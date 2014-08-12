@@ -22,7 +22,10 @@ from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 import urllib
 import gzip
-import cStringIO
+try:
+    from io import BytesIO
+except ImportError:
+    from cStringIO import StringIO as BytesIO
 
 URL = 'http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
 
@@ -48,7 +51,7 @@ class CzechEnglishWriter(StardictWriter):
         Downloads dictionary data.
         '''
         handle = urllib.urlopen(URL)
-        stringio = cStringIO.StringIO(handle.read())
+        stringio = BytesIO(handle.read())
         gzhandle = gzip.GzipFile(fileobj=stringio)
         return gzhandle.read().decode('utf-8')
 
