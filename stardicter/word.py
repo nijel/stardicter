@@ -100,15 +100,15 @@ class Word(object):
         '''
         Returns formatted dictionary entry.
         '''
-        result = ''
+        result = []
         if self.pronunciation != '':
-            result += FMT_PRONUNCIATION.format(xmlescape(self.pronunciation))
+            result.append(FMT_PRONUNCIATION.format(xmlescape(self.pronunciation)))
         if self.wtype != '':
-            result += FMT_DETAILS.format(xmlescape(self.wtype))
-        result += FMT_TRANSLATE.format(xmlescape(self.translation))
+            result.append(FMT_DETAILS.format(xmlescape(self.wtype)))
+        result.append(FMT_TRANSLATE.format(xmlescape(self.translation)))
         if self.note != '':
-            result += FMT_NOTE.format(xmlescape(self.note))
+            result.append(FMT_NOTE.format(xmlescape(self.note)))
         if self.author != '':
-            result += FMT_AUTHOR.format(xmlescape(self.author))
-        result += '\n'
-        return result
+            result.append(FMT_AUTHOR.format(xmlescape(self.author)))
+        result.append('\n')
+        return ''.join(result)
