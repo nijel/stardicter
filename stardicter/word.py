@@ -18,14 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from stardicter.utils import reformat, xmlescape
 
-FMT_TYPE = u'<span size="larger" color="darkred" weight="bold">{0}</span>\n'
-FMT_DETAILS = u'<i>{0}</i> '
-FMT_TRANSLATE = u'<b>{0}</b>'
-FMT_NOTE = u' ({0})'
-FMT_AUTHOR = u' <small>[{0}]</small>'
-FMT_PRONUNCIATION = u'[<i>{0}</i>]\n\n'
+FMT_TYPE = '<span size="larger" color="darkred" weight="bold">{0}</span>\n'
+FMT_DETAILS = '<i>{0}</i> '
+FMT_TRANSLATE = '<b>{0}</b>'
+FMT_NOTE = ' ({0})'
+FMT_AUTHOR = ' <small>[{0}]</small>'
+FMT_PRONUNCIATION = '[<i>{0}</i>]\n\n'
 
 
 class Word(object):

@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 import urllib
 import gzip
@@ -28,7 +29,7 @@ URL = 'http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
 
 class CzechEnglishWriter(StardictWriter):
     url = 'http://slovnik.zcu.cz/'
-    name = u'GNU/FDL Anglicko-Český slovník'
+    name = 'GNU/FDL Anglicko-Český slovník'
     source = 'english'
     target = 'czech'
     license = 'GFDL-1.1'
@@ -53,6 +54,6 @@ class CzechEnglishWriter(StardictWriter):
 
     def get_name(self, forward=True):
         if forward:
-            return u'GNU/FDL Anglicko-Český slovník'
+            return 'GNU/FDL Anglicko-Český slovník'
         else:
-            return u'GNU/FDL Česko-Anglický slovník'
+            return 'GNU/FDL Česko-Anglický slovník'

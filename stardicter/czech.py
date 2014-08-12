@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
 import urllib
@@ -27,7 +28,7 @@ URL = 'http://slovnik-cizich-slov.abz.cz/export.php'
 
 class CzechWriter(StardictWriter):
     url = 'http://slovnik-cizich-slov.abz.cz/'
-    name = u'Slovník cizích slov'
+    name = 'Slovník cizích slov'
     source = 'czech'
     target = 'cizi'
     license = 'CC-BY-3.0'

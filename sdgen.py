@@ -18,6 +18,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from __future__ import unicode_literals
 from argparse import ArgumentParser
 import sys
 import stardicter
@@ -109,7 +111,7 @@ def main():
     if options.list:
         for name in stardicter.DICTIONARIES:
             obj = stardicter.DICTIONARIES[name]
-            print u'{0}: {1} <{2}>'.format(
+            print '{0}: {1} <{2}>'.format(
                 name, obj.name, obj.url
             )
         return

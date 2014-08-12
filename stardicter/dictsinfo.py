@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
 import urllib2
@@ -27,7 +28,7 @@ BASEURL = 'http://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
 
 class DictsInfoWriter(StardictWriter):
     url = 'http://www.dicts.info/'
-    name = u'dicts.info'
+    name = 'dicts.info'
     license = 'non redistributable license'
 
     def is_header_line(self, line):

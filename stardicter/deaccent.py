@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 import unicodedata
 
 
@@ -30,10 +31,10 @@ def deaccent(exc):
     result = []
     for current in exc.object[exc.start:exc.end]:
         #  print '"{0}" {1}'.format(current, ord(current))
-        if current in (u'\x93', u'\x94', u'\x84'):
+        if current in ('\x93', '\x94', '\x84'):
             result.append('"')
             continue
-        elif current == u'\x92':
+        elif current == '\x92':
             result.append('\'')
             continue
         name = unicodedata.name(current)
@@ -59,4 +60,4 @@ def deaccent(exc):
             raise ValueError(
                 'Can not convert to ASCII: {0} ({1})'.format(current, name)
             )
-    return (u''.join(result), exc.end)
+    return (''.join(result), exc.end)
