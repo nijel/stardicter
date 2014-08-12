@@ -31,7 +31,7 @@ class CzechEnglishWriter(StardictWriter):
     name = u'GNU/FDL Anglicko-Český slovník'
     source = 'english'
     target = 'czech'
-    license = 'GNU/FDL license'
+    license = 'GFDL-1.1'
 
     def is_data_line(self, line):
         '''

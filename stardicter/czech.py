@@ -30,7 +30,7 @@ class CzechWriter(StardictWriter):
     name = u'Slovník cizích slov'
     source = 'czech'
     target = 'cizi'
-    license = 'GNU GPL license'
+    license = 'CC-BY-3.0'
     bidirectional = False
 
     def parse_line(self, line):

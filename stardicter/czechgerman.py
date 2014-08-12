@@ -29,7 +29,7 @@ class CzechGermanWriter(StardictWriter):
     name = u'GNU/FDL Německo-Český slovník'
     source = 'german'
     target = 'czech'
-    license = 'GNU/FDL license'
+    license = 'GFDL-1.1'
 
     def is_data_line(self, line):
         '''
