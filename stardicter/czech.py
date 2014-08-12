@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
-from six.moves.urllib.request import urlopen
 
 URL = 'http://slovnik-cizich-slov.abz.cz/export.php'
 
