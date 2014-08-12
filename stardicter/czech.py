@@ -21,7 +21,10 @@
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
-import urllib
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 
 URL = 'http://slovnik-cizich-slov.abz.cz/export.php'
 
@@ -42,5 +45,5 @@ class CzechWriter(StardictWriter):
         '''
         Downloads dictionary data.
         '''
-        handle = urllib.urlopen(URL)
+        handle = urlopen(URL)
         return handle.read().decode('iso-8859-2')

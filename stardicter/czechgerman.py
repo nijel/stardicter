@@ -20,7 +20,10 @@
 
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
-import urllib
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 
 URL = 'http://slovnik.hrach.eu/index.php?id=6&sablona=export&format=zcu'
 
@@ -45,7 +48,7 @@ class CzechGermanWriter(StardictWriter):
         '''
         Downloads dictionary data.
         '''
-        handle = urllib.urlopen(URL)
+        handle = urlopen(URL)
         return handle.read().decode('utf-8')
 
     def get_name(self, forward=True):

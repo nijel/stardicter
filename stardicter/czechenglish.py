@@ -20,7 +20,10 @@
 
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
-import urllib
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 import gzip
 try:
     from io import BytesIO
@@ -50,7 +53,7 @@ class CzechEnglishWriter(StardictWriter):
         '''
         Downloads dictionary data.
         '''
-        handle = urllib.urlopen(URL)
+        handle = urlopen(URL)
         stringio = BytesIO(handle.read())
         gzhandle = gzip.GzipFile(fileobj=stringio)
         return gzhandle.read().decode('utf-8')
