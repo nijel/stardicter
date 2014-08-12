@@ -21,3 +21,6 @@ script:
   - pyflakes stardicter sdgen.py
 after_success:
   - coveralls
+matrix:
+  allow_failures:
+    - python: "pypy"
