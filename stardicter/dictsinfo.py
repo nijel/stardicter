@@ -85,8 +85,8 @@ class DictsInfoWriter(StardictWriter):
         '''
         Returns dictionary name.
         '''
+        template = 'dicts.info: {0}-{1}'
         if forward:
-            direction = (self.source, self.target)
+            return template.format(self.source, self.target)
         else:
-            direction = (self.target, self.source)
-        return 'dicts.info: {0}-{1}'.format(*direction)
+            return template.format(self.target, self.source)
