@@ -222,17 +222,20 @@ class StardictWriter(object):
         for word in self.reverse:
             self.reverse[word].sort(key=attrgetter('translation'))
 
-    def convert(self, text):
+    def convert(self, text, convert=True):
         '''
         Converts text to match wanted format.
         '''
-        if self.ascii:
-            text = text.encode('ascii', 'deaccent')
-
         if self.notags:
             text = STRIPTAGS.sub('', text)
 
-        return text
+        if not convert:
+            return text
+
+        if self.ascii:
+            return text.encode('ascii', 'deaccent')
+
+        return text.encode('utf-8')
 
     def formatentry(self, words):
         '''
@@ -316,14 +319,14 @@ class StardictWriter(object):
         with open(dictn, 'wb') as dictf, open(idxn, 'wb') as idxf:
             for key in self.getsortedwords(words):
                 # format single entry
-                deftext = self.convert(self.formatentry(words[key]))
+                entry = self.convert(self.formatentry(words[key]))
 
                 # write dictionary text
-                entry = deftext.encode('utf-8')
                 dictf.write(entry)
 
                 # write index entry
-                idxf.write('{0}\0'.format(self.convert(key)).encode('utf-8'))
+                idxf.write(self.convert(key))
+                idxf.write(b'\0')
                 idxf.write(struct.pack(b'!I', offset))
                 idxf.write(struct.pack(b'!I', len(entry)))
 
@@ -341,14 +344,14 @@ class StardictWriter(object):
         Writes info file.
         '''
         filename = '{0}.ifo'.format(basefilename)
-        with codecs.open(filename, 'wb', 'utf-8') as handle:
+        with codecs.open(filename, 'w', 'utf-8') as handle:
             handle.write('StarDict\'s dict ifo file\n')
             handle.write('version=2.4.2\n')
-            handle.write(self.convert('bookname={0}\n'.format(name)))
+            handle.write(self.convert('bookname={0}\n'.format(name), False))
             handle.write('wordcount={0}\n'.format(count))
             handle.write('idxfilesize={0}\n'.format(idxsize))
-            handle.write(self.convert('author={0}\n'.format(AUTHOR)))
-            handle.write(self.convert('website={0}\n'.format(URL)))
+            handle.write(self.convert('author={0}\n'.format(AUTHOR), False))
+            handle.write(self.convert('website={0}\n'.format(URL), False))
             # we're using pango markup for all entries
             handle.write('sametypesequence=g\n')
             handle.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
