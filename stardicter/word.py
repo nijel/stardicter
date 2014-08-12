@@ -25,7 +25,7 @@ FMT_DETAILS = u'<i>{0}</i> '
 FMT_TRANSLATE = u'<b>{0}</b>'
 FMT_NOTE = u' ({0})'
 FMT_AUTHOR = u' <small>[{0}]</small>'
-FMT_PRONUNCIATION = '[<i>{0}</i>]\n\n'
+FMT_PRONUNCIATION = u'[<i>{0}</i>]\n\n'
 
 
 class Word(object):
