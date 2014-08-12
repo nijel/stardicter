@@ -29,7 +29,7 @@ def deaccent(exc):
         raise TypeError("don't know how to handle %r" % exc)
     result = []
     for current in exc.object[exc.start:exc.end]:
-#        print '"%s" %d' % (current, ord(current))
+        #  print '"%s" %d' % (current, ord(current))
         if current in (u'\x93', u'\x94', u'\x84'):
             result.append('"')
             continue
