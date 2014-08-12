@@ -17,6 +17,7 @@ script:
   - ./slovnik_de_tarball.sh --wrap 'coverage run --append'
   - ./slovnik_tarball.sh --wrap 'coverage run --append'
   - pep8 stardicter sdgen.py
+  - pylint --reports=n stardicter sdgen.py || true
   - pyflakes stardicter sdgen.py
 after_success:
   - coveralls
