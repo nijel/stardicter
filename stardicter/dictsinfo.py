@@ -21,7 +21,10 @@
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
-import urllib2
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
 
 BASEURL = 'http://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
 
@@ -62,7 +65,7 @@ class DictsInfoWriter(StardictWriter):
         '''
         Downloads dictionary data.
         '''
-        handle = urllib2.urlopen(
+        handle = urlopen(
             BASEURL.format(self.source, self.target),
             'ok=selected'
         )
