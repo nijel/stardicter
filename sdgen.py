@@ -111,8 +111,10 @@ def main():
     if options.list:
         for name in stardicter.DICTIONARIES:
             obj = stardicter.DICTIONARIES[name]
-            print '{0}: {1} <{2}>'.format(
-                name, obj.name, obj.url
+            print(
+                '{0}: {1} <{2}>'.format(
+                    name, obj.name, obj.url
+                )
             )
         return
 

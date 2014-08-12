@@ -30,7 +30,7 @@ def deaccent(exc):
         raise TypeError("don't know how to handle {0}".format(exc))
     result = []
     for current in exc.object[exc.start:exc.end]:
-        #  print '"{0}" {1}'.format(current, ord(current))
+        #  print('"{0}" {1}'.format(current, ord(current)))
         if current in ('\x93', '\x94', '\x84'):
             result.append('"')
             continue
