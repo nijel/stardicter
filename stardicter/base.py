@@ -154,7 +154,7 @@ class StardictWriter(object):
         '''
         Checks whether line is header.
         '''
-        return False
+        return line[0] == '#'
 
     def add_description(self, line):
         '''

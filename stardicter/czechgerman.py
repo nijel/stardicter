@@ -38,9 +38,6 @@ class CzechGermanWriter(StardictWriter):
         '''
         return not line.startswith('# File generated')
 
-    def is_header_line(self, line):
-        return line[0] == '#'
-
     def get_name(self, forward=True):
         if forward:
             return 'GNU/FDL Německo-Český slovník'

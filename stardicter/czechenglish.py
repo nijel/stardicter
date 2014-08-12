@@ -39,9 +39,6 @@ class CzechEnglishWriter(StardictWriter):
         '''
         return not line.startswith('#      Date:')
 
-    def is_header_line(self, line):
-        return line[0] == '#'
-
     def get_name(self, forward=True):
         if forward:
             return 'GNU/FDL Anglicko-Český slovník'
