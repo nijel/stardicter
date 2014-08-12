@@ -11,7 +11,7 @@ before_install:
 install: 
   - pip install -r requirements-test.txt
 script:
-  - coverage run -m unittest discover
+  - py.test --cov=tidy
   - ./cizislova_tarball.sh --wrap 'coverage run --append'
   - ./dicts_info_tarball.sh --wrap 'coverage run --append' czech german
   - ./slovnik_de_tarball.sh --wrap 'coverage run --append'
