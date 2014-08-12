@@ -324,8 +324,8 @@ class StardictWriter(object):
 
                 # write index entry
                 idxf.write('{0}\0'.format(self.convert(key)).encode('utf-8'))
-                idxf.write(struct.pack('!I', offset))
-                idxf.write(struct.pack('!I', len(entry)))
+                idxf.write(struct.pack(b'!I', offset))
+                idxf.write(struct.pack(b'!I', len(entry)))
 
                 # calculate offset for next index entry
                 offset += len(entry)
