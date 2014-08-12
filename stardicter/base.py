@@ -202,14 +202,14 @@ class StardictWriter(object):
 
                 # Store word
                 if len(word.word) < 256:
-                    if not word.word in self.words:
+                    if word.word not in self.words:
                         self.words[word.word] = []
 
                     self.words[word.word].append(word)
 
                 # Other direction
                 if self.bidirectional and len(word.translation) < 256:
-                    if not word.translation in self.reverse:
+                    if word.translation not in self.reverse:
                         self.reverse[word.translation] = []
                     self.reverse[word.translation].append(word.reverse())
 
