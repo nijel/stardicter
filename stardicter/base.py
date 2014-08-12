@@ -418,7 +418,7 @@ class StardictWriter(object):
         '''
         config = self.load_config()
         config.update(changes)
-        with open(CONFIGFILE, 'wb') as handle:
+        with codecs.open(CONFIGFILE, 'wb', 'utf-8') as handle:
             json.dump(config, handle, indent=2)
 
     def was_changed(self):
