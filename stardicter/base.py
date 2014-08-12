@@ -313,7 +313,7 @@ class StardictWriter(object):
         idxn = '{0}.idx'.format(basefilename)
 
         # Write dictionary and index
-        with open(dictn, 'w') as dictf, open(idxn, 'w') as idxf:
+        with open(dictn, 'wb') as dictf, open(idxn, 'wb') as idxf:
             for key in self.getsortedwords(words):
                 # format single entry
                 deftext = self.convert(self.formatentry(words[key]))
@@ -341,7 +341,7 @@ class StardictWriter(object):
         Writes info file.
         '''
         filename = '{0}.ifo'.format(basefilename)
-        with codecs.open(filename, 'w', 'utf-8') as handle:
+        with codecs.open(filename, 'wb', 'utf-8') as handle:
             handle.write('StarDict\'s dict ifo file\n')
             handle.write('version=2.4.2\n')
             handle.write(self.convert('bookname={0}\n'.format(name)))
@@ -358,7 +358,7 @@ class StardictWriter(object):
         Writes dictionary into directory.
         '''
         # Write readme
-        with open(os.path.join(directory, 'README'), 'w') as readme:
+        with open(os.path.join(directory, 'README'), 'wb') as readme:
             readme.write(self.get_readme().encode('utf-8'))
             if self.description:
                 readme.write(
@@ -415,7 +415,7 @@ class StardictWriter(object):
         '''
         config = self.load_config()
         config.update(changes)
-        with open(CONFIGFILE, 'w') as handle:
+        with open(CONFIGFILE, 'wb') as handle:
             json.dump(config, handle, indent=2)
 
     def was_changed(self):

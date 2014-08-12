@@ -39,9 +39,9 @@ def deaccent(exc):
             continue
         name = unicodedata.name(current)
         if name[:18] == 'LATIN SMALL LETTER':
-            result.append(unicode(name[19].lower()))
+            result.append(name[19].lower())
         elif name[:20] == 'LATIN CAPITAL LETTER':
-            result.append(unicode(name[21]))
+            result.append(name[21])
         elif name == 'ACUTE ACCENT':
             result.append('\'')
         elif name == 'NO-BREAK SPACE':
