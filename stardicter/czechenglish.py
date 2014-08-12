@@ -20,15 +20,9 @@
 
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+from six.moves.urllib.request import urlopen
 import gzip
-try:
-    from io import BytesIO
-except ImportError:
-    from cStringIO import StringIO as BytesIO
+from six import BytesIO
 
 URL = 'http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
 

@@ -21,10 +21,7 @@
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
-try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
+from six.moves.urllib.request import urlopen
 
 BASEURL = 'http://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
 
