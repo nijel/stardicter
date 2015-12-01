@@ -27,6 +27,17 @@ dictionaries. Check it's help for more information.
 Additionally there are some helper script which directly generate tarballs with
 dictionary.
 
+Generating dictionary from dicts.info
+=====================================
+
+The http://dicts.info/ server provides downloadable dictionaries for many
+languages. Unfortunately the license does not allow redistribution, so you need
+to generate them yourself. With stardicter it is easy:
+
+    ./dicts_info_tarball.sh italian czech
+
+This generates tarball with italian-czech dictionary. You can choose any
+language provided by the service.
 
 Build status
 ============
