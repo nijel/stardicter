@@ -26,7 +26,7 @@ class WordTest(unittest.TestCase):
     '''
     Word class testsing.
     '''
-    def assertParses(self, line, expected, translation):
+    def do_parse(self, line, expected, translation):
         '''
         Test for word parsing.
         '''
@@ -39,7 +39,7 @@ class WordTest(unittest.TestCase):
         '''
         Testing various weird stuff in parser.
         '''
-        word = self.assertParses(
+        word = self.do_parse(
             'a\tb\ttype\tnote\tauthor',
             'a', 'b'
         )
@@ -51,23 +51,23 @@ class WordTest(unittest.TestCase):
         '''
         Test for parsing fixups.
         '''
-        self.assertParses(
+        self.do_parse(
             'a\tc\tb\ttype\tnote\tauthor',
             'ac', 'b'
         )
-        self.assertParses(
+        self.do_parse(
             'a\tb\ttype\tnote',
             'a', 'b'
         )
-        self.assertParses(
+        self.do_parse(
             'a\tb\ttype',
             'a', 'b'
         )
-        self.assertParses(
+        self.do_parse(
             'a\tb',
             'a', 'b'
         )
-        self.assertParses(
+        self.do_parse(
             'a',
             'a', ''
         )
@@ -79,7 +79,7 @@ class WordTest(unittest.TestCase):
         self.assertRaisesRegexp(
             ValueError,
             r'Invalid input: \'\\t\\t\\t\\t\\t\\t\\t\\t\'',
-            self.assertParses,
+            self.do_parse,
             '\t\t\t\t\t\t\t\t',
             '', ''
         )
