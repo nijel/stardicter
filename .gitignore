@@ -8,3 +8,5 @@
 slovnik_data_utf8.txt
 stardict-*/
 .coverage
+build/
+stardicter.egg-info/
