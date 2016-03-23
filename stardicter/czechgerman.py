@@ -21,7 +21,10 @@
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 
-URL = 'http://gnu.nemeckoceskyslovnik.cz/index.php?id=6&sablona=export&format=zcu'
+URL = (
+    'http://gnu.nemeckoceskyslovnik.cz/'
+    'index.php?id=6&sablona=export&format=zcu'
+)
 
 
 class CzechGermanWriter(StardictWriter):

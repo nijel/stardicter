@@ -19,18 +19,21 @@
 #
 
 from __future__ import unicode_literals
-import hashlib
-import os
-import datetime
-import re
-import json
-import struct
+
 import codecs
-from stardicter.word import Word
-from operator import attrgetter
-from six.moves.urllib.request import urlopen
+import datetime
 import gzip
+import hashlib
+import json
+from operator import attrgetter
+import os
+import re
+import struct
+
+from six.moves.urllib.request import urlopen
 from six import BytesIO
+
+from stardicter.word import Word
 
 
 README_TEXT = r'''{title}

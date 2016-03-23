@@ -167,4 +167,3 @@ def main():
     # Change detection
     if options.change:
         writer.save_checksum()
-
