@@ -22,6 +22,17 @@ from __future__ import unicode_literals
 import unicodedata
 
 
+SIMPLE_MAPS = {
+    'ACUTE ACCENT': '\'',
+    'NO-BREAK SPACE': ' ',
+    'MULTIPLICATION SIGN': 'x',
+    'DEGREE SIGN': '<degree>',
+    # §
+    'SECTION SIGN': '<paragraph>',
+    # ÷
+    'DIVISION SIGN': '/',
+}
+
 def deaccent(exc):
     '''
     Removes accents on string conversion errors.
@@ -42,20 +53,8 @@ def deaccent(exc):
             result.append(name[19].lower())
         elif name[:20] == 'LATIN CAPITAL LETTER':
             result.append(name[21])
-        elif name == 'ACUTE ACCENT':
-            result.append('\'')
-        elif name == 'NO-BREAK SPACE':
-            result.append(' ')
-        elif name == 'MULTIPLICATION SIGN':
-            result.append('x')
-        elif name == 'DEGREE SIGN':
-            result.append('<degree>)')
-        elif name == 'SECTION SIGN':
-            # §
-            result.append('<paragraph>')
-        elif name == 'DIVISION SIGN':
-            # ÷
-            result.append('/')
+        elif name  in SIMPLE_MAPS:
+            result.append(SIMPLE_MAPS[name])
         else:
             raise ValueError(
                 'Can not convert to ASCII: {0} ({1})'.format(current, name)
