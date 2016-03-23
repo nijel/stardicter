@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2006 - 2014 Michal Čihař <michal@cihar.com>
+# Copyright © 2006 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Stardicter <http://cihar.com/software/slovnik/>
 #
