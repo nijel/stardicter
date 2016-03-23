@@ -36,3 +36,5 @@ DICTIONARIES = {
 
 # Register deaccenting codec
 codecs.register_error('deaccent', deaccent)
+
+__version__ = '1.0'
