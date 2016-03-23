@@ -1,7 +1,7 @@
 Stardicter
 ==========
 
-Conversion tools from various formats to [StarDict][1].
+Conversion tools from various formats to StarDict_.
 
 
 You can find more information at project website:
@@ -42,9 +42,22 @@ language provided by the service.
 Build status
 ============
 
-[![Build Status](https://travis-ci.org/nijel/stardicter.png?branch=master)](https://travis-ci.org/nijel/stardicter)
-[![Coverage Status](https://coveralls.io/repos/nijel/stardicter/badge.png?branch=master)](https://coveralls.io/r/nijel/stardicter?branch=master)
-[![Code Health](https://landscape.io/github/nijel/stardicter/master/landscape.png)](https://landscape.io/github/nijel/stardicter/master)
+.. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
+    :target: https://travis-ci.org/nijel/stardicter
+    :alt: Build Status
+
+.. image:: https://landscape.io/github/nijel/stardicter/master/landscape.svg?style=flat
+    :target: https://landscape.io/github/nijel/stardicter/master
+    :alt: Code Health
+
+.. image:: http://codecov.io/github/nijel/stardicter/coverage.svg?branch=master
+    :target: http://codecov.io/github/nijel/stardicter?branch=master
+    :alt: Code coverage
+
+.. image:: https://img.shields.io/pypi/dm/stardicter.svg
+    :target: https://pypi.python.org/pypi/stardicter
+    :alt: PyPI package
+
 
 License
 =======
@@ -63,4 +76,4 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with
 this program. If not, see http://www.gnu.org/licenses/.
 
-[1]: http://stardict.sourceforge.net/
+.. StarDict:: http://stardict.sourceforge.net/
