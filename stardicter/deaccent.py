@@ -33,6 +33,7 @@ SIMPLE_MAPS = {
     'DIVISION SIGN': '/',
 }
 
+
 def deaccent(exc):
     '''
     Removes accents on string conversion errors.
@@ -53,7 +54,7 @@ def deaccent(exc):
             result.append(name[19].lower())
         elif name[:20] == 'LATIN CAPITAL LETTER':
             result.append(name[21])
-        elif name  in SIMPLE_MAPS:
+        elif name in SIMPLE_MAPS:
             result.append(SIMPLE_MAPS[name])
         else:
             raise ValueError(
