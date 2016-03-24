@@ -10,3 +10,4 @@ stardict-*/
 .coverage
 build/
 stardicter.egg-info/
+dist/
