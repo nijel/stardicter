@@ -22,11 +22,9 @@ Installation
 ============
 
 You can either clone the git repositry and run the scripts from it or install
-using pip:
+using pip::
 
-```
-pip install stardicter
-```
+    pip install stardicter
 
 Usage
 =====
