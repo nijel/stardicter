@@ -18,6 +18,16 @@ Requirements
 Scripts require dictzip to compress dictionaries. You can get it from 
 http://sourceforge.net/projects/dict/
 
+Installation
+============
+
+You can either clone the git repositry and run the scripts from it or install
+using pip:
+
+```
+pip install stardicter
+```
+
 Usage
 =====
 
