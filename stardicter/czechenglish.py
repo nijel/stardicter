@@ -21,11 +21,11 @@
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 
-URL = 'http://slovnik.zcu.cz/files/slovnik_data_utf8.txt.gz'
+URL = 'https://www.svobodneslovniky.cz/data/en-cs.txt.gz'
 
 
 class CzechEnglishWriter(StardictWriter):
-    url = 'http://slovnik.zcu.cz/'
+    url = 'https://www.svobodneslovniky.cz/'
     name = 'GNU/FDL Anglicko-Český slovník'
     source = 'english'
     target = 'czech'
