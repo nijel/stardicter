@@ -57,8 +57,8 @@ mv $dir/*-ascii* $dira/
 mv $dir/*-notags* $dirn/
 
 # Create tarballs
-tar --owner=root --group=root --numeric-owner --sort=name -cfz $dir.tar.gz $dir
-tar --owner=root --group=root --numeric-owner --sort=name -cfz $dira.tar.gz $dira
-tar --owner=root --group=root --numeric-owner --sort=name -cfz $dirn.tar.gz $dirn
-tar --owner=root --group=root --numeric-owner --sort=name -cfz $diran.tar.gz $diran
+tar --owner=root --group=root --numeric-owner -cfz $dir.tar.gz $dir
+tar --owner=root --group=root --numeric-owner -cfz $dira.tar.gz $dira
+tar --owner=root --group=root --numeric-owner -cfz $dirn.tar.gz $dirn
+tar --owner=root --group=root --numeric-owner -cfz $diran.tar.gz $diran
 rm -rf $dir $dira $dirn $diran

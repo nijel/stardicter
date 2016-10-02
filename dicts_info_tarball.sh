@@ -50,5 +50,5 @@ fi
 dictzip $dir/*.dict
 
 # Create tarball
-tar --owner=root --group=root --numeric-owner --sort=name -cfz $dir.tar.gz $dir
+tar --owner=root --group=root --numeric-owner -cfz $dir.tar.gz $dir
 rm -rf $dir
