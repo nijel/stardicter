@@ -25,12 +25,17 @@ import unicodedata
 SIMPLE_MAPS = {
     'ACUTE ACCENT': '\'',
     'NO-BREAK SPACE': ' ',
+    'THIN SPACE': ' ',
     'MULTIPLICATION SIGN': 'x',
     'DEGREE SIGN': '<degree>',
     # §
     'SECTION SIGN': '<paragraph>',
     # ÷
     'DIVISION SIGN': '/',
+    # „
+    'DOUBLE LOW-9 QUOTATION MARK': '"',
+    # “
+    'LEFT DOUBLE QUOTATION MARK':  '"',
 }
 
 
