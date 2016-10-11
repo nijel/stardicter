@@ -6,7 +6,7 @@ Conversion tools from various formats to StarDict_.
 
 You can find more information at project website:
 
-http://cihar.com/software/slovnik/
+https://cihar.com/software/slovnik/
 
 Git repository is available at GitHub: 
 

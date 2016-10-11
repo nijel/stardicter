@@ -37,7 +37,7 @@ setup(
     description=' Conversion tools from various formats to StarDict.',
     license='GPLv3+',
     keywords='stardict,dictionary',
-    url='http://cihar.com/software/slovnik/',
+    url='https://cihar.com/software/slovnik/',
     download_url='https://pypi.python.org/pypi/stardicter',
     bugtrack_url='https://github.com/nijel/stardicter/issues',
     platforms=['any'],

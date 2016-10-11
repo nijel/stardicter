@@ -2,7 +2,7 @@
 #
 # Copyright © 2006 - 2016 Michal Čihař <michal@cihar.com>
 #
-# This file is part of Stardicter <http://cihar.com/software/slovnik/>
+# This file is part of Stardicter <https://cihar.com/software/slovnik/>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ Dictionary was generated using:
 Stardicter version {version}
 
 You can get conversion script from:
-<http://cihar.com/software/slovnik/>
+<https://cihar.com/software/slovnik/>
 
 Install dictionary by copying dictionary files to dic/ folder in
 StarDict. On Linux it is usually /usr/share/stardict/dic/, on Windows
