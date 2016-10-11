@@ -54,7 +54,7 @@ class Word(object):
     @staticmethod
     def from_slovnik(line):
         '''
-        Parses word from format used by http://slovnik.zcu.cz/
+        Parses word from format used by http://www.svobodneslovniky.cz/
         '''
         # split it up
         parts = line.split('\t')
