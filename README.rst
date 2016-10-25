@@ -4,7 +4,11 @@ Stardicter
 Conversion tools from various formats to StarDict_.
 
 .. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
-       :target: https://travis-ci.org/nijel/stardicter
+    :target: https://travis-ci.org/nijel/stardicter
+
+.. image:: https://landscape.io/github/nijel/stardicter/master/landscape.svg?style=flat
+    :target: https://landscape.io/github/nijel/stardicter/master
+    :alt: Code Health
 
 You can find more information at project website:
 
