@@ -36,6 +36,8 @@ SIMPLE_MAPS = {
     'DOUBLE LOW-9 QUOTATION MARK': '"',
     # “
     'LEFT DOUBLE QUOTATION MARK':  '"',
+    # –
+    'EN DASH': '-',
 }
 
 
