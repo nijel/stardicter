@@ -3,6 +3,8 @@ Stardicter
 
 Conversion tools from various formats to StarDict_.
 
+.. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
+       :target: https://travis-ci.org/nijel/stardicter
 
 You can find more information at project website:
 
