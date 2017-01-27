@@ -11,3 +11,4 @@ stardict-*/
 build/
 stardicter.egg-info/
 dist/
+/.cache/
