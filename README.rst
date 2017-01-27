@@ -5,13 +5,19 @@ Conversion tools from various formats to StarDict_.
 
 .. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
     :target: https://travis-ci.org/nijel/stardicter
-
-.. image:: https://codecov.io/gh/nijel/stardicter/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/nijel/stardicter
+    :alt: Build Status
 
 .. image:: https://landscape.io/github/nijel/stardicter/master/landscape.svg?style=flat
     :target: https://landscape.io/github/nijel/stardicter/master
     :alt: Code Health
+
+.. image:: http://codecov.io/github/nijel/stardicter/coverage.svg?branch=master
+    :target: http://codecov.io/github/nijel/stardicter?branch=master
+    :alt: Code coverage
+
+.. image:: https://img.shields.io/pypi/dm/stardicter.svg
+    :target: https://pypi.python.org/pypi/stardicter
+    :alt: PyPI package
 
 You can find more information at project website:
 
@@ -55,26 +61,6 @@ to generate them yourself. With stardicter it is easy:
 
 This generates tarball with italian-czech dictionary. You can choose any
 language provided by the service.
-
-Build status
-============
-
-.. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
-    :target: https://travis-ci.org/nijel/stardicter
-    :alt: Build Status
-
-.. image:: https://landscape.io/github/nijel/stardicter/master/landscape.svg?style=flat
-    :target: https://landscape.io/github/nijel/stardicter/master
-    :alt: Code Health
-
-.. image:: http://codecov.io/github/nijel/stardicter/coverage.svg?branch=master
-    :target: http://codecov.io/github/nijel/stardicter?branch=master
-    :alt: Code coverage
-
-.. image:: https://img.shields.io/pypi/dm/stardicter.svg
-    :target: https://pypi.python.org/pypi/stardicter
-    :alt: PyPI package
-
 
 License
 =======
