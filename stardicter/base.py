@@ -314,7 +314,16 @@ class StardictWriter(object):
         '''
         Returns keys of hash sorted case insensitive.
         '''
-        tuples = [(item.encode('utf-8').lower(), item) for item in words]
+        if self.ascii:
+            tuples = [
+                (item.encode('ascii', 'deaccent').lower(), item)
+                for item in words
+            ]
+        else:
+            tuples = [
+                (item.encode('utf-8').lower(), item)
+                for item in words
+            ]
         tuples.sort()
         return [item[1] for item in tuples]
 
