@@ -79,7 +79,7 @@ Build status
 License
 =======
 
-Copyright (c) 2006 - 2016 Michal Čihař
+Copyright (c) 2006 - 2017 Michal Čihař
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
