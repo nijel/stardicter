@@ -1,6 +1,12 @@
 Changes in stardicter
 =====================
 
+Version 0.11
+------------
+
+* Improved deaccent filter.
+* Fixed sorting of ASCII dictionaries.
+
 Version 0.10
 ------------
 
