@@ -1,6 +1,23 @@
 Changes in stardicter
 =====================
 
+Version 1.2
+-----------
+
+* Added option to skip network based tests.
+
+Version 1.1
+-----------
+
+* Fixed installation on systems with non utf-8 locale.
+
+Version 1.0
+-----------
+
+* Various cleanups for first stable release.
+* Fixed generating of README for dictionaries.
+* Added support for generating source tarballs.
+
 Version 0.11
 ------------
 
