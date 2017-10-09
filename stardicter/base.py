@@ -191,7 +191,8 @@ class StardictWriter(object):
             stringio = BytesIO(handle.read())
             handle.close()
             handle = gzip.GzipFile(fileobj=stringio)
-        return handle.read().decode(self.download_charset)
+        text = handle.read()
+        return text.decode(self.download_charset)
 
     def parse_line(self, line):
         '''

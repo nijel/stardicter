@@ -24,6 +24,7 @@ Main executer for stardict convertor
 from __future__ import unicode_literals
 from __future__ import print_function
 from argparse import ArgumentParser
+import io
 import sys
 import stardicter
 
@@ -91,7 +92,7 @@ def main():
         '--file',
         dest='file',
         default=None,
-        type=file,
+        type=lambda name: io.open(name, 'rb'),
         help='File to use for reading the data instead of default download.',
     )
     parser.add_argument(
