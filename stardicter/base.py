@@ -163,7 +163,7 @@ class StardictWriter(object):
         '''
         Adds description from line.
         '''
-        self.description += line[6:]
+        self.description += line[1:] + '\n'
 
     def get_checksum(self):
         '''
