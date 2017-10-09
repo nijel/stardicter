@@ -479,5 +479,6 @@ class StardictWriter(object):
 
     def write_source(self, directory):
         """Write source file."""
-        with open(os.path.join(directory, self.get_source_name()), 'wb') as handle:
+        filename = os.path.join(directory, self.get_source_name())
+        with open(filename, 'wb') as handle:
             handle.write(self.data.encode(self.download_charset))
