@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""Dictionary word manipulation"""
 
 from __future__ import unicode_literals
 from stardicter.utils import reformat, xmlescape

@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""Convertor for GNU/FDL Německo-Český slovník"""
 
 from __future__ import unicode_literals
 from stardicter.base import StardictWriter
