@@ -3,6 +3,13 @@ Stardicter
 
 Conversion tools from various formats to StarDict_.
 
+Currently it can convert following dictionaries:
+
+* `GNU/FDL Anglicko-Český slovník <https://www.svobodneslovniky.cz/>`_
+* `GNU/FDL Německo-Český slovník <http://gnu.nemeckoceskyslovnik.cz/>`_
+* `Slovník cizích slov <http://slovnik-cizich-slov.abz.cz/>`_
+* `dicts.info dictionaries <http://www.dicts.info/>`_
+
 .. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
     :target: https://travis-ci.org/nijel/stardicter
     :alt: Build Status
