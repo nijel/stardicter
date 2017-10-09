@@ -84,7 +84,7 @@ class StardictWriter(object):
     download_gzip = False
 
     def __init__(self, ascii=False, notags=False, keyprefix='',
-                 source='', target=''):
+                 source='', target='', file=None):
         self.words = {}
         self.reverse = {}
         self.description = ''
@@ -97,6 +97,7 @@ class StardictWriter(object):
             self.source = source
         if target:
             self.target = target
+        self.file = file
 
     @property
     def data(self):
@@ -179,9 +180,13 @@ class StardictWriter(object):
         '''
         Downloads dictionary.
         '''
-        if self.download_url is None:
-            return 'word\ttranslation\ttype\tnote\tauthor'
-        handle = urlopen(self.download_url)
+        if self.file:
+            handle = self.file
+            self.download_gzip = self.file.name.endswith('.gz')
+        else:
+            if self.download_url is None:
+                return 'word\ttranslation\ttype\tnote\tauthor'
+            handle = urlopen(self.download_url)
         if self.download_gzip:
             stringio = BytesIO(handle.read())
             handle.close()

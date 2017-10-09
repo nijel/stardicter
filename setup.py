@@ -44,6 +44,7 @@ setup(
     packages=[
         'stardicter',
     ],
+    package_data={'stardicter': ['test_*.txt']},
     package_dir={'stardicter': 'stardicter'},
     long_description=LONG_DESCRIPTION,
     install_requires=REQUIRES,

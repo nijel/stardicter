@@ -87,6 +87,14 @@ def main():
         help='Directory where to store generated dictionaries'
     )
     parser.add_argument(
+        '-f',
+        '--file',
+        dest='file',
+        default=None,
+        type=file,
+        help='File to use for reading the data instead of default download.',
+    )
+    parser.add_argument(
         '-s',
         '--source',
         dest='source',
@@ -138,7 +146,8 @@ def main():
     writer = stardicter.DICTIONARIES[options.dictionary](
         keyprefix=keyprefix,
         source=options.source,
-        target=options.target
+        target=options.target,
+        file=options.file
     )
 
     # Change detection
