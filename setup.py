@@ -20,11 +20,12 @@
 #
 """Setup file for easy installation."""
 from setuptools import setup
+import io
 import os
 
 VERSION = __import__('stardicter').__version__
 
-with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
+with io.open(os.path.join(os.path.dirname(__file__), 'README.rst'), encoding='utf-8') as readme:
     LONG_DESCRIPTION = readme.read()
 
 REQUIRES = open('requirements.txt').read().split()
