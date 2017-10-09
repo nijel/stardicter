@@ -85,5 +85,4 @@ class DictsInfoWriter(StardictWriter):
         template = 'dicts.info: {0}-{1}'
         if forward:
             return template.format(self.source, self.target)
-        else:
-            return template.format(self.target, self.source)
+        return template.format(self.target, self.source)

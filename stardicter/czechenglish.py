@@ -42,5 +42,4 @@ class CzechEnglishWriter(StardictWriter):
     def get_name(self, forward=True):
         if forward:
             return 'GNU/FDL Anglicko-Český slovník'
-        else:
-            return 'GNU/FDL Česko-Anglický slovník'
+        return 'GNU/FDL Česko-Anglický slovník'
