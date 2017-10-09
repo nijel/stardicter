@@ -304,7 +304,7 @@ class StardictWriter(object):
 
         # and finally convert entries to text
         for typ in alltypes:
-            if len(typed[typ]) > 0:
+            if typed[typ]:
                 # header to display
                 if typ == '':
                     result += '\n'
