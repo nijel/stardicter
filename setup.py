@@ -49,7 +49,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     install_requires=REQUIRES,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Topic :: Internet',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Utilities',
