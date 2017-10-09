@@ -15,7 +15,7 @@ Conversion tools from various formats to StarDict_.
     :target: https://codecov.io/github/nijel/stardicter?branch=master
     :alt: Code coverage
 
-.. image:: https://img.shields.io/pypi/dm/stardicter.svg
+.. image:: https://img.shields.io/pypi/v/stardicter.svg
     :target: https://pypi.python.org/pypi/stardicter
     :alt: PyPI package
 
