@@ -418,13 +418,14 @@ class StardictWriter(object):
         '''
         Generates README text for dictionary.
         '''
+        from stardicter import __version__
         title = '{0} for StarDict'.format(self.name)
         return README_TEXT.format(
             title=title,
             line='-' * len(title),
             url=self.url,
             license=self.license,
-            version='0.1',
+            version=__version__,
         )
 
     def get_config_key(self):
