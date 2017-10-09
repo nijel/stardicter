@@ -21,7 +21,7 @@
 
 import unittest
 import tempfile
-import os.path
+import os
 import shutil
 import stardicter.base
 
@@ -29,10 +29,15 @@ import stardicter.base
 class BaseTest(unittest.TestCase):
     writer_class = stardicter.base.StardictWriter
 
+    def skip_net(self):
+        if 'SKIP_NET_TESTS' in os.environ:
+            raise unittest.SkipTest('Network tests disabled')
+
     def get_writer(self):
         '''
         Gets prepared writer class.
         '''
+        self.skip_net()
         return self.writer_class()
 
     def test_write(self):

@@ -30,6 +30,7 @@ class DictsInfoTest(BaseTest):
         '''
         Gets prepared writer class.
         '''
+        self.skip_net()
         return self.writer_class(
             source='english',
             target='czech',
@@ -39,6 +40,7 @@ class DictsInfoTest(BaseTest):
         '''
         Test for invalid code.
         '''
+        self.skip_net()
         writer = self.writer_class(
             source='english',
             target='invalid',
@@ -53,6 +55,7 @@ class DictsInfoTest(BaseTest):
         '''
         Test for same languages.
         '''
+        self.skip_net()
         writer = self.writer_class(
             source='english',
             target='english',
