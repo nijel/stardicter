@@ -39,3 +39,7 @@ class CzechWriter(StardictWriter):
     def parse_line(self, line):
         word, pronunciation, explanation = line.split('|')
         return [Word(word, explanation, pronunciation=pronunciation)]
+
+    def get_source_name(self):
+        """Name for source file."""
+        return 'czech.txt'

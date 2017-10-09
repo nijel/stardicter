@@ -20,6 +20,7 @@ set -e
 
 NAME=stardict-czech
 dir="$NAME-`date +%Y%m%d`"
+dirs="$dir-source"
 
 if [ "x$1" = 'x--wrap' ] ; then
     WRAP="$2"
@@ -29,7 +30,7 @@ fi
 rm -rf $dir
 mkdir $dir
 
-$WRAP ./sdgen.py --change --directory $dir "$@" czech
+$WRAP ./sdgen.py --change --write-source --directory $dir "$@" czech
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir
@@ -39,6 +40,15 @@ fi
 # Compress
 dictzip $dir/*.dict
 
-# Create tarball
+# Split to separate dirs
+rm -rf $dirs
+mkdir $dirs
+
+cp $dir/README $dirs/
+
+mv $dir/czech.txt $dirs/
+
+# Create tarballs
 tar --owner=root --group=root --numeric-owner -czf $dir.tar.gz $dir
-rm -rf $dir
+tar --owner=root --group=root --numeric-owner -czf $dirs.tar.gz $dirs
+rm -rf $dir $dirs
