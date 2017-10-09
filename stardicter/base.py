@@ -468,3 +468,15 @@ class StardictWriter(object):
         '''
         key = self.get_config_key()
         self.save_config({key: self.checksum})
+
+    def get_source_name(self):
+        """Name for source file."""
+        name = os.path.basename(self.download_url)
+        if name.endswith('.gz'):
+            name = name[:-3]
+        return name
+
+    def write_source(self, directory):
+        """Write source file."""
+        with open(os.path.join(directory, self.get_source_name()), 'wb') as handle:
+            handle.write(self.data.encode(self.download_charset))

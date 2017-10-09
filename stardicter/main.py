@@ -65,6 +65,14 @@ def main():
         help='Generate plain ascii dictionary.'
     )
     parser.add_argument(
+        '-S',
+        '--write-source',
+        action='store_true',
+        dest='write_source',
+        default=False,
+        help='Generate source tarball.',
+    )
+    parser.add_argument(
         '-n',
         '--notags',
         action='store_true',
@@ -157,6 +165,10 @@ def main():
 
     # Load data
     writer.parse()
+
+    # Generate source package
+    if options.write_source:
+        writer.write_source(options.directory)
 
     # Write dictionaries
     if options.all:

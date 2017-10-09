@@ -46,3 +46,7 @@ class CzechGermanWriter(StardictWriter):
             return 'GNU/FDL Německo-Český slovník'
         else:
             return 'GNU/FDL Česko-Německý slovník'
+
+    def get_source_name(self):
+        """Name for source file."""
+        return 'de-cs.txt'

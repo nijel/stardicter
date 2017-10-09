@@ -28,11 +28,12 @@ dir="$NAME-`date +%Y%m%d`"
 dira="$dir-ascii"
 diran="$dir-ascii-notags"
 dirn="$dir-notags"
+dirs="$dir-source"
 
 rm -rf $dir
 mkdir $dir
 
-$WRAP ./sdgen.py --all --change --directory $dir "$@" czechenglish
+$WRAP ./sdgen.py --all --change --write-source --directory $dir "$@" czechenglish
 
 if [ ! -f $dir/README ] ; then
     rm -rf $dir
@@ -43,22 +44,26 @@ fi
 dictzip $dir/*.dict
 
 # Split to separate dirs
-rm -rf $dira $dirn $diran
+rm -rf $dira $dirn $diran $dirs
 mkdir $dira
 mkdir $dirn
 mkdir $diran
+mkdir $dirs
 
 cp $dir/README $dira/
 cp $dir/README $dirn/
 cp $dir/README $diran/
+cp $dir/README $dirs/
 
 mv $dir/*-ascii-notags* $diran/
 mv $dir/*-ascii* $dira/
 mv $dir/*-notags* $dirn/
+mv $dir/en-cs.txt $dirs/
 
 # Create tarballs
 tar --owner=root --group=root --numeric-owner -czf $dir.tar.gz $dir
 tar --owner=root --group=root --numeric-owner -czf $dira.tar.gz $dira
 tar --owner=root --group=root --numeric-owner -czf $dirn.tar.gz $dirn
 tar --owner=root --group=root --numeric-owner -czf $diran.tar.gz $diran
-rm -rf $dir $dira $dirn $diran
+tar --owner=root --group=root --numeric-owner -czf $dirs.tar.gz $dirn
+rm -rf $dir $dira $dirn $diran $dirs
