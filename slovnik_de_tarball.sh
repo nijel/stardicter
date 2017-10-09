@@ -65,5 +65,5 @@ tar --owner=root --group=root --numeric-owner -czf $dir.tar.gz $dir
 tar --owner=root --group=root --numeric-owner -czf $dira.tar.gz $dira
 tar --owner=root --group=root --numeric-owner -czf $dirn.tar.gz $dirn
 tar --owner=root --group=root --numeric-owner -czf $diran.tar.gz $diran
-tar --owner=root --group=root --numeric-owner -czf $dirs.tar.gz $dirn
+tar --owner=root --group=root --numeric-owner -czf $dirs.tar.gz $dirs
 rm -rf $dir $dira $dirn $diran $dirs
