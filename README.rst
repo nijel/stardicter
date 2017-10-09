@@ -11,8 +11,8 @@ Conversion tools from various formats to StarDict_.
     :target: https://landscape.io/github/nijel/stardicter/master
     :alt: Code Health
 
-.. image:: http://codecov.io/github/nijel/stardicter/coverage.svg?branch=master
-    :target: http://codecov.io/github/nijel/stardicter?branch=master
+.. image:: https://codecov.io/github/nijel/stardicter/coverage.svg?branch=master
+    :target: https://codecov.io/github/nijel/stardicter?branch=master
     :alt: Code coverage
 
 .. image:: https://img.shields.io/pypi/dm/stardicter.svg
