@@ -30,6 +30,7 @@ from operator import attrgetter
 import os
 import re
 import struct
+import time
 
 from six.moves.urllib.request import urlopen
 from six import BytesIO
@@ -386,7 +387,9 @@ class StardictWriter(object):
             handle.write(self.convert('website={0}\n'.format(URL), False))
             # we're using pango markup for all entries
             handle.write('sametypesequence=g\n')
-            handle.write(datetime.date.today().strftime('date=%Y.%m.%d\n'))
+            now = int(os.environ.get('SOURCE_DATE_EPOCH', time.time()))
+            today = datetime.datetime.utcfromtimestamp(now)
+            handle.write(today.strftime('date=%Y.%m.%d\n'))
 
     def write_dict(self, directory):
         '''
