@@ -5,6 +5,7 @@ Version 1.2
 -----------
 
 * Added option to skip network based tests.
+* Build is now reproducible.
 
 Version 1.1
 -----------
