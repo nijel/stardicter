@@ -19,7 +19,7 @@ script:
   - ./dicts_info_tarball.sh --wrap 'coverage run --append' czech german
   - ./slovnik_de_tarball.sh --wrap 'coverage run --append'
   - ./slovnik_tarball.sh --wrap 'coverage run --append'
-  - pep8 stardicter sdgen.py setup.py
+  - pycodestyle stardicter sdgen.py setup.py
   - pylint --reports=n stardicter sdgen.py setup.py || true
   - pyflakes stardicter sdgen.py setup.py
 after_script:

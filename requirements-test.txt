@@ -1,6 +1,6 @@
 pytest
 pytest-cov
-pep8
+pycodestyle
 pyflakes
 pylint
 codecov
