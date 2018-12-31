@@ -69,6 +69,6 @@ def deaccent(exc):
             result.append(SIMPLE_MAPS[name])
         else:
             raise ValueError(
-                'Can not convert to ASCII: {0} ({1})'.format(current, name)
+                'Can not convert to ASCII: {0!r} ({1})'.format(current, name)
             )
     return (''.join(result), exc.end)
