@@ -24,7 +24,7 @@ from stardicter.base import StardictWriter
 from stardicter.word import Word
 from six.moves.urllib.request import urlopen
 
-BASEURL = 'http://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
+BASEURL = 'https://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
 
 
 class DictsInfoWriter(StardictWriter):
