@@ -19,8 +19,6 @@
 #
 """Base module for stardciter convertors."""
 
-from __future__ import unicode_literals
-
 import codecs
 import datetime
 import gzip
@@ -31,9 +29,8 @@ import os
 import re
 import struct
 import time
-
-from six.moves.urllib.request import urlopen
-from six import BytesIO
+from urllib.request import urlopen
+from io import BytesIO
 
 from stardicter.word import Word
 

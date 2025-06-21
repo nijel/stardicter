@@ -19,7 +19,6 @@
 #
 """Covertor for GNU/FDL Anglicko-Český slovník"""
 
-from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 
 URL = 'https://www.svobodneslovniky.cz/data/en-cs.txt.gz'

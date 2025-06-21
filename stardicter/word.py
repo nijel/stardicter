@@ -19,7 +19,6 @@
 #
 """Dictionary word manipulation"""
 
-from __future__ import unicode_literals
 from stardicter.utils import reformat, xmlescape
 
 FMT_TYPE = '<span size="larger" color="darkred" weight="bold">{0}</span>\n'
