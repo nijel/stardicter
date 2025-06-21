@@ -19,10 +19,9 @@
 #
 """Convertor for dicts.info dictionaries"""
 
-from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 
 BASEURL = 'https://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
 

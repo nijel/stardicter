@@ -19,7 +19,6 @@
 #
 """Special codecs filter to remove accents"""
 
-from __future__ import unicode_literals
 import unicodedata
 
 

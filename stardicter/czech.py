@@ -19,7 +19,6 @@
 #
 """Convertor for Slovník cizích slov"""
 
-from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 from stardicter.word import Word
 

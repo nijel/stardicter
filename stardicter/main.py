@@ -21,8 +21,6 @@
 Main executer for stardict convertor
 """
 
-from __future__ import unicode_literals
-from __future__ import print_function
 from argparse import ArgumentParser
 import io
 import sys

@@ -19,7 +19,6 @@
 #
 """Convertor for GNU/FDL Německo-Český slovník"""
 
-from __future__ import unicode_literals
 from stardicter.base import StardictWriter
 
 URL = (
