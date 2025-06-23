@@ -10,22 +10,6 @@ Currently it can convert following dictionaries:
 * `Slovník cizích slov <https://slovnik-cizich-slov.abz.cz/>`_
 * `dicts.info dictionaries <https://www.dicts.info/>`_
 
-.. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
-    :target: https://travis-ci.org/nijel/stardicter
-    :alt: Build Status
-
-.. image:: https://landscape.io/github/nijel/stardicter/master/landscape.svg?style=flat
-    :target: https://landscape.io/github/nijel/stardicter/master
-    :alt: Code Health
-
-.. image:: https://codecov.io/github/nijel/stardicter/coverage.svg?branch=master
-    :target: https://codecov.io/github/nijel/stardicter?branch=master
-    :alt: Code coverage
-
-.. image:: https://img.shields.io/pypi/v/stardicter.svg
-    :target: https://pypi.python.org/pypi/stardicter
-    :alt: PyPI package
-
 You can find more information at project website:
 
 https://cihar.com/software/slovnik/
@@ -72,7 +56,7 @@ language provided by the service.
 License
 =======
 
-Copyright (c) 2006 - 2017 Michal Čihař
+Copyright (c) 2006 - 2025 Michal Čihař
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
