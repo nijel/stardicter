@@ -20,7 +20,7 @@
 
 from stardicter.base import StardictWriter
 
-URL = "http://gnu.nemeckoceskyslovnik.cz/index.php?id=6&sablona=export&format=zcu"
+URL = "https://gnu.nemeckoceskyslovnik.cz/index.php?id=6&sablona=export&format=zcu"
 
 
 class CzechGermanWriter(StardictWriter):

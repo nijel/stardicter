@@ -21,7 +21,7 @@
 from stardicter.base import StardictWriter
 from stardicter.word import Word
 
-URL = "http://slovnik-cizich-slov.abz.cz/export.php"
+URL = "https://slovnik-cizich-slov.abz.cz/export.php"
 
 
 class CzechWriter(StardictWriter):
