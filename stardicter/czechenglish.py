@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Covertor for GNU/FDL Anglicko-Český slovník"""
+"""Covertor for GNU/FDL Anglicko-Český slovník."""
 
 from stardicter.base import StardictWriter
 
@@ -33,13 +32,11 @@ class CzechEnglishWriter(StardictWriter):
     download_url = URL
     download_gzip = True
 
-    def is_data_line(self, line):
-        """
-        Checks whether this is line with timestamp.
-        """
+    def is_data_line(self, line) -> bool:
+        """Checks whether this is line with timestamp."""
         return not line.startswith("#      Date:")
 
-    def get_name(self, forward=True):
+    def get_name(self, forward=True) -> str:
         if forward:
             return "GNU/FDL Anglicko-Český slovník"
         return "GNU/FDL Česko-Anglický slovník"

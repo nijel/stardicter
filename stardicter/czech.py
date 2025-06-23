@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Convertor for Slovník cizích slov"""
+"""Convertor for Slovník cizích slov."""
 
 from stardicter.base import StardictWriter
 from stardicter.word import Word
@@ -39,6 +38,6 @@ class CzechWriter(StardictWriter):
         word, pronunciation, explanation = line.split("|")
         return [Word(word, explanation, pronunciation=pronunciation)]
 
-    def get_source_name(self):
+    def get_source_name(self) -> str:
         """Name for source file."""
         return "czech.txt"

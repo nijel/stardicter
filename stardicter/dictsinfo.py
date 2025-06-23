@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,11 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Convertor for dicts.info dictionaries"""
+"""Convertor for dicts.info dictionaries."""
+
+from urllib.request import urlopen
 
 from stardicter.base import StardictWriter
 from stardicter.word import Word
-from urllib.request import urlopen
 
 BASEURL = "https://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text"
 
@@ -32,21 +32,18 @@ class DictsInfoWriter(StardictWriter):
     license = "non redistributable license"
 
     def is_header_line(self, line):
-        """
-        Checks whether line is header.
-        """
+        """Checks whether line is header."""
         return line.startswith("#")
 
-    def add_description(self, line):
-        """
-        Adds description from line.
-        """
+    def add_description(self, line) -> None:
+        """Adds description from line."""
         self.description += line[2:]
 
     def is_data_line(self, line):
         """
-        Checks whether line is used for checksum. Can be used to exclude
-        timestamps from data.
+        Check whether line is used for checksum.
+
+        Can be used to exclude timestamps from data.
         """
         return "created from the Universal dictionary at" not in line
 
@@ -59,12 +56,8 @@ class DictsInfoWriter(StardictWriter):
                 yield Word(word, translation, wtype=wtype)
 
     def download(self):
-        """
-        Downloads dictionary data.
-        """
-        handle = urlopen(
-            BASEURL.format(self.source, self.target), "ok=selected".encode("utf-8")
-        )
+        """Downloads dictionary data."""
+        handle = urlopen(BASEURL.format(self.source, self.target), b"ok=selected")  # noqa: S310
         data = handle.read().decode("utf-8")
 
         if "You cannot select two same languages." in data:
@@ -78,9 +71,7 @@ class DictsInfoWriter(StardictWriter):
         return data
 
     def get_name(self, forward=True):
-        """
-        Returns dictionary name.
-        """
+        """Returns dictionary name."""
         template = "dicts.info: {0}-{1}"
         if forward:
             return template.format(self.source, self.target)

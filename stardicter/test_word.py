@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,50 +16,41 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Test for word handling"""
+"""Test for word handling."""
 
 import unittest
+
 from stardicter.word import Word
 
 
 class WordTest(unittest.TestCase):
-    """
-    Word class testsing.
-    """
+    """Word class testsing."""
 
     def do_parse(self, line, expected, translation):
-        """
-        Test for word parsing.
-        """
+        """Test for word parsing."""
         word = Word.from_slovnik(line)
         self.assertEqual(word.word, expected)
-        self.assertEquals(word.translation, translation)
+        self.assertEqual(word.translation, translation)
         return word
 
-    def test_parse(self):
-        """
-        Testing various weird stuff in parser.
-        """
+    def test_parse(self) -> None:
+        """Testing various weird stuff in parser."""
         word = self.do_parse("a\tb\ttype\tnote\tauthor", "a", "b")
-        self.assertEquals(word.wtype, "type")
-        self.assertEquals(word.note, "note")
-        self.assertEquals(word.author, "author")
+        self.assertEqual(word.wtype, "type")
+        self.assertEqual(word.note, "note")
+        self.assertEqual(word.author, "author")
 
-    def test_fixups(self):
-        """
-        Test for parsing fixups.
-        """
+    def test_fixups(self) -> None:
+        """Test for parsing fixups."""
         self.do_parse("a\tc\tb\ttype\tnote\tauthor", "ac", "b")
         self.do_parse("a\tb\ttype\tnote", "a", "b")
         self.do_parse("a\tb\ttype", "a", "b")
         self.do_parse("a\tb", "a", "b")
         self.do_parse("a", "a", "")
 
-    def test_no_fixup(self):
-        """
-        Test for not detected fixup.
-        """
-        self.assertRaisesRegexp(
+    def test_no_fixup(self) -> None:
+        """Test for not detected fixup."""
+        self.assertRaisesRegex(
             ValueError,
             r"Invalid input: \'\\t\\t\\t\\t\\t\\t\\t\\t\'",
             self.do_parse,
