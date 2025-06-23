@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Dictionary word manipulation"""
+"""Dictionary word manipulation."""
 
 from stardicter.utils import reformat, xmlescape
 
@@ -29,14 +28,12 @@ FMT_AUTHOR = " <small>[{0}]</small>"
 FMT_PRONUNCIATION = "[<i>{0}</i>]\n\n"
 
 
-class Word(object):
-    """
-    Class holding single word.
-    """
+class Word:
+    """Class holding single word."""
 
     def __init__(
         self, word, translation, wtype="", note="", author="", pronunciation=""
-    ):
+    ) -> None:
         self.word = word
         self.translation = translation
         self.wtype = wtype
@@ -45,9 +42,7 @@ class Word(object):
         self.pronunciation = pronunciation
 
     def reverse(self):
-        """
-        Returns copy of a object for reverse direction.
-        """
+        """Returns copy of a object for reverse direction."""
         return Word(
             self.translation,
             self.word,
@@ -59,9 +54,7 @@ class Word(object):
 
     @staticmethod
     def from_slovnik(line):
-        """
-        Parses word from format used by https://www.svobodneslovniky.cz/
-        """
+        """Parses word from format used by https://www.svobodneslovniky.cz/."""
         # split it up
         parts = line.split("\t")
         if len(parts) == 5:
@@ -93,7 +86,7 @@ class Word(object):
             word, translation, wtype, note = parts
             author = ""
         else:
-            raise ValueError("Invalid input: {0!r}".format(line))
+            raise ValueError(f"Invalid input: {line!r}")
 
         return Word(
             word=reformat(word),
@@ -104,9 +97,7 @@ class Word(object):
         )
 
     def format(self):
-        """
-        Returns formatted dictionary entry.
-        """
+        """Returns formatted dictionary entry."""
         result = []
         if self.pronunciation != "":
             result.append(FMT_PRONUNCIATION.format(xmlescape(self.pronunciation)))

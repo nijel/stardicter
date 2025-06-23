@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,10 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Special codecs filter to remove accents"""
+"""Special codecs filter to remove accents."""
 
 import unicodedata
-
 
 SIMPLE_MAPS = {
     "ACUTE ACCENT": "'",
@@ -45,18 +43,15 @@ SIMPLE_MAPS = {
 
 
 def deaccent(exc):
-    """
-    Removes accents on string conversion errors.
-    """
+    """Removes accents on string conversion errors."""
     if not isinstance(exc, UnicodeEncodeError):
-        raise TypeError("don't know how to handle {0}".format(exc))
+        raise TypeError(f"don't know how to handle {exc}")
     result = []
     for current in exc.object[exc.start : exc.end]:
-        #  print('"{0}" {1}'.format(current, ord(current)))
-        if current in ("\x93", "\x94", "\x84"):
+        if current in {"\x93", "\x94", "\x84"}:
             result.append('"')
             continue
-        elif current == "\x92":
+        if current == "\x92":
             result.append("'")
             continue
         name = unicodedata.name(current)
@@ -67,7 +62,5 @@ def deaccent(exc):
         elif name in SIMPLE_MAPS:
             result.append(SIMPLE_MAPS[name])
         else:
-            raise ValueError(
-                "Can not convert to ASCII: {0!r} ({1})".format(current, name)
-            )
+            raise ValueError(f"Can not convert to ASCII: {current!r} ({name})")
     return ("".join(result), exc.end)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Convertor for GNU/FDL Německo-Český slovník"""
+"""Convertor for GNU/FDL Německo-Český slovník."""
 
 from stardicter.base import StardictWriter
 
@@ -32,17 +31,15 @@ class CzechGermanWriter(StardictWriter):
     license = "GFDL-1.1"
     download_url = URL
 
-    def is_data_line(self, line):
-        """
-        Checks whether this is line with timestamp.
-        """
+    def is_data_line(self, line) -> bool:
+        """Checks whether this is line with timestamp."""
         return not line.startswith("# File generated")
 
-    def get_name(self, forward=True):
+    def get_name(self, forward=True) -> str:
         if forward:
             return "GNU/FDL Německo-Český slovník"
         return "GNU/FDL Česko-Německý slovník"
 
-    def get_source_name(self):
+    def get_source_name(self) -> str:
         """Name for source file."""
         return "de-cs.txt"

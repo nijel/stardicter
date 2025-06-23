@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -19,22 +18,21 @@
 #
 """Base module for stardciter convertors."""
 
-from importlib.metadata import version
 import codecs
 import datetime
 import gzip
 import hashlib
 import json
-from operator import attrgetter
 import os
 import re
 import struct
 import time
-from urllib.request import urlopen
+from importlib.metadata import version
 from io import BytesIO
+from operator import attrgetter
+from urllib.request import urlopen
 
 from stardicter.word import Word
-
 
 README_TEXT = r"""{title}
 {line}
@@ -68,10 +66,8 @@ AUTHOR = "Stardicter"
 URL = "https://cihar.com/software/slovnik/"
 
 
-class StardictWriter(object):
-    """
-    Generic writer for stardict dictionary.
-    """
+class StardictWriter:  # noqa: PLR0904
+    """Generic writer for stardict dictionary."""
 
     url = None
     name = "Generic"
@@ -85,8 +81,14 @@ class StardictWriter(object):
     download_gzip = False
 
     def __init__(
-        self, ascii=False, notags=False, keyprefix="", source="", target="", file=None
-    ):
+        self,
+        ascii=False,  # noqa: A002
+        notags=False,
+        keyprefix="",
+        source="",
+        target="",
+        file=None,
+    ) -> None:
         self.words = {}
         self.reverse = {}
         self.description = ""
@@ -103,37 +105,29 @@ class StardictWriter(object):
 
     @property
     def data(self):
-        """
-        Returns downloaded data file.
-        """
+        """Returns downloaded data file."""
         if self._data is None:
             self._data = self.download()
         return self._data
 
     @property
     def lines(self):
-        """
-        Returns lines.
-        """
+        """Returns lines."""
         return self.data.splitlines()
 
     @property
     def checksum(self):
-        """
-        Returns data checksum.
-        """
+        """Returns data checksum."""
         if self._checksum is None:
             self._checksum = self.get_checksum()
         return self._checksum
 
-    def get_filename(self, forward=True):
-        """
-        Returns filename for dictionary.
-        """
+    def get_filename(self, forward=True) -> str:
+        """Returns filename for dictionary."""
         if forward:
-            name = "{0}-{1}".format(self.source, self.target)
+            name = f"{self.source}-{self.target}"
         else:
-            name = "{0}-{1}".format(self.target, self.source)
+            name = f"{self.target}-{self.source}"
 
         suffix = ""
         if self.ascii:
@@ -141,54 +135,45 @@ class StardictWriter(object):
         if self.notags:
             suffix += "-notags"
 
-        return "{0}{1}{2}".format(self.prefix, name, suffix)
+        return f"{self.prefix}{name}{suffix}"
 
     def get_name(self, forward=True):
-        """
-        Returns dictionary name.
-        """
+        """Returns dictionary name."""
         return self.name
 
-    def is_data_line(self, line):
+    def is_data_line(self, line) -> bool:
         """
-        Checks whether line is used for checksum. Can be used to exclude
-        timestamps from data.
+        Check whether line is used for checksum.
+
+        Can be used to exclude timestamps from data.
         """
         return True
 
     def is_header_line(self, line):
-        """
-        Checks whether line is header.
-        """
+        """Checks whether line is header."""
         return line[0] == "#"
 
-    def add_description(self, line):
-        """
-        Adds description from line.
-        """
+    def add_description(self, line) -> None:
+        """Adds description from line."""
         self.description += line[1:] + "\n"
 
     def get_checksum(self):
-        """
-        Calculated dictionary checksum.
-        """
-        md5 = hashlib.md5()
+        """Calculated dictionary checksum."""
+        md5 = hashlib.md5(usedforsecurity=False)
         for line in self.lines:
             if self.is_data_line(line):
                 md5.update(line.encode("utf-8"))
         return md5.hexdigest()
 
     def download(self):
-        """
-        Downloads dictionary.
-        """
+        """Downloads dictionary."""
         if self.file:
             handle = self.file
             self.download_gzip = self.file.name.endswith(".gz")
         else:
             if self.download_url is None:
                 return "word\ttranslation\ttype\tnote\tauthor"
-            handle = urlopen(self.download_url)
+            handle = urlopen(self.download_url)  # noqa: S310
         if self.download_gzip:
             stringio = BytesIO(handle.read())
             handle.close()
@@ -197,15 +182,11 @@ class StardictWriter(object):
         return text.decode(self.download_charset)
 
     def parse_line(self, line):
-        """
-        Parses single line with word.
-        """
+        """Parses single line with word."""
         return [Word.from_slovnik(line)]
 
-    def parse(self):
-        """
-        Parses dictionary.
-        """
+    def parse(self) -> None:  # noqa: C901
+        """Parses dictionary."""
         for line in self.lines:
             # Skip blank lines
             if line.strip() == "":
@@ -246,9 +227,7 @@ class StardictWriter(object):
             self.reverse[word].sort(key=attrgetter("translation"))
 
     def convert(self, text, convert=True):
-        """
-        Converts text to match wanted format.
-        """
+        """Converts text to match wanted format."""
         if self.notags:
             text = STRIPTAGS.sub("", text)
 
@@ -260,10 +239,8 @@ class StardictWriter(object):
 
         return text.encode("utf-8")
 
-    def formatentry(self, words):
-        """
-        Formats dictionary entry.
-        """
+    def formatentry(self, words):  # noqa: C901
+        """Formats dictionary entry."""
         # sort alphabetically
         # array for different word types
         alltypes = [
@@ -318,9 +295,7 @@ class StardictWriter(object):
         return result
 
     def getsortedwords(self, words):
-        """
-        Returns keys of hash sorted case insensitive.
-        """
+        """Returns keys of hash sorted case insensitive."""
         if self.ascii:
             tuples = [
                 (item.encode("ascii", "deaccent").lower(), item) for item in words
@@ -330,18 +305,16 @@ class StardictWriter(object):
         tuples.sort()
         return [item[1] for item in tuples]
 
-    def write_words(self, basefilename, name, words):
-        """
-        Writes word list to dictionary files.
-        """
+    def write_words(self, basefilename, name, words) -> None:
+        """Writes word list to dictionary files."""
         # initialize variables
         offset = 0
         count = 0
         idxsize = 0
 
         # File names
-        dictn = "{0}.dict".format(basefilename)
-        idxn = "{0}.idx".format(basefilename)
+        dictn = f"{basefilename}.dict"
+        idxn = f"{basefilename}.idx"
 
         # Write dictionary and index
         with open(dictn, "wb") as dictf, open(idxn, "wb") as idxf:
@@ -367,37 +340,31 @@ class StardictWriter(object):
 
         self._write_ifo(name, basefilename, count, idxsize)
 
-    def _write_ifo(self, name, basefilename, count, idxsize):
-        """
-        Writes info file.
-        """
-        filename = "{0}.ifo".format(basefilename)
+    def _write_ifo(self, name, basefilename, count, idxsize) -> None:
+        """Writes info file."""
+        filename = f"{basefilename}.ifo"
         with codecs.open(filename, "w", "utf-8") as handle:
             handle.write("StarDict's dict ifo file\n")
             handle.write("version=2.4.2\n")
-            handle.write(self.convert("bookname={0}\n".format(name), False))
-            handle.write("wordcount={0}\n".format(count))
-            handle.write("idxfilesize={0}\n".format(idxsize))
-            handle.write(self.convert("author={0}\n".format(AUTHOR), False))
-            handle.write(self.convert("website={0}\n".format(URL), False))
+            handle.write(self.convert(f"bookname={name}\n", False))
+            handle.write(f"wordcount={count}\n")
+            handle.write(f"idxfilesize={idxsize}\n")
+            handle.write(self.convert(f"author={AUTHOR}\n", False))
+            handle.write(self.convert(f"website={URL}\n", False))
             # we're using pango markup for all entries
             handle.write("sametypesequence=g\n")
             now = int(os.environ.get("SOURCE_DATE_EPOCH", time.time()))
-            today = datetime.datetime.utcfromtimestamp(now)
+            today = datetime.datetime.utcfromtimestamp(now)  # noqa: DTZ004
             handle.write(today.strftime("date=%Y.%m.%d\n"))
 
-    def write_dict(self, directory):
-        """
-        Writes dictionary into directory.
-        """
+    def write_dict(self, directory) -> None:
+        """Writes dictionary into directory."""
         # Write readme
         with open(os.path.join(directory, "README"), "wb") as readme:
             readme.write(self.get_readme().encode("utf-8"))
             if self.description:
                 readme.write(
-                    "\nOriginal description of dictionary:\n{0}".format(
-                        self.description
-                    ).encode("utf-8")
+                    f"\nOriginal description of dictionary:\n{self.description}".encode()
                 )
         # Write forward dictioanry
         self.write_words(
@@ -414,10 +381,8 @@ class StardictWriter(object):
             )
 
     def get_readme(self):
-        """
-        Generates README text for dictionary.
-        """
-        title = "{0} for StarDict".format(self.name)
+        """Generates README text for dictionary."""
+        title = f"{self.name} for StarDict"
         return README_TEXT.format(
             title=title,
             line="-" * len(title),
@@ -426,56 +391,44 @@ class StardictWriter(object):
             version=version("stardicter"),
         )
 
-    def get_config_key(self):
-        """
-        Key used to store MD5 in config.
-        """
-        return "md5-{0}{1}".format(self.keyprefix, self.get_filename())
+    def get_config_key(self) -> str:
+        """Key used to store MD5 in config."""
+        return f"md5-{self.keyprefix}{self.get_filename()}"
 
     def load_config(self):
-        """
-        Loads checksum cache.
-        """
+        """Loads checksum cache."""
         try:
             with open(CONFIGFILE) as handle:
                 return json.load(handle)
-        except (ValueError, IOError):
+        except (OSError, ValueError):
             return {}
 
-    def save_config(self, changes):
-        """
-        Loads checksum cache.
-        """
+    def save_config(self, changes) -> None:
+        """Loads checksum cache."""
         config = self.load_config()
         config.update(changes)
         with codecs.open(CONFIGFILE, "wb", "utf-8") as handle:
             json.dump(config, handle, indent=2)
 
     def was_changed(self):
-        """
-        Detects whether dictionary has same content as on last run.
-        """
+        """Detects whether dictionary has same content as on last run."""
         key = self.get_config_key()
         config = self.load_config()
         if key not in config:
             return True
         return self.checksum != config[key]
 
-    def save_checksum(self):
-        """
-        Saves checksum to configuration.
-        """
+    def save_checksum(self) -> None:
+        """Saves checksum to configuration."""
         key = self.get_config_key()
         self.save_config({key: self.checksum})
 
     def get_source_name(self):
         """Name for source file."""
         name = os.path.basename(self.download_url)
-        if name.endswith(".gz"):
-            name = name[:-3]
-        return name
+        return name.removesuffix(".gz")
 
-    def write_source(self, directory):
+    def write_source(self, directory) -> None:
         """Write source file."""
         filename = os.path.join(directory, self.get_source_name())
         with open(filename, "wb") as handle:

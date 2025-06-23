@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,17 +16,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Main executer for stardict convertor
-"""
+"""Main executer for stardict convertor."""
 
-from argparse import ArgumentParser
-import io
 import sys
+from argparse import ArgumentParser
+
 import stardicter
 
 
-def main():
+def main() -> None:  # noqa: C901
     parser = ArgumentParser(
         description="Generates StarDict compatible dictionaries",
     )
@@ -98,7 +95,7 @@ def main():
         "--file",
         dest="file",
         default=None,
-        type=lambda name: io.open(name, "rb"),
+        type=lambda name: open(name, "rb"),
         help="File to use for reading the data instead of default download.",
     )
     parser.add_argument(
@@ -129,7 +126,7 @@ def main():
     if options.list:
         for name in stardicter.DICTIONARIES:
             obj = stardicter.DICTIONARIES[name]
-            print("{0}: {1} <{2}>".format(name, obj.name, obj.url))
+            print(f"{name}: {obj.name} <{obj.url}>")
         return
 
     if options.dictionary is None:

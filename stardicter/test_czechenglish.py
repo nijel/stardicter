@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,9 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Test for en-cs"""
+"""Test for en-cs."""
 
-import io
 import os.path
 
 import stardicter.czechenglish
@@ -32,9 +30,7 @@ class CzechEnglishTest(BaseTest):
 
 class CzechEnglishFileTest(CzechEnglishTest):
     def get_writer(self):
-        """
-        Gets prepared writer class.
-        """
+        """Gets prepared writer class."""
         return self.writer_class(
-            file=io.open(os.path.join(os.path.dirname(__file__), "test_data.txt"), "rb")
+            file=open(os.path.join(os.path.dirname(__file__), "test_data.txt"), "rb")
         )
