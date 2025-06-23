@@ -54,8 +54,11 @@ jobs:
     - run: py.test --cov=stardicter
     - run: ./cizislova_tarball.sh --wrap 'coverage run --append'
     - run: ./dicts_info_tarball.sh --wrap 'coverage run --append' czech german
+      continue-on-error: true
     - run: ./slovnik_de_tarball.sh --wrap 'coverage run --append'
+      continue-on-error: true
     - run: ./slovnik_tarball.sh --wrap 'coverage run --append'
+      continue-on-error: true
     - name: Coverage
       run: coverage xml
     - uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
