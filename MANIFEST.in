@@ -5,3 +5,4 @@ include MANIFEST.in
 include requirements.txt
 include requirements-test.txt
 include *.sh
+include sdgen.py
