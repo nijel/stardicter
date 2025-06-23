@@ -19,6 +19,7 @@
 #
 """Base module for stardciter convertors."""
 
+from importlib.metadata import version
 import codecs
 import datetime
 import gzip
@@ -419,14 +420,13 @@ class StardictWriter(object):
         '''
         Generates README text for dictionary.
         '''
-        from stardicter import __version__
         title = '{0} for StarDict'.format(self.name)
         return README_TEXT.format(
             title=title,
             line='-' * len(title),
             url=self.url,
             license=self.license,
-            version=__version__,
+            version=version("stardicter"),
         )
 
     def get_config_key(self):

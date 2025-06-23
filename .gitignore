@@ -12,3 +12,4 @@ build/
 stardicter.egg-info/
 dist/
 /.cache/
+/uv.lock
