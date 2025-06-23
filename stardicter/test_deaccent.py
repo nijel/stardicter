@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,20 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Test for accent removal"""
+"""Test for accent removal."""
 
 import unittest
 
 
 class DeaccentTest(unittest.TestCase):
-    def test_deaccent(self):
-        self.assertEqual(
-            'zkouška'.encode('ascii', 'deaccent'),
-            b'zkouska'
-        )
+    def test_deaccent(self) -> None:
+        self.assertEqual("zkouška".encode("ascii", "deaccent"), b"zkouska")
 
-    def test_quotes(self):
-        self.assertEqual(
-            '\x93\x94\x84\x92'.encode('ascii', 'deaccent'),
-            b'"""\''
-        )
+    def test_quotes(self) -> None:
+        self.assertEqual("\x93\x94\x84\x92".encode("ascii", "deaccent"), b'"""\'')

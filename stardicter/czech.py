@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,28 +16,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Convertor for Slovník cizích slov"""
+"""Convertor for Slovník cizích slov."""
 
 from stardicter.base import StardictWriter
 from stardicter.word import Word
 
-URL = 'http://slovnik-cizich-slov.abz.cz/export.php'
+URL = "http://slovnik-cizich-slov.abz.cz/export.php"
 
 
 class CzechWriter(StardictWriter):
-    url = 'http://slovnik-cizich-slov.abz.cz/'
-    name = 'Slovník cizích slov'
-    source = 'czech'
-    target = 'cizi'
-    license = 'CC-BY-3.0'
+    url = "http://slovnik-cizich-slov.abz.cz/"
+    name = "Slovník cizích slov"
+    source = "czech"
+    target = "cizi"
+    license = "CC-BY-3.0"
     bidirectional = False
     download_url = URL
-    download_charset = 'iso-8859-2'
+    download_charset = "iso-8859-2"
 
     def parse_line(self, line):
-        word, pronunciation, explanation = line.split('|')
+        word, pronunciation, explanation = line.split("|")
         return [Word(word, explanation, pronunciation=pronunciation)]
 
-    def get_source_name(self):
+    def get_source_name(self) -> str:
         """Name for source file."""
-        return 'czech.txt'
+        return "czech.txt"

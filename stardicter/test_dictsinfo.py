@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Test for dicts.info"""
+"""Test for dicts.info."""
 
 import stardicter.dictsinfo
 from stardicter.test_base import BaseTest
@@ -27,41 +26,33 @@ class DictsInfoTest(BaseTest):
     writer_class = stardicter.dictsinfo.DictsInfoWriter
 
     def get_writer(self):
-        '''
-        Gets prepared writer class.
-        '''
+        """Gets prepared writer class."""
         self.skip_net()
         return self.writer_class(
-            source='english',
-            target='czech',
+            source="english",
+            target="czech",
         )
 
-    def test_invalid(self):
-        '''
-        Test for invalid code.
-        '''
+    def test_invalid(self) -> None:
+        """Test for invalid code."""
         self.skip_net()
         writer = self.writer_class(
-            source='english',
-            target='invalid',
+            source="english",
+            target="invalid",
         )
-        self.assertRaisesRegexp(
+        self.assertRaisesRegex(
             ValueError,
-            'Failed to fetch data, probably due to invalid language name.',
-            writer.download
+            "Failed to fetch data, probably due to invalid language name.",
+            writer.download,
         )
 
-    def test_same(self):
-        '''
-        Test for same languages.
-        '''
+    def test_same(self) -> None:
+        """Test for same languages."""
         self.skip_net()
         writer = self.writer_class(
-            source='english',
-            target='english',
+            source="english",
+            target="english",
         )
-        self.assertRaisesRegexp(
-            ValueError,
-            'You cannot select two same languages.',
-            writer.download
+        self.assertRaisesRegex(
+            ValueError, "You cannot select two same languages.", writer.download
         )

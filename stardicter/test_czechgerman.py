@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""Test for de-cs"""
+"""Test for de-cs."""
 
 import stardicter.czechgerman
 from stardicter.test_base import BaseTest

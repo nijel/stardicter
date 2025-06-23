@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2006 - 2017 Michal Čihař <michal@cihar.com>
 #
@@ -17,34 +16,20 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Various helper utilities for stardicter.
-"""
+"""Various helper utilities for stardicter."""
 
 
 def xmlescape(text):
-    '''
-    Escapes special xml entities.
-    '''
-    return text.replace(
-        '&', '&amp;'
-    ).replace(
-        '<', '&lt;'
-    ).replace(
-        '>', '&gt;'
-    )
+    """Escapes special xml entities."""
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def reformat(text):
-    '''
-    Cleanup usual junk found in words from database.
-    '''
-    return text.replace(
-        '\\"', '"'
-    ).replace(
-        '\\\'', '\''
-    ).replace(
-        '\n', ' '
-    ).replace(
-        '\r', ' '
-    ).strip()
+    """Cleanup usual junk found in words from database."""
+    return (
+        text.replace('\\"', '"')
+        .replace("\\'", "'")
+        .replace("\n", " ")
+        .replace("\r", " ")
+        .strip()
+    )
