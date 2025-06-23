@@ -30,14 +30,14 @@ You can find more information at project website:
 
 https://cihar.com/software/slovnik/
 
-Git repository is available at GitHub: 
+Git repository is available at GitHub:
 
 https://github.com/nijel/stardicter
 
 Requirements
 ============
 
-Scripts require dictzip to compress dictionaries. You can get it from 
+Scripts require dictzip to compress dictionaries. You can get it from
 http://sourceforge.net/projects/dict/
 
 Installation
