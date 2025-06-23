@@ -72,3 +72,9 @@ stardicter = "stardicter"
 stardicter = [
     "test_*.txt",
 ]
+
+[tool.check-manifest]
+ignore = [
+  "*.json",
+  "*.yaml",
+]
