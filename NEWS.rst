@@ -1,6 +1,14 @@
 Changes in stardicter
 =====================
 
+Version 2.0
+-----------
+
+* Updated supported Python versions.
+* Dropped support for Python 2 and six dependency.
+* Migrated CI to GitHub Actions.
+* Modernized packaging.
+
 Version 1.2
 -----------
 
