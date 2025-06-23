@@ -30,23 +30,23 @@ class BaseTest(unittest.TestCase):
     writer_class = stardicter.base.StardictWriter
 
     def skip_net(self):
-        if 'SKIP_NET_TESTS' in os.environ:
-            raise unittest.SkipTest('Network tests disabled')
+        if "SKIP_NET_TESTS" in os.environ:
+            raise unittest.SkipTest("Network tests disabled")
 
     def get_writer(self):
-        '''
+        """
         Gets prepared writer class.
-        '''
+        """
         self.skip_net()
         return self.writer_class()
 
     def test_write(self):
-        '''
+        """
         Test dictionary writing.
-        '''
+        """
         writer = self.get_writer()
 
-        directory = tempfile.mkdtemp(prefix='stardicter-tmp')
+        directory = tempfile.mkdtemp(prefix="stardicter-tmp")
 
         # Parse data
         writer.parse()
@@ -60,26 +60,27 @@ class BaseTest(unittest.TestCase):
         writer.write_dict(directory)
 
         # Check readme
-        self.assertTrue(os.path.exists(os.path.join(directory, 'README')))
+        self.assertTrue(os.path.exists(os.path.join(directory, "README")))
 
         shutil.rmtree(directory)
 
 
 class BaseObjectTest(unittest.TestCase):
-    '''
+    """
     Testing of base object.
-    '''
+    """
+
     def test_checksum(self):
-        '''
+        """
         Test checksum generating.
-        '''
+        """
         writer = stardicter.base.StardictWriter()
-        self.assertEqual(writer.checksum, '6d43d48e5163b5a24c5d4dc92deca1f3')
+        self.assertEqual(writer.checksum, "6d43d48e5163b5a24c5d4dc92deca1f3")
 
     def changes_testing(self, name):
-        '''
+        """
         Core for changes testing.
-        '''
+        """
         backup = stardicter.base.CONFIGFILE
         stardicter.base.CONFIGFILE = name
         writer = stardicter.base.StardictWriter()
@@ -89,16 +90,16 @@ class BaseObjectTest(unittest.TestCase):
         stardicter.base.CONFIGFILE = backup
 
     def test_changes(self):
-        '''
+        """
         Test changes detection with empty config file.
-        '''
+        """
         with tempfile.NamedTemporaryFile(delete=True) as temp:
             self.changes_testing(temp.name)
 
     def test_changes_nofile(self):
-        '''
+        """
         Test changes detection without config file.
-        '''
+        """
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.close()
         self.changes_testing(temp.name)

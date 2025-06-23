@@ -22,23 +22,23 @@
 from stardicter.base import StardictWriter
 from stardicter.word import Word
 
-URL = 'http://slovnik-cizich-slov.abz.cz/export.php'
+URL = "http://slovnik-cizich-slov.abz.cz/export.php"
 
 
 class CzechWriter(StardictWriter):
-    url = 'http://slovnik-cizich-slov.abz.cz/'
-    name = 'Slovník cizích slov'
-    source = 'czech'
-    target = 'cizi'
-    license = 'CC-BY-3.0'
+    url = "http://slovnik-cizich-slov.abz.cz/"
+    name = "Slovník cizích slov"
+    source = "czech"
+    target = "cizi"
+    license = "CC-BY-3.0"
     bidirectional = False
     download_url = URL
-    download_charset = 'iso-8859-2'
+    download_charset = "iso-8859-2"
 
     def parse_line(self, line):
-        word, pronunciation, explanation = line.split('|')
+        word, pronunciation, explanation = line.split("|")
         return [Word(word, explanation, pronunciation=pronunciation)]
 
     def get_source_name(self):
         """Name for source file."""
-        return 'czech.txt'
+        return "czech.txt"

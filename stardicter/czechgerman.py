@@ -21,31 +21,28 @@
 
 from stardicter.base import StardictWriter
 
-URL = (
-    'http://gnu.nemeckoceskyslovnik.cz/'
-    'index.php?id=6&sablona=export&format=zcu'
-)
+URL = "http://gnu.nemeckoceskyslovnik.cz/index.php?id=6&sablona=export&format=zcu"
 
 
 class CzechGermanWriter(StardictWriter):
-    url = 'http://www.nemeckoceskyslovnik.cz/'
-    name = 'GNU/FDL Německo-Český slovník'
-    source = 'german'
-    target = 'czech'
-    license = 'GFDL-1.1'
+    url = "http://www.nemeckoceskyslovnik.cz/"
+    name = "GNU/FDL Německo-Český slovník"
+    source = "german"
+    target = "czech"
+    license = "GFDL-1.1"
     download_url = URL
 
     def is_data_line(self, line):
-        '''
+        """
         Checks whether this is line with timestamp.
-        '''
-        return not line.startswith('# File generated')
+        """
+        return not line.startswith("# File generated")
 
     def get_name(self, forward=True):
         if forward:
-            return 'GNU/FDL Německo-Český slovník'
-        return 'GNU/FDL Česko-Německý slovník'
+            return "GNU/FDL Německo-Český slovník"
+        return "GNU/FDL Česko-Německý slovník"
 
     def get_source_name(self):
         """Name for source file."""
-        return 'de-cs.txt'
+        return "de-cs.txt"

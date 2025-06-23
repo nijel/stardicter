@@ -23,28 +23,20 @@ Various helper utilities for stardicter.
 
 
 def xmlescape(text):
-    '''
+    """
     Escapes special xml entities.
-    '''
-    return text.replace(
-        '&', '&amp;'
-    ).replace(
-        '<', '&lt;'
-    ).replace(
-        '>', '&gt;'
-    )
+    """
+    return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def reformat(text):
-    '''
+    """
     Cleanup usual junk found in words from database.
-    '''
-    return text.replace(
-        '\\"', '"'
-    ).replace(
-        '\\\'', '\''
-    ).replace(
-        '\n', ' '
-    ).replace(
-        '\r', ' '
-    ).strip()
+    """
+    return (
+        text.replace('\\"', '"')
+        .replace("\\'", "'")
+        .replace("\n", " ")
+        .replace("\r", " ")
+        .strip()
+    )

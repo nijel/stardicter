@@ -23,66 +23,65 @@ from stardicter.base import StardictWriter
 from stardicter.word import Word
 from urllib.request import urlopen
 
-BASEURL = 'https://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text'
+BASEURL = "https://www.dicts.info/uddl.php?l1={0}&l2={1}&format=text"
 
 
 class DictsInfoWriter(StardictWriter):
-    url = 'http://www.dicts.info/'
-    name = 'dicts.info'
-    license = 'non redistributable license'
+    url = "http://www.dicts.info/"
+    name = "dicts.info"
+    license = "non redistributable license"
 
     def is_header_line(self, line):
-        '''
+        """
         Checks whether line is header.
-        '''
-        return line.startswith('#')
+        """
+        return line.startswith("#")
 
     def add_description(self, line):
-        '''
+        """
         Adds description from line.
-        '''
+        """
         self.description += line[2:]
 
     def is_data_line(self, line):
-        '''
+        """
         Checks whether line is used for checksum. Can be used to exclude
         timestamps from data.
-        '''
-        return 'created from the Universal dictionary at' not in line
+        """
+        return "created from the Universal dictionary at" not in line
 
     def parse_line(self, line):
-        words, translations, wtype = line.split('\t')
-        words = words.split(';')
-        translations = translations.split(';')
+        words, translations, wtype = line.split("\t")
+        words = words.split(";")
+        translations = translations.split(";")
         for word in words:
             for translation in translations:
                 yield Word(word, translation, wtype=wtype)
 
     def download(self):
-        '''
+        """
         Downloads dictionary data.
-        '''
+        """
         handle = urlopen(
-            BASEURL.format(self.source, self.target),
-            'ok=selected'.encode('utf-8')
+            BASEURL.format(self.source, self.target), "ok=selected".encode("utf-8")
         )
-        data = handle.read().decode('utf-8')
+        data = handle.read().decode("utf-8")
 
-        if 'You cannot select two same languages.' in data:
+        if "You cannot select two same languages." in data:
             raise ValueError(data)
 
-        if 'SQL select error' in data:
+        if "SQL select error" in data:
             raise ValueError(
-                'Failed to fetch data, probably due to invalid language name.'
+                "Failed to fetch data, probably due to invalid language name."
             )
 
         return data
 
     def get_name(self, forward=True):
-        '''
+        """
         Returns dictionary name.
-        '''
-        template = 'dicts.info: {0}-{1}'
+        """
+        template = "dicts.info: {0}-{1}"
         if forward:
             return template.format(self.source, self.target)
         return template.format(self.target, self.source)

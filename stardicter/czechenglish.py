@@ -21,25 +21,25 @@
 
 from stardicter.base import StardictWriter
 
-URL = 'https://www.svobodneslovniky.cz/data/en-cs.txt.gz'
+URL = "https://www.svobodneslovniky.cz/data/en-cs.txt.gz"
 
 
 class CzechEnglishWriter(StardictWriter):
-    url = 'https://www.svobodneslovniky.cz/'
-    name = 'GNU/FDL Anglicko-Český slovník'
-    source = 'english'
-    target = 'czech'
-    license = 'GFDL-1.1'
+    url = "https://www.svobodneslovniky.cz/"
+    name = "GNU/FDL Anglicko-Český slovník"
+    source = "english"
+    target = "czech"
+    license = "GFDL-1.1"
     download_url = URL
     download_gzip = True
 
     def is_data_line(self, line):
-        '''
+        """
         Checks whether this is line with timestamp.
-        '''
-        return not line.startswith('#      Date:')
+        """
+        return not line.startswith("#      Date:")
 
     def get_name(self, forward=True):
         if forward:
-            return 'GNU/FDL Anglicko-Český slovník'
-        return 'GNU/FDL Česko-Anglický slovník'
+            return "GNU/FDL Anglicko-Český slovník"
+        return "GNU/FDL Česko-Anglický slovník"

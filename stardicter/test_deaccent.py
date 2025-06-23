@@ -24,13 +24,7 @@ import unittest
 
 class DeaccentTest(unittest.TestCase):
     def test_deaccent(self):
-        self.assertEqual(
-            'zkouška'.encode('ascii', 'deaccent'),
-            b'zkouska'
-        )
+        self.assertEqual("zkouška".encode("ascii", "deaccent"), b"zkouska")
 
     def test_quotes(self):
-        self.assertEqual(
-            '\x93\x94\x84\x92'.encode('ascii', 'deaccent'),
-            b'"""\''
-        )
+        self.assertEqual("\x93\x94\x84\x92".encode("ascii", "deaccent"), b'"""\'')

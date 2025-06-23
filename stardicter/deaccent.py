@@ -23,51 +23,51 @@ import unicodedata
 
 
 SIMPLE_MAPS = {
-    'ACUTE ACCENT': '\'',
-    'NO-BREAK SPACE': ' ',
-    'THIN SPACE': ' ',
-    'MULTIPLICATION SIGN': 'x',
-    'DEGREE SIGN': '<degree>',
+    "ACUTE ACCENT": "'",
+    "NO-BREAK SPACE": " ",
+    "THIN SPACE": " ",
+    "MULTIPLICATION SIGN": "x",
+    "DEGREE SIGN": "<degree>",
     # §
-    'SECTION SIGN': '<paragraph>',
+    "SECTION SIGN": "<paragraph>",
     # ÷
-    'DIVISION SIGN': '/',
+    "DIVISION SIGN": "/",
     # „
-    'DOUBLE LOW-9 QUOTATION MARK': '"',
+    "DOUBLE LOW-9 QUOTATION MARK": '"',
     # “
-    'LEFT DOUBLE QUOTATION MARK':  '"',
-    'RIGHT DOUBLE QUOTATION MARK':  '"',
-    'RIGHT SINGLE QUOTATION MARK': "'",
-    'LEFT SINGLE QUOTATION MARK': "'",
+    "LEFT DOUBLE QUOTATION MARK": '"',
+    "RIGHT DOUBLE QUOTATION MARK": '"',
+    "RIGHT SINGLE QUOTATION MARK": "'",
+    "LEFT SINGLE QUOTATION MARK": "'",
     # –
-    'EN DASH': '-',
+    "EN DASH": "-",
 }
 
 
 def deaccent(exc):
-    '''
+    """
     Removes accents on string conversion errors.
-    '''
+    """
     if not isinstance(exc, UnicodeEncodeError):
         raise TypeError("don't know how to handle {0}".format(exc))
     result = []
-    for current in exc.object[exc.start:exc.end]:
+    for current in exc.object[exc.start : exc.end]:
         #  print('"{0}" {1}'.format(current, ord(current)))
-        if current in ('\x93', '\x94', '\x84'):
+        if current in ("\x93", "\x94", "\x84"):
             result.append('"')
             continue
-        elif current == '\x92':
-            result.append('\'')
+        elif current == "\x92":
+            result.append("'")
             continue
         name = unicodedata.name(current)
-        if name[:18] == 'LATIN SMALL LETTER':
+        if name[:18] == "LATIN SMALL LETTER":
             result.append(name[19].lower())
-        elif name[:20] == 'LATIN CAPITAL LETTER':
+        elif name[:20] == "LATIN CAPITAL LETTER":
             result.append(name[21])
         elif name in SIMPLE_MAPS:
             result.append(SIMPLE_MAPS[name])
         else:
             raise ValueError(
-                'Can not convert to ASCII: {0!r} ({1})'.format(current, name)
+                "Can not convert to ASCII: {0!r} ({1})".format(current, name)
             )
-    return (''.join(result), exc.end)
+    return ("".join(result), exc.end)
