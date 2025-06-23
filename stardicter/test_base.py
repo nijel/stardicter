@@ -18,12 +18,12 @@
 #
 """Test base code."""
 
-import pytest
-
 import os
 import shutil
 import tempfile
 import unittest
+
+import pytest
 
 import stardicter.base
 
@@ -39,7 +39,6 @@ class BaseTest(unittest.TestCase):
         """Gets prepared writer class."""
         self.skip_net()
         return self.writer_class()
-
 
     @pytest.mark.xfail(reason="server is flaky")
     def test_write(self) -> None:
@@ -85,11 +84,14 @@ class BaseObjectTest(unittest.TestCase):
 
     def test_changes(self) -> None:
         """Test changes detection with empty config file."""
-        with tempfile.NamedTemporaryFile(delete=True) as temp:
-            self.changes_testing(temp.name)
+        temp = tempfile.NamedTemporaryFile(delete=False)
+        temp.close()
+        self.changes_testing(temp.name)
+        os.unlink(temp.name)
 
     def test_changes_nofile(self) -> None:
         """Test changes detection without config file."""
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.close()
         self.changes_testing(temp.name)
+        os.unlink(temp.name)
