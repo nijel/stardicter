@@ -38,7 +38,7 @@ jobs:
         name: dist
 
   release_pypi:
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') && github.repository == 'WeblateOrg/language-data'
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') && github.repository == 'nijel/stardicter'
     runs-on: ubuntu-24.04
     name: Publish release to PyPI
     permissions:

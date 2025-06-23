@@ -1,6 +1,11 @@
 Changes in stardicter
 =====================
 
+Version 2.0.1
+-------------
+
+* Fixed publishing to PyPI.
+
 Version 2.0
 -----------
 
