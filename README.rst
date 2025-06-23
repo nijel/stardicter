@@ -6,9 +6,9 @@ Conversion tools from various formats to StarDict_.
 Currently it can convert following dictionaries:
 
 * `GNU/FDL Anglicko-Český slovník <https://www.svobodneslovniky.cz/>`_
-* `GNU/FDL Německo-Český slovník <http://gnu.nemeckoceskyslovnik.cz/>`_
-* `Slovník cizích slov <http://slovnik-cizich-slov.abz.cz/>`_
-* `dicts.info dictionaries <http://www.dicts.info/>`_
+* `GNU/FDL Německo-Český slovník <https://gnu.nemeckoceskyslovnik.cz/>`_
+* `Slovník cizích slov <https://slovnik-cizich-slov.abz.cz/>`_
+* `dicts.info dictionaries <https://www.dicts.info/>`_
 
 .. image:: https://travis-ci.org/nijel/stardicter.svg?branch=master
     :target: https://travis-ci.org/nijel/stardicter
@@ -38,7 +38,7 @@ Requirements
 ============
 
 Scripts require dictzip to compress dictionaries. You can get it from
-http://sourceforge.net/projects/dict/
+https://sourceforge.net/projects/dict/
 
 Installation
 ============
@@ -60,7 +60,7 @@ dictionary.
 Generating dictionary from dicts.info
 =====================================
 
-The http://dicts.info/ server provides downloadable dictionaries for many
+The https://dicts.info/ server provides downloadable dictionaries for many
 languages. Unfortunately the license does not allow redistribution, so you need
 to generate them yourself. With stardicter it is easy:
 
@@ -84,6 +84,6 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
-this program. If not, see http://www.gnu.org/licenses/.
+this program. If not, see <https://www.gnu.org/licenses/>.
 
-.. _StarDict: http://stardict-4.sourceforge.net/
+.. _StarDict: https://stardict-4.sourceforge.net/
