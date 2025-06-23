@@ -18,6 +18,8 @@
 #
 """Test for dicts.info."""
 
+import pytest
+
 import stardicter.dictsinfo
 from stardicter.test_base import BaseTest
 
@@ -33,6 +35,7 @@ class DictsInfoTest(BaseTest):
             target="czech",
         )
 
+    @pytest.mark.xfail(reason="server is flaky")
     def test_invalid(self) -> None:
         """Test for invalid code."""
         self.skip_net()
