@@ -1,77 +1,61 @@
 [build-system]
-requires = [
-  "setuptools>=78.0.2",
-]
 build-backend = "setuptools.build_meta"
-
-[project]
-name = "stardicter"
-version = "1.2"
-authors = [
-    { name = "Michal Čihař", email = "michal@cihar.com" },
+requires = [
+  "setuptools>=78.0.2"
 ]
-description = "Conversion tools from various formats to StarDict."
-keywords = [
-    "stardict",
-    "dictionary",
-]
-readme = "README.rst"
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Topic :: Internet",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Utilities",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Developers",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-]
-requires-python = ">=3.9"
-dependencies = []
-license = "GPL-3.0-or-later"
-license-files = ["COPYING"]
 
 [dependency-groups]
 dev = [
-  {include-group = "test"},
+  {include-group = "test"}
 ]
 test = [
-    "pytest",
-    "pytest-cov"
+  "pytest",
+  "pytest-cov"
 ]
 
-[project.urls]
-Homepage = "https://cihar.com/software/slovnik/"
-Download = "https://pypi.python.org/pypi/stardicter"
+[project]
+authors = [
+  {name = "Michal Čihař", email = "michal@cihar.com"}
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Topic :: Internet",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13"
+]
+dependencies = []
+description = "Conversion tools from various formats to StarDict."
+keywords = [
+  "stardict",
+  "dictionary"
+]
+license = "GPL-3.0-or-later"
+license-files = ["COPYING"]
+name = "stardicter"
+readme = "README.rst"
+requires-python = ">=3.9"
+version = "1.2"
 
 [project.scripts]
 sdgen = "stardicter.main:main"
 
-[tool.setuptools]
-packages = [
-    "stardicter",
-]
-platforms = [
-    "any",
-]
-include-package-data = false
-
-[tool.setuptools.package-dir]
-stardicter = "stardicter"
-
-[tool.setuptools.package-data]
-stardicter = [
-    "test_*.txt",
-]
+[project.urls]
+Download = "https://pypi.python.org/pypi/stardicter"
+Homepage = "https://cihar.com/software/slovnik/"
 
 [tool.check-manifest]
 ignore = [
   "*.json",
-  "*.yaml",
+  "*.yml",
+  "*.yaml"
 ]
 
 [tool.ruff.format]
@@ -90,15 +74,15 @@ extend-safe-fixes = [
   "UP"
 ]
 ignore = [
-  "ANN", # TODO: type annotations
-  "PLR2004", # TODO: Magic value used in comparison,
-  "TRY003", # TODO: Avoid specifying long messages outside the exception class
-  "EM102", # TODO: Exception must not use an f-string literal
-  "EM101", # TODO: Exception must not use a string literal
-  "PLR0913", # TODO: Too many arguments in function definition
-  "PLR0917", #TODO: Too many positional arguments
-  "D401", # TODO: First line of docstring should be in imperative mood
-  "PLC1901", # TODO: string boolean condition
+  "ANN",  # TODO: type annotations
+  "PLR2004",  # TODO: Magic value used in comparison,
+  "TRY003",  # TODO: Avoid specifying long messages outside the exception class
+  "EM102",  # TODO: Exception must not use an f-string literal
+  "EM101",  # TODO: Exception must not use a string literal
+  "PLR0913",  # TODO: Too many arguments in function definition
+  "PLR0917",  # TODO: Too many positional arguments
+  "D401",  # TODO: First line of docstring should be in imperative mood
+  "PLC1901",  # TODO: string boolean condition
   "CPY001",  # TODO: copyright notices
   "COM",  # CONFIG: No trailing commas
   "PT",  # CONFIG: Not using pytest
@@ -110,16 +94,33 @@ ignore = [
   "ARG002",  # TODO: Unused method argument (mostly for API compatibility)
   "DOC",  # CONFIG: Using type annotations instead
   "PLR6301",  # TODO: Method could be a function, class method, or static method
-  "SIM115", # TODO: Use a context manager for opening files
-  "FBT002", # TODO: Boolean default positional argument in function definition
-  "FBT003", # TODO: Boolean positional value in function call
-  "FURB103", # TODO: `open` and `write` should be replaced by `Path(filename)....`
-  "PLW1514", # TODO: `open` in text mode without explicit `encoding` argument
-  "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
+  "SIM115",  # TODO: Use a context manager for opening files
+  "FBT002",  # TODO: Boolean default positional argument in function definition
+  "FBT003",  # TODO: Boolean positional value in function call
+  "FURB103",  # TODO: `open` and `write` should be replaced by `Path(filename)....`
+  "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
+  "E501"  # WONTFIX: we accept long strings (rest is formatted by black)
 ]
 preview = true
 select = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
-"stardicter/main.py" = ["T201"]
 "stardicter/deaccent.py" = ["RUF003"]
+"stardicter/main.py" = ["T201"]
+
+[tool.setuptools]
+include-package-data = false
+packages = [
+  "stardicter"
+]
+platforms = [
+  "any"
+]
+
+[tool.setuptools.package-data]
+stardicter = [
+  "test_*.txt"
+]
+
+[tool.setuptools.package-dir]
+stardicter = "stardicter"
