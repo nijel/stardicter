@@ -27,41 +27,39 @@ class DictsInfoTest(BaseTest):
     writer_class = stardicter.dictsinfo.DictsInfoWriter
 
     def get_writer(self):
-        '''
+        """
         Gets prepared writer class.
-        '''
+        """
         self.skip_net()
         return self.writer_class(
-            source='english',
-            target='czech',
+            source="english",
+            target="czech",
         )
 
     def test_invalid(self):
-        '''
+        """
         Test for invalid code.
-        '''
+        """
         self.skip_net()
         writer = self.writer_class(
-            source='english',
-            target='invalid',
+            source="english",
+            target="invalid",
         )
         self.assertRaisesRegexp(
             ValueError,
-            'Failed to fetch data, probably due to invalid language name.',
-            writer.download
+            "Failed to fetch data, probably due to invalid language name.",
+            writer.download,
         )
 
     def test_same(self):
-        '''
+        """
         Test for same languages.
-        '''
+        """
         self.skip_net()
         writer = self.writer_class(
-            source='english',
-            target='english',
+            source="english",
+            target="english",
         )
         self.assertRaisesRegexp(
-            ValueError,
-            'You cannot select two same languages.',
-            writer.download
+            ValueError, "You cannot select two same languages.", writer.download
         )

@@ -24,5 +24,5 @@ Main executer for stardict convertor
 
 from stardicter.main import main
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

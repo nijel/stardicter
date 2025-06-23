@@ -29,11 +29,11 @@ from stardicter.deaccent import deaccent
 
 # List of known dictionaries writers
 DICTIONARIES = {
-    'czech': CzechWriter,
-    'czechgerman': CzechGermanWriter,
-    'czechenglish': CzechEnglishWriter,
-    'dictsinfo': DictsInfoWriter,
+    "czech": CzechWriter,
+    "czechgerman": CzechGermanWriter,
+    "czechenglish": CzechEnglishWriter,
+    "dictsinfo": DictsInfoWriter,
 }
 
 # Register deaccenting codec
-codecs.register_error('deaccent', deaccent)
+codecs.register_error("deaccent", deaccent)

@@ -29,99 +29,99 @@ import stardicter
 
 def main():
     parser = ArgumentParser(
-        description='Generates StarDict compatible dictionaries',
+        description="Generates StarDict compatible dictionaries",
     )
     parser.add_argument(
-        'dictionary',
-        metavar='DICTIONARY',
+        "dictionary",
+        metavar="DICTIONARY",
         type=str,
-        nargs='?',
-        help='dictionary to download'
+        nargs="?",
+        help="dictionary to download",
     )
     parser.add_argument(
-        '-c',
-        '--change',
-        action='store_true',
-        dest='change',
+        "-c",
+        "--change",
+        action="store_true",
+        dest="change",
         default=False,
-        help='Generate only on source data change.'
+        help="Generate only on source data change.",
     )
     parser.add_argument(
-        '-A',
-        '--all',
-        action='store_true',
-        dest='all',
+        "-A",
+        "--all",
+        action="store_true",
+        dest="all",
         default=False,
-        help='Generate fomat combinations.'
+        help="Generate fomat combinations.",
     )
     parser.add_argument(
-        '-a',
-        '--ascii',
-        action='store_true',
-        dest='ascii',
+        "-a",
+        "--ascii",
+        action="store_true",
+        dest="ascii",
         default=False,
-        help='Generate plain ascii dictionary.'
+        help="Generate plain ascii dictionary.",
     )
     parser.add_argument(
-        '-S',
-        '--write-source',
-        action='store_true',
-        dest='write_source',
+        "-S",
+        "--write-source",
+        action="store_true",
+        dest="write_source",
         default=False,
-        help='Generate source tarball.',
+        help="Generate source tarball.",
     )
     parser.add_argument(
-        '-n',
-        '--notags',
-        action='store_true',
-        dest='notags',
+        "-n",
+        "--notags",
+        action="store_true",
+        dest="notags",
         default=False,
-        help='Generate dictionary without pango markup.'
+        help="Generate dictionary without pango markup.",
     )
     parser.add_argument(
-        '-l',
-        '--list',
-        action='store_true',
-        dest='list',
+        "-l",
+        "--list",
+        action="store_true",
+        dest="list",
         default=False,
-        help='Lists available dictionaries.'
+        help="Lists available dictionaries.",
     )
     parser.add_argument(
-        '-d',
-        '--directory',
-        dest='directory',
-        default='.',
-        help='Directory where to store generated dictionaries'
+        "-d",
+        "--directory",
+        dest="directory",
+        default=".",
+        help="Directory where to store generated dictionaries",
     )
     parser.add_argument(
-        '-f',
-        '--file',
-        dest='file',
+        "-f",
+        "--file",
+        dest="file",
         default=None,
-        type=lambda name: io.open(name, 'rb'),
-        help='File to use for reading the data instead of default download.',
+        type=lambda name: io.open(name, "rb"),
+        help="File to use for reading the data instead of default download.",
     )
     parser.add_argument(
-        '-s',
-        '--source',
-        dest='source',
-        default='',
-        help='Source language for multilanguage dictionaries'
+        "-s",
+        "--source",
+        dest="source",
+        default="",
+        help="Source language for multilanguage dictionaries",
     )
     parser.add_argument(
-        '-t',
-        '--target',
-        dest='target',
-        default='',
-        help='Target language for multilanguage dictionaries'
+        "-t",
+        "--target",
+        dest="target",
+        default="",
+        help="Target language for multilanguage dictionaries",
     )
     parser.add_argument(
-        '-m',
-        '--monthly',
-        action='store_true',
-        dest='monthly',
+        "-m",
+        "--monthly",
+        action="store_true",
+        dest="monthly",
         default=False,
-        help='Flag indicating montly runs (for checksum checking)'
+        help="Flag indicating montly runs (for checksum checking)",
     )
 
     options = parser.parse_args()
@@ -129,32 +129,28 @@ def main():
     if options.list:
         for name in stardicter.DICTIONARIES:
             obj = stardicter.DICTIONARIES[name]
-            print(
-                '{0}: {1} <{2}>'.format(
-                    name, obj.name, obj.url
-                )
-            )
+            print("{0}: {1} <{2}>".format(name, obj.name, obj.url))
         return
 
     if options.dictionary is None:
-        print('You have to specify dictionary to process!')
+        print("You have to specify dictionary to process!")
         parser.print_usage()
         sys.exit(1)
 
     if options.dictionary not in stardicter.DICTIONARIES:
-        print('Unknown dictionary, use -l to list available ones.')
+        print("Unknown dictionary, use -l to list available ones.")
         parser.print_usage()
         sys.exit(1)
 
-    keyprefix = ''
+    keyprefix = ""
     if options.monthly:
-        keyprefix = 'monthly-'
+        keyprefix = "monthly-"
 
     writer = stardicter.DICTIONARIES[options.dictionary](
         keyprefix=keyprefix,
         source=options.source,
         target=options.target,
-        file=options.file
+        file=options.file,
     )
 
     # Change detection

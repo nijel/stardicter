@@ -24,63 +24,47 @@ from stardicter.word import Word
 
 
 class WordTest(unittest.TestCase):
-    '''
+    """
     Word class testsing.
-    '''
+    """
+
     def do_parse(self, line, expected, translation):
-        '''
+        """
         Test for word parsing.
-        '''
+        """
         word = Word.from_slovnik(line)
         self.assertEqual(word.word, expected)
         self.assertEquals(word.translation, translation)
         return word
 
     def test_parse(self):
-        '''
+        """
         Testing various weird stuff in parser.
-        '''
-        word = self.do_parse(
-            'a\tb\ttype\tnote\tauthor',
-            'a', 'b'
-        )
-        self.assertEquals(word.wtype, 'type')
-        self.assertEquals(word.note, 'note')
-        self.assertEquals(word.author, 'author')
+        """
+        word = self.do_parse("a\tb\ttype\tnote\tauthor", "a", "b")
+        self.assertEquals(word.wtype, "type")
+        self.assertEquals(word.note, "note")
+        self.assertEquals(word.author, "author")
 
     def test_fixups(self):
-        '''
+        """
         Test for parsing fixups.
-        '''
-        self.do_parse(
-            'a\tc\tb\ttype\tnote\tauthor',
-            'ac', 'b'
-        )
-        self.do_parse(
-            'a\tb\ttype\tnote',
-            'a', 'b'
-        )
-        self.do_parse(
-            'a\tb\ttype',
-            'a', 'b'
-        )
-        self.do_parse(
-            'a\tb',
-            'a', 'b'
-        )
-        self.do_parse(
-            'a',
-            'a', ''
-        )
+        """
+        self.do_parse("a\tc\tb\ttype\tnote\tauthor", "ac", "b")
+        self.do_parse("a\tb\ttype\tnote", "a", "b")
+        self.do_parse("a\tb\ttype", "a", "b")
+        self.do_parse("a\tb", "a", "b")
+        self.do_parse("a", "a", "")
 
     def test_no_fixup(self):
-        '''
+        """
         Test for not detected fixup.
-        '''
+        """
         self.assertRaisesRegexp(
             ValueError,
-            r'Invalid input: \'\\t\\t\\t\\t\\t\\t\\t\\t\'',
+            r"Invalid input: \'\\t\\t\\t\\t\\t\\t\\t\\t\'",
             self.do_parse,
-            '\t\t\t\t\t\t\t\t',
-            '', ''
+            "\t\t\t\t\t\t\t\t",
+            "",
+            "",
         )

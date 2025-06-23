@@ -32,12 +32,9 @@ class CzechEnglishTest(BaseTest):
 
 class CzechEnglishFileTest(CzechEnglishTest):
     def get_writer(self):
-        '''
+        """
         Gets prepared writer class.
-        '''
+        """
         return self.writer_class(
-            file=io.open(os.path.join(
-                os.path.dirname(__file__),
-                'test_data.txt'
-            ), 'rb')
+            file=io.open(os.path.join(os.path.dirname(__file__), "test_data.txt"), "rb")
         )
