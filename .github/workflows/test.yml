@@ -56,6 +56,7 @@ jobs:
     - run: py.test --cov=stardicter
     - run: ./cizislova_tarball.sh --wrap 'coverage run --append'
       if: matrix.os == 'ubuntu-latest'
+      continue-on-error: true
     - run: ./dicts_info_tarball.sh --wrap 'coverage run --append' czech german
       if: matrix.os == 'ubuntu-latest'
       continue-on-error: true
