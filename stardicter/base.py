@@ -19,7 +19,7 @@
 """Base module for stardciter convertors."""
 
 import codecs
-import datetime
+import datetime as dt
 import gzip
 import hashlib
 import json
@@ -66,7 +66,7 @@ AUTHOR = "Stardicter"
 URL = "https://cihar.com/software/slovnik/"
 
 
-class StardictWriter:  # noqa: PLR0904
+class StardictWriter:  # ruff: ignore[too-many-public-methods]
     """Generic writer for stardict dictionary."""
 
     url = None
@@ -82,7 +82,7 @@ class StardictWriter:  # noqa: PLR0904
 
     def __init__(
         self,
-        ascii=False,  # noqa: A002
+        ascii=False,  # ruff: ignore[builtin-argument-shadowing]
         notags=False,
         keyprefix="",
         source="",
@@ -105,19 +105,19 @@ class StardictWriter:  # noqa: PLR0904
 
     @property
     def data(self):
-        """Returns downloaded data file."""
+        """Downloaded data file."""
         if self._data is None:
             self._data = self.download()
         return self._data
 
     @property
     def lines(self):
-        """Returns lines."""
+        """Downloaded data lines."""
         return self.data.splitlines()
 
     @property
     def checksum(self):
-        """Returns data checksum."""
+        """Downloaded data checksum."""
         if self._checksum is None:
             self._checksum = self.get_checksum()
         return self._checksum
@@ -173,7 +173,7 @@ class StardictWriter:  # noqa: PLR0904
         else:
             if self.download_url is None:
                 return "word\ttranslation\ttype\tnote\tauthor"
-            handle = urlopen(self.download_url)  # noqa: S310
+            handle = urlopen(self.download_url)  # ruff: ignore[suspicious-url-open-usage]
         if self.download_gzip:
             stringio = BytesIO(handle.read())
             handle.close()
@@ -185,7 +185,7 @@ class StardictWriter:  # noqa: PLR0904
         """Parses single line with word."""
         return [Word.from_slovnik(line)]
 
-    def parse(self) -> None:  # noqa: C901
+    def parse(self) -> None:  # ruff: ignore[complex-structure]
         """Parses dictionary."""
         for line in self.lines:
             # Skip blank lines
@@ -239,7 +239,7 @@ class StardictWriter:  # noqa: PLR0904
 
         return text.encode("utf-8")
 
-    def formatentry(self, words):  # noqa: C901
+    def formatentry(self, words):  # ruff: ignore[complex-structure]
         """Formats dictionary entry."""
         # sort alphabetically
         # array for different word types
@@ -354,7 +354,7 @@ class StardictWriter:  # noqa: PLR0904
             # we're using pango markup for all entries
             handle.write("sametypesequence=g\n")
             now = int(os.environ.get("SOURCE_DATE_EPOCH", time.time()))
-            today = datetime.datetime.utcfromtimestamp(now)  # noqa: DTZ004
+            today = dt.datetime.utcfromtimestamp(now)  # ruff: ignore[call-datetime-utcfromtimestamp]
             handle.write(today.strftime("date=%Y.%m.%d\n"))
 
     def write_dict(self, directory) -> None:

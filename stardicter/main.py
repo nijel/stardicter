@@ -24,7 +24,7 @@ from argparse import ArgumentParser
 import stardicter
 
 
-def main() -> None:  # noqa: C901
+def main() -> None:  # ruff: ignore[complex-structure]
     parser = ArgumentParser(
         description="Generates StarDict compatible dictionaries",
     )

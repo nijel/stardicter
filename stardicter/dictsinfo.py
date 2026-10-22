@@ -57,7 +57,7 @@ class DictsInfoWriter(StardictWriter):
 
     def download(self):
         """Downloads dictionary data."""
-        handle = urlopen(BASEURL.format(self.source, self.target), b"ok=selected")  # noqa: S310
+        handle = urlopen(BASEURL.format(self.source, self.target), b"ok=selected")  # ruff: ignore[suspicious-url-open-usage]
         data = handle.read().decode("utf-8")
 
         if "You cannot select two same languages." in data:
